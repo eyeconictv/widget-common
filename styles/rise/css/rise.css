@@ -1,13 +1,22 @@
 /* ==========================================================================
-   Document
+   SASS Extend
+   ========================================================================== */
+.button-hover, .btn-default:hover, .btn-box:hover {
+  background: #f4f4f4;
+  border-color: #e5e5e5; }
+
+/* ==========================================================================
+   Standard tags
    ========================================================================== */
 html,
 body {
   /* Display & Box Model */
   height: 100%;
   /* Visual */
-  color: #555;
-  background: transparent; }
+  background: #f4f4f4;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  /*background: transparent;*/ }
 
 /**
  * Start of workaround for Bootstrap bug where content shifts when modal
@@ -23,127 +32,290 @@ body {
   overflow: auto; }
 
 /* End of workaround */
-p {
-  padding: 0; }
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold; }
 
-/* ==========================================================================
-   Navigation
-   ========================================================================== */
-.navbar {
-  /* Display & Box Model */
-  padding-bottom: 20px;
-  border-bottom: 1px solid #cccccc;
-  /* Visual */
-  background-color: #efefef; }
-
-.navbar-header,
-.navbar-default .navbar-collapse {
-  padding-top: 20px; }
-
-.navbar-default {
-  /* Main menu */
-  /* Collapsed menu */ }
-  .navbar-default .navbar-nav > .dropdown > a .caret,
-  .navbar-default .navbar-nav > .dropdown > a:hover .caret,
-  .navbar-default .navbar-nav > .dropdown > a:focus .caret {
-    border-top-color: #2d71c3;
-    border-bottom-color: #2d71c3; }
-  .navbar-default .navbar-nav > li > a {
-    /* Display & Box Model */
-    padding-top: 0;
-    padding-bottom: 0;
-    /* Visual */
-    color: #0a63d0;
-    font-size: 18px;
-    line-height: 34px; }
-  .navbar-default .navbar-nav > li > a:hover {
-    color: #0a63d0; }
-  .navbar-default .navbar-left > li > a:hover,
-  .navbar-default .navbar-left > li > a:focus {
-    color: #fff;
-    background-color: #0a63d0; }
-  .navbar-default .navbar-toggle {
-    border: none; }
-    .navbar-default .navbar-toggle .icon-bar {
-      background-color: #2d71c3; }
-  .navbar-default .navbar-toggle:hover,
-  .navbar-default .navbar-toggle:focus {
-    background-color: #ddd; }
-
-/* Logo
-   ========================================================================== */
-.navbar-brand {
-  padding: 0 50px 0 0;
-  height: auto; }
-
-.logo-small {
-  /* 60% of original. */
-  width: 90px;
-  height: 34px; }
-
-/* Collapsed menu
-   ========================================================================== */
-.collapsed-menu {
-  /* Positioning */
-  float: left;
-  /* Display & Box Model */
-  padding-right: 7px;
-  margin-top: -1px;
-  /* Visual */
-  font-size: 12px;
-  font-weight: bold;
-  color: #2d71c3; }
-
-.icon-bar-container {
-  float: right; }
-
-/* Media queries
-   ========================================================================== */
-@media (min-width: 768px) {
-  .navbar > .container .navbar-brand {
-    margin-left: 0; } }
-@media (max-width: 1024px) {
-  #main-nav {
-    position: static; } }
-/* ==========================================================================
-   Links
-   ========================================================================== */
-a:link,
-a:visited {
-  color: #2d71c3; }
+a {
+  color: #2d60ad; }
 
 a:hover {
   text-decoration: none; }
 
 /* ==========================================================================
+   Navigation
+   ========================================================================== */
+.navbar-header {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
+/* Hamburger icon */
+.navbar-toggle {
+  margin-top: 5px;
+  margin-bottom: 0; }
+
+/* Logo container */
+.navbar-brand {
+  height: auto;
+  padding: 0;
+  margin-left: 15px; }
+
+/* Primary Menu (left-hand side)
+   ========================================================================== */
+/* Expanded primary menu. */
+.navbar-collapse {
+  border-top: none;
+  /* All primary menu items. */ }
+  .navbar-collapse .navbar-nav {
+    margin-top: 0;
+    margin-bottom: 0; }
+    .navbar-collapse .navbar-nav a:hover,
+    .navbar-collapse .navbar-nav > .active > a,
+    .navbar-collapse .navbar-nav > .active > a:hover,
+    .navbar-collapse .navbar-nav .active > a:focus {
+      color: #fff;
+      background-color: #2d60ad; }
+  .navbar-collapse a {
+    font-size: 14px;
+    border-radius: 0; }
+
+/* Secondary menu (right-hand side)
+   ========================================================================== */
+.navbar-right {
+  /* Display & Box Model */
+  padding: 5px 0;
+  border-top: 1px solid #e5e5e5;
+  margin-bottom: 0;
+  margin-top: 0;
+  /* Visual */
+  text-align: center;
+  /* Expanded dropdown. */ }
+  .navbar-right a {
+    color: #777777; }
+  .navbar-right .dropdown-menu {
+    /* Positioning */
+    top: 120%;
+    left: auto;
+    right: 0;
+    /* Display & Box Model */
+    min-width: 250px; }
+  .navbar-right .open .dropdown-menu {
+    /* Positioning */
+    position: absolute;
+    /* Display & Box Model */
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    /* Visual */
+    background-color: #fff;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box; }
+    .navbar-right .open .dropdown-menu > li > a,
+    .navbar-right .open .dropdown-menu .dropdown-header {
+      padding-left: 10px;
+      padding-right: 10px; }
+
+/* First-level menu items. */
+.navbar-default .navbar-right > li {
+  /* Positioning */
+  float: none;
+  /* Display & Box Model */
+  display: inline-block;
+  /* Visual */
+  vertical-align: top; }
+  .navbar-default .navbar-right > li ul {
+    text-align: left; }
+  .navbar-default .navbar-right > li > a:hover {
+    border-color: #e5e5e5;
+    background-color: #f4f4f4; }
+  .navbar-default .navbar-right > li > a:focus {
+    background-color: transparent; }
+
+/* Top-level links and hover state of icons in expanded dropdown. */
+.navbar-default .navbar-right > .open > a,
+.navbar-default .navbar-right > .open > a:hover,
+.navbar-default .navbar-right > .open > a:focus,
+.dropdown-menu a:hover .glyphicons {
+  /* Display & Box Model */
+  border: 1px solid #e5e5e5;
+  /* Visual */
+  color: #383838;
+  background-color: #f4f4f4; }
+
+/* Dropdown menu items. */
+.box {
+  /* Display & Box Model */
+  width: 50%;
+  padding: 10px;
+  /* Visual */
+  text-align: center; }
+  .box .glyphicons {
+    margin: 0 auto;
+    margin-bottom: 10px; }
+  .box span {
+    /* Display & Box Model */
+    display: block;
+    width: 100%;
+    /* Visual */
+    font-size: 12px; }
+
+.dropdown-title {
+  font-weight: bold; }
+
+.navbar-right > .open > a,
+.navbar-right > .open > a:hover,
+.navbar-right > .open > a:focus,
+.navbar-right > .open > a .glyphicons::before,
+.navbar-right a:hover,
+.navbar-right a:hover .glyphicons::before,
+.dropdown-menu .dropdown-header strong {
+  color: #383838; }
+
+/* CSS arrows at top of dropdown. */
+.navbar-right .dropdown > .dropdown-menu::before,
+.navbar-right .dropdown > .dropdown-menu::after,
+.navbar-right > .dropdown-menu::after {
+  /* Positioning */
+  position: absolute;
+  /* Display & Box Model */
+  display: inline-block;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #ccc;
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  /* Visual */
+  content: ''; }
+
+.navbar-right .dropdown > .dropdown-menu::before,
+.navbar-right > .dropdown-menu::after {
+  top: -7px;
+  right: 9px; }
+
+.navbar-right .dropdown > .dropdown-menu::before,
+.navbar-right .dropdown > .dropdown-menu::after {
+  top: -7px;
+  right: 23px; }
+
+.navbar-right .dropdown > .dropdown-menu::after {
+  /* Positioning */
+  top: -6px;
+  right: 24px;
+  /* Display & Box Model */
+  border-left-width: 6px;
+  border-right-width: 6px;
+  border-bottom-width: 6px;
+  /* Visual */
+  border-bottom-color: #fff; }
+
+.profile-pic {
+  /* Display & Box Model */
+  width: 30px;
+  height: 30px;
+  /* Visual */
+  border-radius: 50%; }
+
+/* Media queries
+   ========================================================================== */
+@media (min-width: 768px) {
+  .navbar-default {
+    padding-top: 10px;
+    padding-bottom: 10px; }
+    .navbar-default .navbar-collapse {
+      margin-left: 40px; }
+      .navbar-default .navbar-collapse .navbar-nav li {
+        margin-left: 5px; }
+      .navbar-default .navbar-collapse .navbar-nav a {
+        font-weight: bold;
+        line-height: 32px; }
+
+  .navbar-header {
+    padding: 0; }
+
+  .navbar-brand {
+    margin-left: 0; }
+
+  .navbar-left .navbar-nav > li > a {
+    padding: 3px 10px; }
+
+  .navbar-left,
+  .navbar-right {
+    margin-top: 3px; }
+
+  .navbar-right {
+    padding: 0;
+    border-top: none; }
+    .navbar-right > li {
+      /* Positioning */
+      float: none;
+      /* Display & Box Model */
+      margin-left: 5px; }
+    .navbar-right .open .dropdown-menu > li > a,
+    .navbar-right .open .dropdown-menu .dropdown-header {
+      padding-left: 20px;
+      padding-right: 20px; }
+
+  .navbar-right:last-child {
+    margin-right: 0; } }
+/* ==========================================================================
+   Glyphicons
+   ========================================================================== */
+.glyphicon-box, .navbar-default .navbar-right > li > a, .box .glyphicons {
+  /* Display & Box Model */
+  min-width: 60px;
+  padding: 3px 10px;
+  border: 1px solid #fff;
+  /* Visual */
+  font-size: 23px; }
+
+.glyphicons {
+  padding: 0; }
+
+.glyphicons:before {
+  position: relative;
+  margin: 0; }
+
+.glyphicons::before {
+  color: #777777;
+  line-height: 30px; }
+
+/* ==========================================================================
+   Content
+   ========================================================================== */
+.wrapper {
+  padding-bottom: 20px;
+  /*background-color: $lighter-gray; Moved to body. */ }
+
+/* ==========================================================================
    Forms
    ========================================================================== */
-/* Drop-downs & text fields
-   ========================================================================== */
+/* Drop-downs & text fields */
 select,
 input[type="text"],
 input[type="url"],
 .dropdown-toggle.btn-default,
-a.bfh-selectbox-toggle {
-  /* Display & Box Model */
-  height: 34px;
-  padding: 5px 5px;
-  border: 1px solid #dddddd;
+.bfh-selectbox-toggle {
   /* Visual */
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-  border-radius: 8px;
-  background: #eee;
-  color: #888;
-  font-size: 14px; }
+  /*font-size: 14px;*/
+  /* Display & Box Model */
+  /*height: 34px;*/ }
 
-/* Input field focus
-   ========================================================================== */
+/* Drop-down menu items */
+.dropdown-menu > li > a {
+  color: #333;
+  /* TODO: Change in bootstrap.css */ }
+.dropdown-menu > li > a:hover {
+  color: #262626;
+  /* TODO: Change in bootstrap.css */ }
+
+/* Input field focus */
 input:focus {
-  border-color: #00b259;
   outline: none; }
+
+/* Turn off number input spinners in WebKit. */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
 
 /* ==========================================================================
    Modals
@@ -151,22 +323,33 @@ input:focus {
 .modal {
   z-index: 9999; }
 
-.modal-body {
-  padding-bottom: 0; }
+.modal-header .close {
+  opacity: 1; }
+  .modal-header .close .glyphicons::before {
+    color: #777777; }
+  .modal-header .close:hover .glyphicons::before {
+    color: #383838; }
 
+.modal-footer {
+  margin-top: 0; }
+  .modal-footer .btn .glyphicons::before {
+    /* Display & Box Model */
+    margin-top: -2px;
+    /* Visual */
+    font-size: 18px; }
+  .modal-footer input[type="checkbox"] {
+    float: none; }
+
+/*.modal-body {
+	padding-bottom: 0;
+}*/
 .modal-header,
 .modal-footer {
   border: none; }
 
-.modal-backdrop {
-  background-color: #fff; }
-
 .modal-backdrop.in {
   /* Positioning */
-  z-index: 9001;
-  /* Visual */
-  opacity: 0.7;
-  filter: alpha(opacity=70); }
+  z-index: 9001; }
 
 /**
  * Part of workaround for Bootstrap bug where content shifts when modal
@@ -180,6 +363,8 @@ input:focus {
 /* ==========================================================================
    Buttons
    ========================================================================== */
+/* Buttons container
+   ========================================================================== */
 /* Button text
    ========================================================================== */
 .button-spacer {
@@ -188,7 +373,8 @@ input:focus {
 /* Close button
    ========================================================================== */
 .close {
-  opacity: 0.2; }
+  opacity: 0.2;
+  /*line-height: 1.428571429; Move to widgets.scss? */ }
   .close img {
     width: 24px;
     height: 24px; }
@@ -209,10 +395,6 @@ input:focus {
    ========================================================================== */
 .has-switch {
   /* Visual */
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
   border-radius: 8px;
   border-color: #dddddd;
   /* Display & Box Model */
@@ -229,24 +411,9 @@ input:focus {
 /* ==========================================================================
    Tables
    ========================================================================== */
-.table thead > tr {
-  background-color: #eee; }
-.table thead > tr > th,
-.table thead > tr > td,
-.table tbody > tr > th,
-.table tbody > tr > td,
-.table tfoot > tr > th,
-.table tfoot > tr > td {
-  padding: 5px;
-  border-top: none;
-  border-bottom: 1px solid #dddddd; }
-.table tbody > tr.alert-danger,
-.table tbody > tr.alert-warning {
-  color: #333; }
-.table tbody > tr.alert-danger > td {
-  border-bottom: 1px solid #ebccd1; }
-.table tbody > tr.alert-warning > td {
-  border-bottom: 1px solid #faebcc; }
+.table > thead > tr > th {
+  background: #e6e6e6;
+  border-color: #cbcbcb; }
 
 /* ==========================================================================
    Footer
@@ -257,7 +424,7 @@ input:focus {
   padding-bottom: 25px;
   border-top: 1px solid #cccccc;
   /* Visual */
-  background-color: #efefef; }
+  background-color: #fff; }
 
 .social-text {
   display: inline-block;
@@ -308,15 +475,85 @@ ul.social {
   height: 90%;
   padding-bottom: 100px;
   margin: 40px auto 0;
-  /* Visual */
   overflow: auto; }
   .widget-wrapper > .modal-header {
     padding-left: 0;
     padding-right: 0; }
 
-/* Separate form into sections.
+/* ==========================================================================
+   Custom Classes
    ========================================================================== */
-/*.divider {
-	padding-top: 15px;
-	border-top: $dark-border;
-}*/
+.icon-right {
+  margin-left: 10px; }
+
+.list-separator {
+  border-bottom: 1px solid #eee;
+  width: auto; }
+
+/* Buttons
+   ========================================================================== */
+.btn {
+  outline: none; }
+
+.btn-rise {
+  border-radius: 0; }
+
+.btn-default .glyphicons::before {
+  color: #777777; }
+.btn-default:hover, .btn-default:hover .glyphicons::before {
+  color: #383838; }
+
+.btn-primary:hover {
+  background: #2d60ad;
+  border-color: #2d60ad; }
+
+.btn-success:hover {
+  background: #45b864;
+  border-color: #45b864; }
+
+.btn-remove .glyphicons::before {
+  color: #d9534f;
+  font-size: 16px; }
+
+/* Glyphicon buttons
+   ========================================================================== */
+.btn-box {
+  /* Positioning */
+  position: relative;
+  /* Display & Box Model */
+  /* TODO: See about moving this to some sort of SASS extend. */
+  display: block;
+  padding: 3px 10px;
+  border: 1px solid #fff;
+  /* Visual */
+  text-align: center; }
+  .btn-box:hover .glyphicons::before {
+    color: #383838;
+    /* TODO: See about moving this to some sort of SASS extend. */ }
+
+/* Boxed content
+   ========================================================================== */
+.inner-box {
+  /* Display & Box Model */
+  padding: 20px;
+  border: 1px solid #ddd;
+  /* Visual */
+  background: #fff;
+  border-radius: 5px; }
+  .inner-box .header,
+  .inner-box .title {
+    margin-top: 0;
+    margin-bottom: 0; }
+  .inner-box .header {
+    margin-top: 10px; }
+  .inner-box .title {
+    margin-bottom: 10px; }
+
+.title em {
+  font-weight: normal;
+  font-size: 16px; }
+
+/* Horizontal rule
+   ========================================================================== */
+.hr-thick {
+  border-top: 2px solid #cbcbcb; }
