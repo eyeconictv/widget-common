@@ -16,6 +16,7 @@ body {
   background: #f4f4f4;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
+  font-family: 'Open Sans', sans-serif;
   /*background: transparent;*/ }
 
 /**
@@ -47,6 +48,9 @@ a:hover {
 .navbar-header {
   padding-top: 10px;
   padding-bottom: 10px; }
+
+.navbar-nav .glyphicons::before {
+  line-height: 30px; }
 
 /* Hamburger icon */
 .navbar-toggle {
@@ -109,8 +113,8 @@ a:hover {
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    background-clip: padding-box; }
-    .navbar-right .open .dropdown-menu > li > a,
+    background-clip: padding-box;
+    /*> li > a,*/ }
     .navbar-right .open .dropdown-menu .dropdown-header {
       padding-left: 10px;
       padding-right: 10px; }
@@ -231,9 +235,10 @@ a:hover {
   .navbar-header {
     padding: 0; }
 
-  .navbar-brand {
+  .navbar > .container .navbar-brand {
     margin-left: 0; }
 
+  /* Need specificity here. */
   .navbar-left .navbar-nav > li > a {
     padding: 3px 10px; }
 
@@ -243,13 +248,13 @@ a:hover {
 
   .navbar-right {
     padding: 0;
-    border-top: none; }
+    border-top: none;
+    /*.open .dropdown-menu > li > a,*/ }
     .navbar-right > li {
       /* Positioning */
       float: none;
       /* Display & Box Model */
       margin-left: 5px; }
-    .navbar-right .open .dropdown-menu > li > a,
     .navbar-right .open .dropdown-menu .dropdown-header {
       padding-left: 20px;
       padding-right: 20px; }
@@ -275,8 +280,7 @@ a:hover {
   margin: 0; }
 
 .glyphicons::before {
-  color: #777777;
-  line-height: 30px; }
+  color: #777777; }
 
 /* ==========================================================================
    Content
@@ -373,8 +377,7 @@ input[type=number]::-webkit-outer-spin-button {
 /* Close button
    ========================================================================== */
 .close {
-  opacity: 0.2;
-  /*line-height: 1.428571429; Move to widgets.scss? */ }
+  opacity: 0.2; }
   .close img {
     width: 24px;
     height: 24px; }
@@ -411,9 +414,11 @@ input[type=number]::-webkit-outer-spin-button {
 /* ==========================================================================
    Tables
    ========================================================================== */
-.table > thead > tr > th {
-  background: #e6e6e6;
-  border-color: #cbcbcb; }
+.table {
+  margin-top: 5px; }
+  .table > thead > tr > th {
+    background: #e6e6e6;
+    border-color: #cbcbcb; }
 
 /* ==========================================================================
    Footer
@@ -515,6 +520,14 @@ ul.social {
   color: #d9534f;
   font-size: 16px; }
 
+.btn-all {
+  background: #fff;
+  border-color: #fff; }
+  .btn-all .glyphicons {
+    margin-top: -5px; }
+    .btn-all .glyphicons::before {
+      font-size: 16px; }
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -527,31 +540,34 @@ ul.social {
   border: 1px solid #fff;
   /* Visual */
   text-align: center; }
+  .btn-box .glyphicons::before {
+    line-height: 30px; }
   .btn-box:hover .glyphicons::before {
-    color: #383838;
-    /* TODO: See about moving this to some sort of SASS extend. */ }
+    /* TODO: See about moving this to some sort of SASS extend. */
+    color: #383838; }
 
 /* Boxed content
    ========================================================================== */
 .inner-box {
+  /* Positioning */
+  position: relative;
   /* Display & Box Model */
   padding: 20px;
   border: 1px solid #ddd;
   /* Visual */
   background: #fff;
-  border-radius: 5px; }
+  border-radius: 5px;
+  	/*.title {
+  		margin-top: 10px;
+  	}
+  
+  	.header {
+  		margin-bottom: 10px;
+  	}*/ }
   .inner-box .header,
   .inner-box .title {
     margin-top: 0;
     margin-bottom: 0; }
-  .inner-box .header {
-    margin-top: 10px; }
-  .inner-box .title {
-    margin-bottom: 10px; }
-
-.title em {
-  font-weight: normal;
-  font-size: 16px; }
 
 /* Horizontal rule
    ========================================================================== */

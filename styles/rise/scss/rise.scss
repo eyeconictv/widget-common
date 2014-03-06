@@ -26,6 +26,7 @@ body {
 	background: $lighter-gray;
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
+	font-family: 'Open Sans', sans-serif;
 	/*background: transparent;*/
 }
 
@@ -54,6 +55,12 @@ a:hover { text-decoration: none; }
 .navbar-header {
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+.navbar-nav {
+	.glyphicons::before {
+		line-height: 30px;
+	}
 }
 
 /* Hamburger icon */
@@ -137,7 +144,7 @@ a:hover { text-decoration: none; }
 		box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 		background-clip: padding-box;
 
-		> li > a,
+		/*> li > a,*/
 		.dropdown-header {
 			padding-left: 10px;
 			padding-right: 10px;
@@ -303,7 +310,7 @@ a:hover { text-decoration: none; }
 	}
 
 	.navbar-header { padding: 0; }
-	.navbar-brand { margin-left: 0; }
+	.navbar > .container .navbar-brand { margin-left: 0; } /* Need specificity here. */
 	.navbar-left .navbar-nav > li > a { padding: 3px 10px; }
 
 	.navbar-left,
@@ -323,7 +330,7 @@ a:hover { text-decoration: none; }
 			margin-left: 5px;
 		}
 
-		.open .dropdown-menu > li > a,
+		/*.open .dropdown-menu > li > a,*/
 		.open .dropdown-menu .dropdown-header {
 			padding-left: 20px;
 			padding-right: 20px;
@@ -357,7 +364,6 @@ a:hover { text-decoration: none; }
 
 .glyphicons::before {
 	color: $gray;
-	line-height: 30px;
 }
 
 /* ==========================================================================
@@ -484,7 +490,6 @@ input[type=number]::-webkit-outer-spin-button {
 		width: 24px;
 		height: 24px;
 	}
-	/*line-height: 1.428571429; Move to widgets.scss? */
 }
 
 /* Sticky buttons
@@ -529,9 +534,13 @@ input[type=number]::-webkit-outer-spin-button {
 /* ==========================================================================
    Tables
    ========================================================================== */
-.table > thead > tr > th {
-	background: #e6e6e6;
-	border-color: #cbcbcb;
+.table {
+	margin-top: 5px;
+
+	> thead > tr > th {
+		background: #e6e6e6;
+		border-color: #cbcbcb;
+	}
 }
 
 /* ==========================================================================
@@ -676,6 +685,19 @@ ul.social {
 	font-size: 16px;
 }
 
+.btn-all {
+	background: #fff;
+	border-color: #fff;
+
+	.glyphicons {
+		margin-top: -5px;
+
+		&::before {
+			font-size: 16px;
+		}
+	}
+}
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -691,11 +713,16 @@ ul.social {
 	/* Visual */
 	text-align: center;
 
+	.glyphicons::before {
+		line-height: 30px;
+	}
+
 	&:hover {
 		@extend .button-hover;
 
 		.glyphicons::before {
-			color: $dark-gray; /* TODO: See about moving this to some sort of SASS extend. */
+			/* TODO: See about moving this to some sort of SASS extend. */
+			color: $dark-gray;
 		}
 	}
 }
@@ -703,6 +730,9 @@ ul.social {
 /* Boxed content
    ========================================================================== */
 .inner-box {
+	/* Positioning */
+	position: relative;
+
 	/* Display & Box Model */
 	padding: 20px;
 	border: 1px solid #ddd;
@@ -717,18 +747,13 @@ ul.social {
 		margin-bottom: 0;
 	}
 
-	.header {
+	/*.title {
 		margin-top: 10px;
 	}
 
-	.title {
+	.header {
 		margin-bottom: 10px;
-	}
-}
-
-.title em {
-	font-weight: normal;
-	font-size: 16px;
+	}*/
 }
 
 /* Horizontal rule
