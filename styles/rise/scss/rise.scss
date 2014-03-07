@@ -310,7 +310,6 @@ a:hover { text-decoration: none; }
 	}
 
 	.navbar-header { padding: 0; }
-	.navbar > .container .navbar-brand { margin-left: 0; } /* Need specificity here. */
 	.navbar-left .navbar-nav > li > a { padding: 3px 10px; }
 
 	.navbar-left,
@@ -433,12 +432,14 @@ input[type=number]::-webkit-outer-spin-button {
 .modal-footer {
 	margin-top: 0;
 
-	.btn .glyphicons::before {
-		/* Display & Box Model */
-		margin-top: -2px;
+	.btn {
+		.glyphicons::before {
+			/* Display & Box Model */
+			margin-top: -2px;
 
-		/* Visual */
-		font-size: 18px;
+			/* Visual */
+			font-size: 18px;
+		}
 	}
 
 	input[type="checkbox"] { float: none; }
@@ -698,6 +699,10 @@ ul.social {
 	}
 }
 
+.btn-fixed-width {
+	width: 102px;
+}
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -740,20 +745,6 @@ ul.social {
 	/* Visual */
 	background: #fff;
 	border-radius: 5px;
-
-	.header,
-	.title {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
-
-	/*.title {
-		margin-top: 10px;
-	}
-
-	.header {
-		margin-bottom: 10px;
-	}*/
 }
 
 /* Horizontal rule

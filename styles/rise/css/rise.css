@@ -235,10 +235,6 @@ a:hover {
   .navbar-header {
     padding: 0; }
 
-  .navbar > .container .navbar-brand {
-    margin-left: 0; }
-
-  /* Need specificity here. */
   .navbar-left .navbar-nav > li > a {
     padding: 3px 10px; }
 
@@ -528,6 +524,9 @@ ul.social {
     .btn-all .glyphicons::before {
       font-size: 16px; }
 
+.btn-fixed-width {
+  width: 102px; }
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -556,18 +555,7 @@ ul.social {
   border: 1px solid #ddd;
   /* Visual */
   background: #fff;
-  border-radius: 5px;
-  	/*.title {
-  		margin-top: 10px;
-  	}
-  
-  	.header {
-  		margin-bottom: 10px;
-  	}*/ }
-  .inner-box .header,
-  .inner-box .title {
-    margin-top: 0;
-    margin-bottom: 0; }
+  border-radius: 5px; }
 
 /* Horizontal rule
    ========================================================================== */
