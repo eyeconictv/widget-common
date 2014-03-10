@@ -16,7 +16,6 @@ body {
   background: #f4f4f4;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
-  font-family: 'Open Sans', sans-serif;
   /*background: transparent;*/ }
 
 /**
@@ -164,6 +163,7 @@ a:hover {
     font-size: 12px; }
 
 .dropdown-title {
+  color: #383838;
   font-weight: bold; }
 
 .navbar-right > .open > a,

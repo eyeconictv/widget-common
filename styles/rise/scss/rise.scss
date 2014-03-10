@@ -26,7 +26,6 @@ body {
 	background: $lighter-gray;
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
-	font-family: 'Open Sans', sans-serif;
 	/*background: transparent;*/
 }
 
@@ -220,6 +219,7 @@ a:hover { text-decoration: none; }
 }
 
 .dropdown-title {
+	color: $dark-gray;
 	font-weight: bold;
 }
 
