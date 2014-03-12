@@ -493,12 +493,6 @@ ul.social {
 
 /* Buttons
    ========================================================================== */
-.btn {
-  outline: none; }
-
-.btn-rise {
-  border-radius: 0; }
-
 .btn-default .glyphicons::before {
   color: #777777; }
 .btn-default:hover, .btn-default:hover .glyphicons::before {
