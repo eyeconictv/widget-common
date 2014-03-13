@@ -91,7 +91,12 @@ a:hover {
   margin-top: 0;
   /* Visual */
   text-align: center;
-  /* Expanded dropdown. */ }
+  /* Expanded dropdown. */
+  /* Sign In */
+  /* System Messages */
+  /* Shopping cart */
+  /* Company menu */
+  /* Profile */ }
   .navbar-right a {
     color: #777777; }
   .navbar-right .dropdown-menu {
@@ -117,6 +122,45 @@ a:hover {
     .navbar-right .open .dropdown-menu .dropdown-header {
       padding-left: 10px;
       padding-right: 10px; }
+  .navbar-right .sign-in {
+    font-size: 15px;
+    font-weight: bold; }
+  .navbar-right > li > a .label {
+    /* Positioning */
+    position: absolute;
+    left: 60%;
+    top: -2px;
+    z-index: 1;
+    /* Display & Box Model */
+    padding: 4px 7px;
+    /* Visual */
+    font-size: 50%;
+    vertical-align: middle; }
+  .navbar-right .dropdown .system-messages {
+    left: 0; }
+  .navbar-right .system-messages li {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 9px 0; }
+  .navbar-right .system-messages li.dropdown-header {
+    margin: 0; }
+  .navbar-right .system-messages li > a {
+    /* Display & Box Model */
+    display: inline-block;
+    padding: 0;
+    /* Visual */
+    color: #2d60ad;
+    background-color: transparent; }
+  .navbar-right > li.shopping-cart > a .label {
+    left: 75%; }
+  .navbar-right .dropdown .company-menu {
+    right: -62px; }
+  .navbar-right .dropdown .company-menu::before {
+    right: 83px; }
+  .navbar-right .dropdown .company-menu::after {
+    right: 84px; }
+  .navbar-right .dropdown .menu-profile {
+    right: 0; }
 
 /* First-level menu items. */
 .navbar-default .navbar-right > li {
@@ -211,6 +255,26 @@ a:hover {
   /* Visual */
   border-bottom-color: #fff; }
 
+/* Arrows on company dropdown. */
+.navbar-right .dropdown .system-messages::before {
+  left: 22px;
+  right: auto; }
+
+.navbar-right .dropdown .system-messages::after {
+  left: 23px;
+  right: auto; }
+
+/* Company selector
+   ========================================================================== */
+.company-search {
+  padding-top: 20px; }
+
+.company-list {
+  max-height: 400px;
+  overflow: auto;
+  cursor: pointer; }
+
+/* Profile picture */
 .profile-pic {
   /* Display & Box Model */
   width: 30px;
@@ -244,8 +308,7 @@ a:hover {
 
   .navbar-right {
     padding: 0;
-    border-top: none;
-    /*.open .dropdown-menu > li > a,*/ }
+    border-top: none; }
     .navbar-right > li {
       /* Positioning */
       float: none;
@@ -254,6 +317,27 @@ a:hover {
     .navbar-right .open .dropdown-menu .dropdown-header {
       padding-left: 20px;
       padding-right: 20px; }
+    .navbar-right .dropdown {
+      /* System Messages */
+      /* Company menu */ }
+      .navbar-right .dropdown .system-messages {
+        /* Positioning */
+        left: -169px;
+        /* Display & Box Model */
+        min-width: 425px; }
+        .navbar-right .dropdown .system-messages li {
+          padding-left: 20px;
+          padding-right: 20px; }
+      .navbar-right .dropdown .system-messages::before {
+        left: 190px; }
+      .navbar-right .dropdown .system-messages::after {
+        left: 191px; }
+      .navbar-right .dropdown .company-menu {
+        right: 0; }
+      .navbar-right .dropdown .company-menu::before {
+        right: 23px; }
+      .navbar-right .dropdown .company-menu::after {
+        right: 24px; }
 
   .navbar-right:last-child {
     margin-right: 0; } }
@@ -277,6 +361,9 @@ a:hover {
 
 .glyphicons::before {
   color: #777777; }
+
+.chevron-right::before {
+  font-size: 16px; }
 
 /* ==========================================================================
    Content
@@ -362,8 +449,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* ==========================================================================
    Buttons
-   ========================================================================== */
-/* Buttons container
    ========================================================================== */
 /* Button text
    ========================================================================== */
@@ -515,8 +600,6 @@ ul.social {
   border-color: #fff; }
   .btn-all .glyphicons {
     margin-top: -5px; }
-    .btn-all .glyphicons::before {
-      font-size: 16px; }
 
 .btn-fixed-width {
   width: 102px; }
@@ -555,3 +638,12 @@ ul.social {
    ========================================================================== */
 .hr-thick {
   border-top: 2px solid #cbcbcb; }
+
+/* Other
+   ========================================================================== */
+.top-buffer {
+  margin-top: 20px; }
+
+.qty {
+  width: 40px;
+  height: 28px; }

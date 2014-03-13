@@ -113,9 +113,7 @@ a:hover { text-decoration: none; }
 	/* Visual */
 	text-align: center;
 
-	a {
-		color: $gray;
-	}
+	a { color: $gray; }
 
 	.dropdown-menu {
 		/* Positioning */
@@ -149,6 +147,61 @@ a:hover { text-decoration: none; }
 			padding-right: 10px;
 		}
 	}
+
+	/* Sign In */
+	.sign-in {
+		font-size: 15px;
+		font-weight: bold;
+	}
+
+	/* System Messages */
+	> li > a .label {
+		/* Positioning */
+		position: absolute;
+		left: 60%;
+		top: -2px;
+		z-index: 1;
+
+		/* Display & Box Model */
+		padding: 4px 7px;
+
+		/* Visual */
+		font-size: 50%;
+		vertical-align: middle;
+	}
+
+	.dropdown .system-messages { 
+		left: 0;
+	}
+
+	.system-messages li {
+		padding-left: 10px;
+		padding-right: 10px;
+		margin: 9px 0;
+	}
+
+	.system-messages li.dropdown-header { margin: 0; }
+
+	.system-messages li > a {
+		/* Display & Box Model */
+		display: inline-block;
+		padding: 0;
+
+		/* Visual */
+		color: #2d60ad;
+		background-color: transparent;
+	}
+
+	/* Shopping cart */
+	> li.shopping-cart > a .label { left: 75%; }
+
+	/* Company menu */
+	.dropdown .company-menu { right: -62px; }
+	.dropdown .company-menu::before { right: 83px; }
+	.dropdown .company-menu::after { right: 84px; }
+
+	 /* Profile */
+	.dropdown .menu-profile { right: 0; }
 }
 
 /* First-level menu items. */
@@ -277,6 +330,30 @@ a:hover { text-decoration: none; }
 	border-bottom-color: #fff;
 }
 
+/* Arrows on company dropdown. */
+.navbar-right .dropdown .system-messages::before {
+	left: 22px;
+	right: auto;
+}
+
+.navbar-right .dropdown .system-messages::after {
+	left: 23px;
+	right: auto;
+}
+
+/* Company selector
+   ========================================================================== */
+.company-search {
+	padding-top: 20px;
+}
+
+.company-list {
+	max-height: 400px;
+	overflow: auto;
+	cursor: pointer;
+}
+
+/* Profile picture */
 .profile-pic {
 	/* Display & Box Model */
 	width: 30px;
@@ -329,10 +406,33 @@ a:hover { text-decoration: none; }
 			margin-left: 5px;
 		}
 
-		/*.open .dropdown-menu > li > a,*/
 		.open .dropdown-menu .dropdown-header {
 			padding-left: 20px;
 			padding-right: 20px;
+		}
+
+		.dropdown {
+			/* System Messages */
+			.system-messages {
+				/* Positioning */
+				left: -169px;
+
+				/* Display & Box Model */
+				min-width: 425px;
+
+				li {
+					padding-left: 20px;
+					padding-right: 20px;
+				}
+			}
+
+			.system-messages::before { left: 190px; }
+			.system-messages::after { left: 191px; }
+
+			/* Company menu */
+			.company-menu { right: 0; }
+			.company-menu::before { right: 23px; }
+			.company-menu::after { right: 24px; }
 		}
 	}
 
@@ -363,6 +463,10 @@ a:hover { text-decoration: none; }
 
 .glyphicons::before {
 	color: $gray;
+}
+
+.chevron-right::before {
+	font-size: 16px;
 }
 
 /* ==========================================================================
@@ -471,9 +575,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* ==========================================================================
    Buttons
-   ========================================================================== */
-
-/* Buttons container
    ========================================================================== */
 
 /* Button text
@@ -689,10 +790,6 @@ ul.social {
 
 	.glyphicons {
 		margin-top: -5px;
-
-		&::before {
-			font-size: 16px;
-		}
 	}
 }
 
@@ -748,4 +845,15 @@ ul.social {
    ========================================================================== */
 .hr-thick {
 	border-top: 2px solid #cbcbcb;
+}
+
+/* Other
+   ========================================================================== */
+.top-buffer {
+	margin-top: 20px;
+}
+
+.qty {
+	width: 40px;
+	height: 28px;
 }
