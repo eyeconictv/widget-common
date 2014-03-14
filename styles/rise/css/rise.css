@@ -35,9 +35,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold; }
 
-a {
-  color: #2d60ad; }
-
 a:hover {
   text-decoration: none; }
 
@@ -75,8 +72,11 @@ a:hover {
     .navbar-collapse .navbar-nav > .active > a,
     .navbar-collapse .navbar-nav > .active > a:hover,
     .navbar-collapse .navbar-nav .active > a:focus {
-      color: #fff;
-      background-color: #2d60ad; }
+      /* Display & Box Model */
+      border: 1px solid #e5e5e5;
+      /* Visual */
+      color: #2d60ad;
+      background-color: #f4f4f4; }
   .navbar-collapse a {
     font-size: 14px;
     border-radius: 0; }
@@ -293,6 +293,9 @@ a:hover {
       .navbar-default .navbar-collapse .navbar-nav li {
         margin-left: 5px; }
       .navbar-default .navbar-collapse .navbar-nav a {
+        /* Display & Box Model */
+        border: 1px solid #fff;
+        /* Visual */
         font-weight: bold;
         line-height: 32px; }
 
@@ -647,3 +650,11 @@ ul.social {
 .qty {
   width: 40px;
   height: 28px; }
+
+/* ==========================================================================
+   Print Media Queries
+   ========================================================================== */
+@media print {
+  /* Remove header when printing. */
+  .navbar {
+    display: none; } }

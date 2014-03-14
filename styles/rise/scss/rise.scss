@@ -1,3 +1,4 @@
+$rise-blue: #2d60ad;
 $lighter-gray: #f4f4f4;
 $light-gray: #e5e5e5;
 $gray: #777;
@@ -45,7 +46,6 @@ body { overflow: auto; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
-a { color: #2d60ad; }
 a:hover { text-decoration: none; }
 
 /* ==========================================================================
@@ -89,8 +89,12 @@ a:hover { text-decoration: none; }
 		> .active > a,
 		> .active > a:hover,
 		.active > a:focus {
-			color: #fff;
-			background-color: #2d60ad;
+			/* Display & Box Model */
+			border: 1px solid $light-gray;
+
+			/* Visual */
+			color: $rise-blue;
+			background-color: $lighter-gray;
 		}
 	}
 
@@ -188,7 +192,7 @@ a:hover { text-decoration: none; }
 		padding: 0;
 
 		/* Visual */
-		color: #2d60ad;
+		color: $rise-blue;
 		background-color: transparent;
 	}
 
@@ -379,6 +383,10 @@ a:hover { text-decoration: none; }
 				}
 
 				a {
+					/* Display & Box Model */
+					border: 1px solid #fff;
+
+					/* Visual */
 					font-weight: bold;
 					line-height: 32px;
 				}
@@ -770,8 +778,8 @@ ul.social {
 }
 
 .btn-primary:hover {
-	background: #2d60ad;
-	border-color: #2d60ad;
+	background: $rise-blue;
+	border-color: $rise-blue;
 }
 
 .btn-success:hover {
@@ -856,4 +864,14 @@ ul.social {
 .qty {
 	width: 40px;
 	height: 28px;
+}
+
+/* ==========================================================================
+   Print Media Queries
+   ========================================================================== */
+@media print {
+	/* Remove header when printing. */
+	.navbar {
+		display: none;
+	}
 }
