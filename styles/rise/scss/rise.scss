@@ -117,7 +117,13 @@ a:hover { text-decoration: none; }
 	/* Visual */
 	text-align: center;
 
-	a { color: $gray; }
+	a { 
+		color: $gray;
+
+		&:hover {
+			background-color: $lighter-gray;
+		}
+	}
 
 	.dropdown-menu {
 		/* Positioning */
@@ -127,6 +133,14 @@ a:hover { text-decoration: none; }
 
 		/* Display & Box Model */
 		min-width: 250px;
+
+		a {
+			font-weight: bold;
+		}
+
+		.glyphicons {
+			min-width: 40px;
+		}
 	}
 
 	/* Expanded dropdown. */
@@ -145,10 +159,13 @@ a:hover { text-decoration: none; }
 		box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 		background-clip: padding-box;
 
-		/*> li > a,*/
 		.dropdown-header {
-			padding-left: 10px;
-			padding-right: 10px;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+
+		> li > a {
+			padding: 10px 20px;
 		}
 	}
 
@@ -201,8 +218,16 @@ a:hover { text-decoration: none; }
 
 	/* Company menu */
 	.dropdown .company-menu { right: -62px; }
-	.dropdown .company-menu::before { right: 83px; }
-	.dropdown .company-menu::after { right: 84px; }
+	.dropdown .company-menu::before { right: 80px; }
+	.dropdown .company-menu::after { right: 81px; }
+
+	.glyph-current-company {
+		min-width: 20px;
+	}
+
+	.glyph-current-company::before {
+		font-size: 14px;
+	}
 
 	 /* Profile */
 	.dropdown .menu-profile { right: 0; }
@@ -225,6 +250,7 @@ a:hover { text-decoration: none; }
 
 	> a {
 		@extend .glyphicon-box;
+		border: 1px solid #fff;
 	}
 
 	> a:hover {
@@ -240,8 +266,7 @@ a:hover { text-decoration: none; }
 /* Top-level links and hover state of icons in expanded dropdown. */
 .navbar-default .navbar-right > .open > a, 
 .navbar-default .navbar-right > .open > a:hover, 
-.navbar-default .navbar-right > .open > a:focus,
-.dropdown-menu a:hover .glyphicons {
+.navbar-default .navbar-right > .open > a:focus {
 	/* Display & Box Model */
 	border: 1px solid $light-gray;
 
@@ -254,15 +279,13 @@ a:hover { text-decoration: none; }
 .box {
 	/* Display & Box Model */
 	width: 50%;
-	padding: 10px;
 
 	/* Visual */
 	text-align: center;
 
-	.glyphicons {
-		@extend .glyphicon-box;
-		margin: 0 auto;
-		margin-bottom: 10px;
+	a {
+		display: block;
+		padding: 20px 10px;
 	}
 
 	span {
@@ -273,6 +296,13 @@ a:hover { text-decoration: none; }
 		/* Visual */
 		font-size: 12px;
 	}
+
+	.glyphicons {
+		@extend .glyphicon-box;
+		margin: 0 auto;
+	}
+
+	.glyphicons::before { font-size: 40px; }
 }
 
 .dropdown-title {
@@ -285,8 +315,7 @@ a:hover { text-decoration: none; }
 .navbar-right > .open > a:focus,
 .navbar-right > .open > a .glyphicons::before,
 .navbar-right a:hover,
-.navbar-right a:hover .glyphicons::before,
-.dropdown-menu .dropdown-header strong {
+.navbar-right a:hover .glyphicons::before {
 	color: $dark-gray;
 }
 
@@ -414,11 +443,6 @@ a:hover { text-decoration: none; }
 			margin-left: 5px;
 		}
 
-		.open .dropdown-menu .dropdown-header {
-			padding-left: 20px;
-			padding-right: 20px;
-		}
-
 		.dropdown {
 			/* System Messages */
 			.system-messages {
@@ -439,8 +463,8 @@ a:hover { text-decoration: none; }
 
 			/* Company menu */
 			.company-menu { right: 0; }
-			.company-menu::before { right: 23px; }
-			.company-menu::after { right: 24px; }
+			.company-menu::before { right: 18px; }
+			.company-menu::after { right: 19px; }
 		}
 	}
 
@@ -454,7 +478,6 @@ a:hover { text-decoration: none; }
 	/* Display & Box Model */
 	min-width: 60px;
 	padding: 3px 10px;
-	border: 1px solid #fff;
 
 	/* Visual */
 	font-size: 23px;
@@ -504,6 +527,8 @@ input[type="url"],
 
 /* Drop-down menu items */
 .dropdown-menu {
+	font-size: 12px;
+
 	> li {
 		> a {
 			color: #333; /* TODO: Change in bootstrap.css */

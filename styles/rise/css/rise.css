@@ -99,6 +99,8 @@ a:hover {
   /* Profile */ }
   .navbar-right a {
     color: #777777; }
+    .navbar-right a:hover {
+      background-color: #f4f4f4; }
   .navbar-right .dropdown-menu {
     /* Positioning */
     top: 120%;
@@ -106,6 +108,10 @@ a:hover {
     right: 0;
     /* Display & Box Model */
     min-width: 250px; }
+    .navbar-right .dropdown-menu a {
+      font-weight: bold; }
+    .navbar-right .dropdown-menu .glyphicons {
+      min-width: 40px; }
   .navbar-right .open .dropdown-menu {
     /* Positioning */
     position: absolute;
@@ -117,11 +123,12 @@ a:hover {
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    background-clip: padding-box;
-    /*> li > a,*/ }
+    background-clip: padding-box; }
     .navbar-right .open .dropdown-menu .dropdown-header {
-      padding-left: 10px;
-      padding-right: 10px; }
+      padding-left: 20px;
+      padding-right: 20px; }
+    .navbar-right .open .dropdown-menu > li > a {
+      padding: 10px 20px; }
   .navbar-right .sign-in {
     font-size: 15px;
     font-weight: bold; }
@@ -156,9 +163,13 @@ a:hover {
   .navbar-right .dropdown .company-menu {
     right: -62px; }
   .navbar-right .dropdown .company-menu::before {
-    right: 83px; }
+    right: 80px; }
   .navbar-right .dropdown .company-menu::after {
-    right: 84px; }
+    right: 81px; }
+  .navbar-right .glyph-current-company {
+    min-width: 20px; }
+  .navbar-right .glyph-current-company::before {
+    font-size: 14px; }
   .navbar-right .dropdown .menu-profile {
     right: 0; }
 
@@ -172,6 +183,8 @@ a:hover {
   vertical-align: top; }
   .navbar-default .navbar-right > li ul {
     text-align: left; }
+  .navbar-default .navbar-right > li > a {
+    border: 1px solid #fff; }
   .navbar-default .navbar-right > li > a:hover {
     border-color: #e5e5e5;
     background-color: #f4f4f4; }
@@ -181,8 +194,7 @@ a:hover {
 /* Top-level links and hover state of icons in expanded dropdown. */
 .navbar-default .navbar-right > .open > a,
 .navbar-default .navbar-right > .open > a:hover,
-.navbar-default .navbar-right > .open > a:focus,
-.dropdown-menu a:hover .glyphicons {
+.navbar-default .navbar-right > .open > a:focus {
   /* Display & Box Model */
   border: 1px solid #e5e5e5;
   /* Visual */
@@ -193,18 +205,21 @@ a:hover {
 .box {
   /* Display & Box Model */
   width: 50%;
-  padding: 10px;
   /* Visual */
   text-align: center; }
-  .box .glyphicons {
-    margin: 0 auto;
-    margin-bottom: 10px; }
+  .box a {
+    display: block;
+    padding: 20px 10px; }
   .box span {
     /* Display & Box Model */
     display: block;
     width: 100%;
     /* Visual */
     font-size: 12px; }
+  .box .glyphicons {
+    margin: 0 auto; }
+  .box .glyphicons::before {
+    font-size: 40px; }
 
 .dropdown-title {
   color: #383838;
@@ -215,8 +230,7 @@ a:hover {
 .navbar-right > .open > a:focus,
 .navbar-right > .open > a .glyphicons::before,
 .navbar-right a:hover,
-.navbar-right a:hover .glyphicons::before,
-.dropdown-menu .dropdown-header strong {
+.navbar-right a:hover .glyphicons::before {
   color: #383838; }
 
 /* CSS arrows at top of dropdown. */
@@ -317,9 +331,6 @@ a:hover {
       float: none;
       /* Display & Box Model */
       margin-left: 5px; }
-    .navbar-right .open .dropdown-menu .dropdown-header {
-      padding-left: 20px;
-      padding-right: 20px; }
     .navbar-right .dropdown {
       /* System Messages */
       /* Company menu */ }
@@ -338,9 +349,9 @@ a:hover {
       .navbar-right .dropdown .company-menu {
         right: 0; }
       .navbar-right .dropdown .company-menu::before {
-        right: 23px; }
+        right: 18px; }
       .navbar-right .dropdown .company-menu::after {
-        right: 24px; }
+        right: 19px; }
 
   .navbar-right:last-child {
     margin-right: 0; } }
@@ -351,7 +362,6 @@ a:hover {
   /* Display & Box Model */
   min-width: 60px;
   padding: 3px 10px;
-  border: 1px solid #fff;
   /* Visual */
   font-size: 23px; }
 
@@ -390,12 +400,14 @@ input[type="url"],
   /*height: 34px;*/ }
 
 /* Drop-down menu items */
-.dropdown-menu > li > a {
-  color: #333;
-  /* TODO: Change in bootstrap.css */ }
-.dropdown-menu > li > a:hover {
-  color: #262626;
-  /* TODO: Change in bootstrap.css */ }
+.dropdown-menu {
+  font-size: 12px; }
+  .dropdown-menu > li > a {
+    color: #333;
+    /* TODO: Change in bootstrap.css */ }
+  .dropdown-menu > li > a:hover {
+    color: #262626;
+    /* TODO: Change in bootstrap.css */ }
 
 /* Input field focus */
 input:focus {
