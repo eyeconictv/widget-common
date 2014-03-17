@@ -3,6 +3,7 @@ $lighter-gray: #f4f4f4;
 $light-gray: #e5e5e5;
 $gray: #777;
 $dark-gray: #383838;
+$danger: #d9534f;
 $light-border-color: #ddd;
 $light-border: 1px solid $light-border-color;
 $dark-border: 1px solid #ccc;
@@ -46,7 +47,17 @@ body { overflow: auto; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 
-a:hover { text-decoration: none; }
+a:hover { 
+	text-decoration: none;
+
+	.glyphicons::before {
+		color: $dark-gray;
+	}
+
+	.glyphicon-danger::before {
+		color: $danger;
+	}
+}
 
 /* ==========================================================================
    Navigation
@@ -117,7 +128,62 @@ a:hover { text-decoration: none; }
 	/* Visual */
 	text-align: center;
 
-	a { 
+	/* CSS arrows at top of dropdown. */
+	.dropdown {
+		> .dropdown-menu::before,
+		> .dropdown-menu::after {
+			/* Positioning */
+			position: absolute;
+
+			/* Display & Box Model */
+			display: inline-block;
+			border-left: 7px solid transparent;
+			border-right: 7px solid transparent;
+			border-bottom: 7px solid #ccc;
+			border-bottom-color: rgba(0, 0, 0, 0.2);
+
+			/* Visual */
+			content: '';
+		}
+
+		> .dropdown-menu::before {
+			top: -7px;
+			right: 9px;
+		}
+
+		> .dropdown-menu::before, 
+		> .dropdown-menu::after {
+			top: -7px;
+			right: 23px;
+		}
+
+		> .dropdown-menu::after {
+			/* Positioning */
+			top: -6px;
+			right: 24px;
+
+			/* Display & Box Model */
+			border-left-width: 6px;
+			border-right-width: 6px;
+			border-bottom-width: 6px;
+
+			/* Visual */
+			border-bottom-color: #fff;
+		}
+
+		/* Arrow on system messages dropdown. */
+		.system-messages::before {
+			left: 22px;
+			right: auto;
+		}
+
+		.system-messages::after {
+			left: 23px;
+			right: auto;
+		}
+	}
+
+	a {
 		color: $gray;
 
 		&:hover {
@@ -134,8 +200,12 @@ a:hover { text-decoration: none; }
 		/* Display & Box Model */
 		min-width: 250px;
 
-		a {
+		.item-name {
 			font-weight: bold;
+		}
+
+		.item-description {
+			color: #999;
 		}
 
 		.glyphicons {
@@ -162,6 +232,14 @@ a:hover { text-decoration: none; }
 		.dropdown-header {
 			padding-left: 20px;
 			padding-right: 20px;
+
+			.glyphicons {
+				min-width: 20px;
+			}
+
+			.glyphicons::before {
+				font-size: 14px;
+			}
 		}
 
 		> li > a {
@@ -191,19 +269,17 @@ a:hover { text-decoration: none; }
 		vertical-align: middle;
 	}
 
-	.dropdown .system-messages { 
+	.system-messages { 
 		left: 0;
 	}
 
-	.system-messages li {
-		padding-left: 10px;
-		padding-right: 10px;
+	.system-message {
+		padding-left: 20px;
+		padding-right: 20px;
 		margin: 9px 0;
 	}
 
-	.system-messages li.dropdown-header { margin: 0; }
-
-	.system-messages li > a {
+	.open .dropdown-menu .system-message > a {
 		/* Display & Box Model */
 		display: inline-block;
 		padding: 0;
@@ -220,63 +296,63 @@ a:hover { text-decoration: none; }
 	.dropdown .company-menu { right: -62px; }
 	.dropdown .company-menu::before { right: 80px; }
 	.dropdown .company-menu::after { right: 81px; }
-
-	.glyph-current-company {
-		min-width: 20px;
-	}
-
-	.glyph-current-company::before {
-		font-size: 14px;
-	}
-
-	 /* Profile */
-	.dropdown .menu-profile { right: 0; }
 }
 
 /* First-level menu items. */
-.navbar-default .navbar-right > li {
-	/* Positioning */
-	float: none;
+.navbar-default .navbar-right {
+	> li {
+		/* Positioning */
+		float: none;
 
-	/* Display & Box Model */
-	display: inline-block;
+		/* Display & Box Model */
+		display: inline-block;
 
-	/* Visual */
-	vertical-align: top;
+		/* Visual */
+		vertical-align: top;
 
-	ul {
-		text-align: left;
+		ul {
+			text-align: left;
+		}
+
+		> a {
+			@extend .glyphicon-box;
+			border: 1px solid #fff;
+		}
+
+		> a:hover {
+			border-color: $light-gray;
+			background-color: $lighter-gray;
+		}
+
+		> a:focus {
+			background-color: transparent;
+		}
 	}
 
-	> a {
-		@extend .glyphicon-box;
-		border: 1px solid #fff;
+	/* Top-level links and hover state of icons in expanded dropdown. */
+	> .open {
+		> a,
+		> a:hover,
+		> a:focus {
+			/* Display & Box Model */
+			border: 1px solid $light-gray;
+
+			/* Visual */
+			background-color: $lighter-gray;
+
+			.glyphicons::before {
+				color: $dark-gray;
+			}
+
+			.glyphicon-danger::before {
+				color: $danger;
+			}
+		}
 	}
-
-	> a:hover {
-		border-color: $light-gray;
-		background-color: $lighter-gray;
-	}
-
-	> a:focus {
-		background-color: transparent;
-	}
-}
-
-/* Top-level links and hover state of icons in expanded dropdown. */
-.navbar-default .navbar-right > .open > a, 
-.navbar-default .navbar-right > .open > a:hover, 
-.navbar-default .navbar-right > .open > a:focus {
-	/* Display & Box Model */
-	border: 1px solid $light-gray;
-
-	/* Visual */
-	color: $dark-gray;
-	background-color: $lighter-gray;
 }
 
 /* Dropdown menu items. */
-.box {
+.menu-box {
 	/* Display & Box Model */
 	width: 50%;
 
@@ -303,75 +379,6 @@ a:hover { text-decoration: none; }
 	}
 
 	.glyphicons::before { font-size: 40px; }
-}
-
-.dropdown-title {
-	color: $dark-gray;
-	font-weight: bold;
-}
-
-.navbar-right > .open > a, 
-.navbar-right > .open > a:hover, 
-.navbar-right > .open > a:focus,
-.navbar-right > .open > a .glyphicons::before,
-.navbar-right a:hover,
-.navbar-right a:hover .glyphicons::before {
-	color: $dark-gray;
-}
-
-/* CSS arrows at top of dropdown. */
-.navbar-right .dropdown > .dropdown-menu::before,
-.navbar-right .dropdown > .dropdown-menu::after,
-.navbar-right > .dropdown-menu::after {
-	/* Positioning */
-	position: absolute;
-
-	/* Display & Box Model */
-	display: inline-block;
-	border-left: 7px solid transparent;
-	border-right: 7px solid transparent;
-	border-bottom: 7px solid #ccc;
-	border-bottom-color: rgba(0, 0, 0, 0.2);
-
-	/* Visual */
-	content: '';
-}
-
-.navbar-right .dropdown > .dropdown-menu::before, 
-.navbar-right > .dropdown-menu::after {
-	top: -7px;
-	right: 9px;
-}
-
-.navbar-right .dropdown > .dropdown-menu::before, 
-.navbar-right .dropdown > .dropdown-menu::after {
-	top: -7px;
-	right: 23px;
-}
-
-.navbar-right .dropdown > .dropdown-menu::after {
-	/* Positioning */
-	top: -6px;
-	right: 24px;
-
-	/* Display & Box Model */
-	border-left-width: 6px;
-	border-right-width: 6px;
-	border-bottom-width: 6px;
-
-	/* Visual */
-	border-bottom-color: #fff;
-}
-
-/* Arrows on company dropdown. */
-.navbar-right .dropdown .system-messages::before {
-	left: 22px;
-	right: auto;
-}
-
-.navbar-right .dropdown .system-messages::after {
-	left: 23px;
-	right: auto;
 }
 
 /* Company selector
@@ -496,6 +503,10 @@ a:hover { text-decoration: none; }
 	color: $gray;
 }
 
+.glyphicon-danger::before {
+	color: $danger;
+}
+
 .chevron-right::before {
 	font-size: 16px;
 }
@@ -530,11 +541,11 @@ input[type="url"],
 	font-size: 12px;
 
 	> li {
-		> a {
+		a {
 			color: #333; /* TODO: Change in bootstrap.css */
 		}
 
-		> a:hover {
+		a:hover {
 			color: #262626; /* TODO: Change in bootstrap.css */
 		}
 	}
@@ -780,12 +791,6 @@ ul.social {
 /* ==========================================================================
    Custom Classes
    ========================================================================== */
-.icon-right { margin-left: 10px; }
-
-.list-separator {
-	border-bottom: 1px solid #eee;
-	width: auto;
-}
 
 /* Buttons
    ========================================================================== */
@@ -851,11 +856,6 @@ ul.social {
 
 	&:hover {
 		@extend .button-hover;
-
-		.glyphicons::before {
-			/* TODO: See about moving this to some sort of SASS extend. */
-			color: $dark-gray;
-		}
 	}
 }
 
@@ -882,6 +882,11 @@ ul.social {
 
 /* Other
    ========================================================================== */
+.dropdown-title {
+	color: $dark-gray;
+	font-weight: bold;
+}
+
 .top-buffer {
 	margin-top: 20px;
 }
@@ -889,6 +894,17 @@ ul.social {
 .qty {
 	width: 40px;
 	height: 28px;
+}
+
+.danger {
+	color: $danger;
+}
+
+.icon-right { margin-left: 10px; }
+
+.list-separator {
+	border-bottom: 1px solid #eee;
+	width: auto;
 }
 
 /* ==========================================================================

@@ -37,6 +37,10 @@ h1, h2, h3, h4, h5, h6 {
 
 a:hover {
   text-decoration: none; }
+  a:hover .glyphicons::before {
+    color: #383838; }
+  a:hover .glyphicon-danger::before {
+    color: #d9534f; }
 
 /* ==========================================================================
    Navigation
@@ -91,12 +95,49 @@ a:hover {
   margin-top: 0;
   /* Visual */
   text-align: center;
+  /* CSS arrows at top of dropdown. */
   /* Expanded dropdown. */
   /* Sign In */
   /* System Messages */
   /* Shopping cart */
-  /* Company menu */
-  /* Profile */ }
+  /* Company menu */ }
+  .navbar-right .dropdown {
+    /* Arrow on system messages dropdown. */ }
+    .navbar-right .dropdown > .dropdown-menu::before,
+    .navbar-right .dropdown > .dropdown-menu::after {
+      /* Positioning */
+      position: absolute;
+      /* Display & Box Model */
+      display: inline-block;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 7px solid #ccc;
+      border-bottom-color: rgba(0, 0, 0, 0.2);
+      /* Visual */
+      content: ''; }
+    .navbar-right .dropdown > .dropdown-menu::before {
+      top: -7px;
+      right: 9px; }
+    .navbar-right .dropdown > .dropdown-menu::before,
+    .navbar-right .dropdown > .dropdown-menu::after {
+      top: -7px;
+      right: 23px; }
+    .navbar-right .dropdown > .dropdown-menu::after {
+      /* Positioning */
+      top: -6px;
+      right: 24px;
+      /* Display & Box Model */
+      border-left-width: 6px;
+      border-right-width: 6px;
+      border-bottom-width: 6px;
+      /* Visual */
+      border-bottom-color: #fff; }
+    .navbar-right .dropdown .system-messages::before {
+      left: 22px;
+      right: auto; }
+    .navbar-right .dropdown .system-messages::after {
+      left: 23px;
+      right: auto; }
   .navbar-right a {
     color: #777777; }
     .navbar-right a:hover {
@@ -108,8 +149,10 @@ a:hover {
     right: 0;
     /* Display & Box Model */
     min-width: 250px; }
-    .navbar-right .dropdown-menu a {
+    .navbar-right .dropdown-menu .item-name {
       font-weight: bold; }
+    .navbar-right .dropdown-menu .item-description {
+      color: #999; }
     .navbar-right .dropdown-menu .glyphicons {
       min-width: 40px; }
   .navbar-right .open .dropdown-menu {
@@ -127,6 +170,10 @@ a:hover {
     .navbar-right .open .dropdown-menu .dropdown-header {
       padding-left: 20px;
       padding-right: 20px; }
+      .navbar-right .open .dropdown-menu .dropdown-header .glyphicons {
+        min-width: 20px; }
+      .navbar-right .open .dropdown-menu .dropdown-header .glyphicons::before {
+        font-size: 14px; }
     .navbar-right .open .dropdown-menu > li > a {
       padding: 10px 20px; }
   .navbar-right .sign-in {
@@ -143,15 +190,13 @@ a:hover {
     /* Visual */
     font-size: 50%;
     vertical-align: middle; }
-  .navbar-right .dropdown .system-messages {
+  .navbar-right .system-messages {
     left: 0; }
-  .navbar-right .system-messages li {
-    padding-left: 10px;
-    padding-right: 10px;
+  .navbar-right .system-message {
+    padding-left: 20px;
+    padding-right: 20px;
     margin: 9px 0; }
-  .navbar-right .system-messages li.dropdown-header {
-    margin: 0; }
-  .navbar-right .system-messages li > a {
+  .navbar-right .open .dropdown-menu .system-message > a {
     /* Display & Box Model */
     display: inline-block;
     padding: 0;
@@ -166,117 +211,61 @@ a:hover {
     right: 80px; }
   .navbar-right .dropdown .company-menu::after {
     right: 81px; }
-  .navbar-right .glyph-current-company {
-    min-width: 20px; }
-  .navbar-right .glyph-current-company::before {
-    font-size: 14px; }
-  .navbar-right .dropdown .menu-profile {
-    right: 0; }
 
 /* First-level menu items. */
-.navbar-default .navbar-right > li {
-  /* Positioning */
-  float: none;
-  /* Display & Box Model */
-  display: inline-block;
-  /* Visual */
-  vertical-align: top; }
-  .navbar-default .navbar-right > li ul {
-    text-align: left; }
-  .navbar-default .navbar-right > li > a {
-    border: 1px solid #fff; }
-  .navbar-default .navbar-right > li > a:hover {
-    border-color: #e5e5e5;
+.navbar-default .navbar-right {
+  /* Top-level links and hover state of icons in expanded dropdown. */ }
+  .navbar-default .navbar-right > li {
+    /* Positioning */
+    float: none;
+    /* Display & Box Model */
+    display: inline-block;
+    /* Visual */
+    vertical-align: top; }
+    .navbar-default .navbar-right > li ul {
+      text-align: left; }
+    .navbar-default .navbar-right > li > a {
+      border: 1px solid #fff; }
+    .navbar-default .navbar-right > li > a:hover {
+      border-color: #e5e5e5;
+      background-color: #f4f4f4; }
+    .navbar-default .navbar-right > li > a:focus {
+      background-color: transparent; }
+  .navbar-default .navbar-right > .open > a,
+  .navbar-default .navbar-right > .open > a:hover,
+  .navbar-default .navbar-right > .open > a:focus {
+    /* Display & Box Model */
+    border: 1px solid #e5e5e5;
+    /* Visual */
     background-color: #f4f4f4; }
-  .navbar-default .navbar-right > li > a:focus {
-    background-color: transparent; }
-
-/* Top-level links and hover state of icons in expanded dropdown. */
-.navbar-default .navbar-right > .open > a,
-.navbar-default .navbar-right > .open > a:hover,
-.navbar-default .navbar-right > .open > a:focus {
-  /* Display & Box Model */
-  border: 1px solid #e5e5e5;
-  /* Visual */
-  color: #383838;
-  background-color: #f4f4f4; }
+    .navbar-default .navbar-right > .open > a .glyphicons::before,
+    .navbar-default .navbar-right > .open > a:hover .glyphicons::before,
+    .navbar-default .navbar-right > .open > a:focus .glyphicons::before {
+      color: #383838; }
+    .navbar-default .navbar-right > .open > a .glyphicon-danger::before,
+    .navbar-default .navbar-right > .open > a:hover .glyphicon-danger::before,
+    .navbar-default .navbar-right > .open > a:focus .glyphicon-danger::before {
+      color: #d9534f; }
 
 /* Dropdown menu items. */
-.box {
+.menu-box {
   /* Display & Box Model */
   width: 50%;
   /* Visual */
   text-align: center; }
-  .box a {
+  .menu-box a {
     display: block;
     padding: 20px 10px; }
-  .box span {
+  .menu-box span {
     /* Display & Box Model */
     display: block;
     width: 100%;
     /* Visual */
     font-size: 12px; }
-  .box .glyphicons {
+  .menu-box .glyphicons {
     margin: 0 auto; }
-  .box .glyphicons::before {
+  .menu-box .glyphicons::before {
     font-size: 40px; }
-
-.dropdown-title {
-  color: #383838;
-  font-weight: bold; }
-
-.navbar-right > .open > a,
-.navbar-right > .open > a:hover,
-.navbar-right > .open > a:focus,
-.navbar-right > .open > a .glyphicons::before,
-.navbar-right a:hover,
-.navbar-right a:hover .glyphicons::before {
-  color: #383838; }
-
-/* CSS arrows at top of dropdown. */
-.navbar-right .dropdown > .dropdown-menu::before,
-.navbar-right .dropdown > .dropdown-menu::after,
-.navbar-right > .dropdown-menu::after {
-  /* Positioning */
-  position: absolute;
-  /* Display & Box Model */
-  display: inline-block;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-bottom: 7px solid #ccc;
-  border-bottom-color: rgba(0, 0, 0, 0.2);
-  /* Visual */
-  content: ''; }
-
-.navbar-right .dropdown > .dropdown-menu::before,
-.navbar-right > .dropdown-menu::after {
-  top: -7px;
-  right: 9px; }
-
-.navbar-right .dropdown > .dropdown-menu::before,
-.navbar-right .dropdown > .dropdown-menu::after {
-  top: -7px;
-  right: 23px; }
-
-.navbar-right .dropdown > .dropdown-menu::after {
-  /* Positioning */
-  top: -6px;
-  right: 24px;
-  /* Display & Box Model */
-  border-left-width: 6px;
-  border-right-width: 6px;
-  border-bottom-width: 6px;
-  /* Visual */
-  border-bottom-color: #fff; }
-
-/* Arrows on company dropdown. */
-.navbar-right .dropdown .system-messages::before {
-  left: 22px;
-  right: auto; }
-
-.navbar-right .dropdown .system-messages::after {
-  left: 23px;
-  right: auto; }
 
 /* Company selector
    ========================================================================== */
@@ -358,7 +347,7 @@ a:hover {
 /* ==========================================================================
    Glyphicons
    ========================================================================== */
-.glyphicon-box, .navbar-default .navbar-right > li > a, .box .glyphicons {
+.glyphicon-box, .navbar-default .navbar-right > li > a, .menu-box .glyphicons {
   /* Display & Box Model */
   min-width: 60px;
   padding: 3px 10px;
@@ -374,6 +363,9 @@ a:hover {
 
 .glyphicons::before {
   color: #777777; }
+
+.glyphicon-danger::before {
+  color: #d9534f; }
 
 .chevron-right::before {
   font-size: 16px; }
@@ -402,10 +394,10 @@ input[type="url"],
 /* Drop-down menu items */
 .dropdown-menu {
   font-size: 12px; }
-  .dropdown-menu > li > a {
+  .dropdown-menu > li a {
     color: #333;
     /* TODO: Change in bootstrap.css */ }
-  .dropdown-menu > li > a:hover {
+  .dropdown-menu > li a:hover {
     color: #262626;
     /* TODO: Change in bootstrap.css */ }
 
@@ -584,13 +576,6 @@ ul.social {
 /* ==========================================================================
    Custom Classes
    ========================================================================== */
-.icon-right {
-  margin-left: 10px; }
-
-.list-separator {
-  border-bottom: 1px solid #eee;
-  width: auto; }
-
 /* Buttons
    ========================================================================== */
 .btn-default .glyphicons::before {
@@ -633,9 +618,6 @@ ul.social {
   text-align: center; }
   .btn-box .glyphicons::before {
     line-height: 30px; }
-  .btn-box:hover .glyphicons::before {
-    /* TODO: See about moving this to some sort of SASS extend. */
-    color: #383838; }
 
 /* Boxed content
    ========================================================================== */
@@ -656,12 +638,26 @@ ul.social {
 
 /* Other
    ========================================================================== */
+.dropdown-title {
+  color: #383838;
+  font-weight: bold; }
+
 .top-buffer {
   margin-top: 20px; }
 
 .qty {
   width: 40px;
   height: 28px; }
+
+.danger {
+  color: #d9534f; }
+
+.icon-right {
+  margin-left: 10px; }
+
+.list-separator {
+  border-bottom: 1px solid #eee;
+  width: auto; }
 
 /* ==========================================================================
    Print Media Queries
