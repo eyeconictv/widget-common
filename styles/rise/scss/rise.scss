@@ -89,12 +89,19 @@ a:hover {
 /* Primary Menu (left-hand side)
    ========================================================================== */
 /* Expanded primary menu. */
-.navbar-collapse {
+.navbar-left {
 	border-top: none;
 
 	.navbar-nav {
 		margin-top: 0;
 		margin-bottom: 0;
+
+		a {
+			border: #fff solid 1px;
+
+			/* Visual */
+			font-weight: bold;
+		}
 
 		a:hover,
 		> .active > a,
