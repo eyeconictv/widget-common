@@ -1,0 +1,205 @@
+	<nav class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<div class="icon-bar-container">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</div>
+				</button>
+				<a class="navbar-brand" href="#">
+					<img src="//s3.amazonaws.com/rise-common/images/logo-small.png" class="img-responsive logo-small" width="113" height="42" alt="Rise Vision">
+				</a>
+			</div>
+			<div class="collapse navbar-collapse navbar-left">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="#/">Store</a>
+					</li>
+					<li>
+						<a href="#/account">Account</a>
+					</li>
+					<li>
+						<a href="">My Sales</a>
+					</li>
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">
+							Help
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="http://community.risevision.com/rise_vision_inc" target="_blank">User Community</a>
+							</li>
+							<li>
+								<a href="">Get Help Now</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<ul class="nav navbar-nav navbar-right" ng-show="authStatus == 1">
+				<li class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="glyphicons bell"></i>
+						<span class="label label-danger">{{messages.length}}</span>
+					</a>
+					<ul class="dropdown-menu system-messages">
+						<li class="dropdown-header dropdown-title">
+							System Message
+						</li>
+						<li class="divider"></li>
+						<li class="system-message" ng-repeat="message in messages" ng-bind-html="message"></li>
+					</ul>
+				</li>
+				<li class="shopping-cart" ng-init="updateCartIcon()" ng-show="isPurchaser">
+					<a href="#/order">
+						<i class="glyphicons shopping_cart"></i>
+						<span id="cartBadge" class="label label-primary"></span>
+					</a>
+				</li>
+				<li class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="glyphicons show_thumbnails"></i>
+					</a>
+					<ul class="dropdown-menu company-menu">
+						<li class="dropdown-header dropdown-title">
+							Current App
+						</li>
+						<li class="dropdown-header">
+							<i class="glyphicons shop"></i> Store
+						</li>
+						<li class="divider"></li>
+						<li>
+							<div class="menu-box pull-left">
+								<a href="#">
+									<i class="glyphicons picture"></i>
+									<span>Displays</span>
+								</a>
+							</div>
+							<div class="menu-box pull-right">
+								<a href="#">
+									<i class="glyphicons picture"></i>
+									<span>Scheduler</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<div class="menu-box pull-left">
+								<a href="#">
+									<i class="glyphicons picture"></i>
+									<span>Editor</span>
+								</a>
+							</div>
+							<div class="menu-box pull-right">
+								<a href="#">
+									<i class="glyphicons picture"></i>
+									<span>Storage</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<div class="menu-box pull-left">
+								<a href="#">
+									<i class="glyphicons picture"></i>
+									<span>Bulletin</span>
+								</a>
+							</div>
+							<div class="menu-box pull-right">
+								<a href="#">
+									<i class="glyphicons picture"></i>
+									<span>Player</span>
+								</a>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown" ng-show="companyLoaded">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="glyphicons home"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-header dropdown-title">
+							Current Company
+						</li>
+						<li class="dropdown-header">
+							<i class="glyphicons home"></i>
+							<i class="glyphicons warning_sign glyphicon-danger"></i>
+							{{selectedCompanyName}}
+							<div class="danger">Your Current Company is not the<br> same Company your User Account is<br> associated with.</div>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="" ng-click="resetCompany()" ng-show="canChangeCompany">
+								<i class="glyphicons home"></i>
+								<span class="item-name">Switch To Home Company</span>
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="" ng-click="switchCompany()" ng-show="canChangeCompany">
+								<i class="glyphicons new_window"></i>
+								<span class="item-name">Select Different Company</span>
+								<div class="item-description">Use to navigate between your Home<br> Company and a Sub-Company.</div>
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="">
+								<i class="glyphicons cogwheels"></i>
+								<span class="item-name">Company Settings</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						<img ng-src="{{userProfilePicture}}" class="profile-pic" width="30" height="30" alt="User" />
+					</a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-header dropdown-title">
+							{{userProfileName}}
+						</li>
+						<li class="dropdown-header">
+							{{userProfileEmail}}
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="">
+								<i class="glyphicons cogwheels"></i>
+								<span class="item-name">User Settings</span>
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="https://www.google.com/settings" target="_blank">
+								<i class="glyphicons">
+									<img ng-src="{{userProfilePicture}}" class="profile-pic" width="30" height="30" alt="User" />
+								</i>
+								<span class="item-name">Google Account Settings</span>
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="" ng-click="logout()">
+								<i class="glyphicons log_out"></i>
+								<span class="item-name">Sign Out</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right" ng-show="authStatus == 0">
+				<li>
+					<a href="" class="sign-in" ng-click="login()">
+						<span>Sign In</span>
+						<i class="glyphicons log_in"></i>
+					</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right" ng-show="authStatus == -1">
+				<li>Loading...</li>
+			</ul>
+		</div>
+	</nav>
