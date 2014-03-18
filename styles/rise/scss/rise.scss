@@ -123,9 +123,9 @@ a:hover {
 	}
 }
 
-/* Secondary menu (right-hand side)
+/* Actions Menu
    ========================================================================== */
-.navbar-right {
+.actions-nav {
 	/* Display & Box Model */
 	padding: 5px 0;
 	border-top: 1px solid $light-gray;
@@ -254,12 +254,6 @@ a:hover {
 		}
 	}
 
-	/* Sign In */
-	.sign-in {
-		font-size: 15px;
-		font-weight: bold;
-	}
-
 	/* System Messages */
 	> li > a .label {
 		/* Positioning */
@@ -306,7 +300,7 @@ a:hover {
 }
 
 /* First-level menu items. */
-.navbar-default .navbar-right {
+.navbar-default .actions-nav {
 	> li {
 		/* Positioning */
 		float: none;
@@ -410,6 +404,24 @@ a:hover {
 	border-radius: 50%;
 }
 
+/* Sign In */
+.navbar-default .navbar-nav .sign-in {
+	color: #fff;
+	background-color: $rise-blue;
+	font-weight: bold;
+
+	.glyphicons::before {
+		color: #fff;
+	}
+
+	&:hover,
+	&:focus {
+		color: #fff;
+		background: $rise-blue;
+		border: none;
+	}
+}
+
 /* Media queries
    ========================================================================== */
 @media (min-width: 768px) {
@@ -438,14 +450,18 @@ a:hover {
 	}
 
 	.navbar-header { padding: 0; }
-	.navbar-left .navbar-nav > li > a { padding: 3px 10px; }
+
+	.navbar-left .navbar-nav > li > a,
+	.navbar-right .sign-in {
+		padding: 3px 10px;
+	}
 
 	.navbar-left,
-	.navbar-right {
+	.actions-nav {
 		margin-top: 3px;
 	}
 
-	.navbar-right {
+	.actions-nav {
 		padding: 0;
 		border-top: none;
 
@@ -482,7 +498,7 @@ a:hover {
 		}
 	}
 
-	.navbar-right:last-child { margin-right: 0; }
+	.actions-nav:last-child { margin-right: 0; }
 }
 
 /* ==========================================================================
