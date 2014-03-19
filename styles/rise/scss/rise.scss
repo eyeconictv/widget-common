@@ -165,7 +165,7 @@ a:hover {
 		}
 	}
 
-	/* System Messages */
+	/* Links in system messages */
 	.open .dropdown-menu .system-message > a {
 		/* Display & Box Model */
 		display: inline-block;
@@ -216,7 +216,7 @@ a:hover {
 	> li > a {
 		border: 1px solid #fff;
 	}
-	
+
 	/* CSS arrows at top of dropdowns. */
 	.dropdown {
 		.dropdown-menu {
@@ -281,17 +281,6 @@ a:hover {
 			/* Visual */
 			border-bottom-color: #fff;
 		}
-
-		/* Arrow on system messages dropdown. */
-		.system-messages::before {
-			left: 22px;
-			right: auto;
-		}
-
-		.system-messages::after {
-			left: 23px;
-			right: auto;
-		}
 	}
 
 	/* Expanded dropdown. */
@@ -344,7 +333,7 @@ a:hover {
 	}
 }
 
-/* Dropdown menu items. */
+/* App menu items. */
 .menu-box {
 	/* Display & Box Model */
 	width: 50%;
@@ -382,8 +371,7 @@ a:hover {
 	.glyphicons::before { font-size: 40px; }
 }
 
-/* Company selector
-   ========================================================================== */
+/* Company selector */
 .company-search {
 	padding-top: 20px;
 }
@@ -446,11 +434,6 @@ a:hover {
 
 		.navbar-nav {
 			margin-top: 3px;
-
-			> li > a {
-				/* Display & Box Model */
-				/* border: 1px solid #fff; */
-			}
 		}
 	}
 
@@ -474,27 +457,10 @@ a:hover {
 		}
 
 		.dropdown {
-			/* System Messages */
 			.system-messages {
-				/* Positioning */
-				left: -169px;
-
 				/* Display & Box Model */
 				min-width: 425px;
-
-				li {
-					padding-left: 20px;
-					padding-right: 20px;
-				}
 			}
-
-			.system-messages::before { left: 190px; }
-			.system-messages::after { left: 191px; }
-
-			/* Company menu */
-			.company-menu { right: 0; }
-			.company-menu::before { right: 18px; }
-			.company-menu::after { right: 19px; }
 		}
 	}
 

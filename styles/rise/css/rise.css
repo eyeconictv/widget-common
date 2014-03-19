@@ -100,7 +100,7 @@ a:hover {
   margin-top: 0;
   /* Visual */
   text-align: center;
-  /* System Messages */
+  /* Links in system messages */
   /* Shopping cart */
   /* Company menu */ }
   .navbar-default .actions-nav > li {
@@ -158,56 +158,48 @@ a:hover {
   /* Top-level links and hover state of icons in expanded dropdown. */ }
   .navbar-default .navbar-nav > li > a {
     border: 1px solid #fff; }
-  .navbar-default .navbar-nav .dropdown {
-    /* Arrow on system messages dropdown. */ }
-    .navbar-default .navbar-nav .dropdown .dropdown-menu {
-      /* Positioning */
-      top: 120%;
-      left: auto;
-      right: 0;
-      /* Display & Box Model */
-      min-width: 250px; }
-      .navbar-default .navbar-nav .dropdown .dropdown-menu .item-name {
-        font-weight: bold; }
-      .navbar-default .navbar-nav .dropdown .dropdown-menu .item-description {
-        color: #999; }
-      .navbar-default .navbar-nav .dropdown .dropdown-menu .glyphicons {
-        min-width: 40px; }
-    .navbar-default .navbar-nav .dropdown > .dropdown-menu::before,
-    .navbar-default .navbar-nav .dropdown > .dropdown-menu::after {
-      /* Positioning */
-      position: absolute;
-      /* Display & Box Model */
-      display: inline-block;
-      border-left: 7px solid transparent;
-      border-right: 7px solid transparent;
-      border-bottom: 7px solid #ccc;
-      border-bottom-color: rgba(0, 0, 0, 0.2);
-      /* Visual */
-      content: ''; }
-    .navbar-default .navbar-nav .dropdown > .dropdown-menu::before {
-      top: -7px;
-      right: 9px; }
-    .navbar-default .navbar-nav .dropdown > .dropdown-menu::before,
-    .navbar-default .navbar-nav .dropdown > .dropdown-menu::after {
-      top: -7px;
-      right: 23px; }
-    .navbar-default .navbar-nav .dropdown > .dropdown-menu::after {
-      /* Positioning */
-      top: -6px;
-      right: 24px;
-      /* Display & Box Model */
-      border-left-width: 6px;
-      border-right-width: 6px;
-      border-bottom-width: 6px;
-      /* Visual */
-      border-bottom-color: #fff; }
-    .navbar-default .navbar-nav .dropdown .system-messages::before {
-      left: 22px;
-      right: auto; }
-    .navbar-default .navbar-nav .dropdown .system-messages::after {
-      left: 23px;
-      right: auto; }
+  .navbar-default .navbar-nav .dropdown .dropdown-menu {
+    /* Positioning */
+    top: 120%;
+    left: auto;
+    right: 0;
+    /* Display & Box Model */
+    min-width: 250px; }
+    .navbar-default .navbar-nav .dropdown .dropdown-menu .item-name {
+      font-weight: bold; }
+    .navbar-default .navbar-nav .dropdown .dropdown-menu .item-description {
+      color: #999; }
+    .navbar-default .navbar-nav .dropdown .dropdown-menu .glyphicons {
+      min-width: 40px; }
+  .navbar-default .navbar-nav .dropdown > .dropdown-menu::before,
+  .navbar-default .navbar-nav .dropdown > .dropdown-menu::after {
+    /* Positioning */
+    position: absolute;
+    /* Display & Box Model */
+    display: inline-block;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    /* Visual */
+    content: ''; }
+  .navbar-default .navbar-nav .dropdown > .dropdown-menu::before {
+    top: -7px;
+    right: 9px; }
+  .navbar-default .navbar-nav .dropdown > .dropdown-menu::before,
+  .navbar-default .navbar-nav .dropdown > .dropdown-menu::after {
+    top: -7px;
+    right: 23px; }
+  .navbar-default .navbar-nav .dropdown > .dropdown-menu::after {
+    /* Positioning */
+    top: -6px;
+    right: 24px;
+    /* Display & Box Model */
+    border-left-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    /* Visual */
+    border-bottom-color: #fff; }
   .navbar-default .navbar-nav .open .dropdown-menu {
     /* Positioning */
     position: absolute;
@@ -238,7 +230,7 @@ a:hover {
   .navbar-default .navbar-nav > .open > a:focus .glyphicon-danger::before {
     color: #d9534f; }
 
-/* Dropdown menu items. */
+/* App menu items. */
 .menu-box {
   /* Display & Box Model */
   width: 50%;
@@ -263,8 +255,7 @@ a:hover {
   .menu-box .glyphicons::before {
     font-size: 40px; }
 
-/* Company selector
-   ========================================================================== */
+/* Company selector */
 .company-search {
   padding-top: 20px; }
 
@@ -308,9 +299,6 @@ a:hover {
           line-height: 32px; }
     .navbar-default .navbar-nav {
       margin-top: 3px; }
-      .navbar-default .navbar-nav > li > a {
-        /* Display & Box Model */
-        /* border: 1px solid #fff; */ }
 
   .navbar-header {
     padding: 0; }
@@ -327,27 +315,9 @@ a:hover {
       float: none;
       /* Display & Box Model */
       margin-left: 5px; }
-    .navbar-default .actions-nav .dropdown {
-      /* System Messages */
-      /* Company menu */ }
-      .navbar-default .actions-nav .dropdown .system-messages {
-        /* Positioning */
-        left: -169px;
-        /* Display & Box Model */
-        min-width: 425px; }
-        .navbar-default .actions-nav .dropdown .system-messages li {
-          padding-left: 20px;
-          padding-right: 20px; }
-      .navbar-default .actions-nav .dropdown .system-messages::before {
-        left: 190px; }
-      .navbar-default .actions-nav .dropdown .system-messages::after {
-        left: 191px; }
-      .navbar-default .actions-nav .dropdown .company-menu {
-        right: 0; }
-      .navbar-default .actions-nav .dropdown .company-menu::before {
-        right: 18px; }
-      .navbar-default .actions-nav .dropdown .company-menu::after {
-        right: 19px; }
+    .navbar-default .actions-nav .dropdown .system-messages {
+      /* Display & Box Model */
+      min-width: 425px; }
 
   .actions-nav:last-child {
     margin-right: 0; } }
