@@ -96,14 +96,14 @@ a:hover {
 		margin-top: 0;
 		margin-bottom: 0;
 
-		a {
+		> a {
 			border: #fff solid 1px;
 
 			/* Visual */
 			font-weight: bold;
 		}
 
-		a:hover,
+		> a:hover,
 		> .active > a,
 		> .active > a:hover,
 		.active > a:focus {
@@ -116,8 +116,8 @@ a:hover {
 		}
 	}
 
-	/* All primary menu items. */
-	a {
+	/* First-level menu items. */
+	> a {
 		font-size: 14px;
 		border-radius: 0;
 	}
@@ -125,7 +125,9 @@ a:hover {
 
 /* Actions Menu
    ========================================================================== */
-.actions-nav {
+
+/* First-level menu items. */
+.navbar-default .actions-nav {
 	/* Display & Box Model */
 	padding: 5px 0;
 	border-top: 1px solid $light-gray;
@@ -135,8 +137,110 @@ a:hover {
 	/* Visual */
 	text-align: center;
 
-	/* CSS arrows at top of dropdown. */
+	> li {
+		/* Positioning */
+		float: none;
+
+		/* Display & Box Model */
+		display: inline-block;
+
+		/* Visual */
+		vertical-align: top;
+
+		ul {
+			text-align: left;
+		}
+
+		> a {
+			@extend .glyphicon-box;
+		}
+
+		> a:hover {
+			border-color: $light-gray;
+			background-color: $lighter-gray;
+		}
+
+		> a:focus {
+			background-color: transparent;
+		}
+	}
+
+	/* System Messages */
+	.open .dropdown-menu .system-message > a {
+		/* Display & Box Model */
+		display: inline-block;
+		padding: 0;
+
+		/* Visual */
+		color: $rise-blue;
+		background-color: transparent;
+	}
+
+	> li > a .label {
+		/* Positioning */
+		position: absolute;
+		left: 60%;
+		top: -2px;
+		z-index: 1;
+
+		/* Display & Box Model */
+		padding: 4px 7px;
+
+		/* Visual */
+		font-size: 50%;
+		vertical-align: middle;
+	}
+
+	.system-messages { 
+		left: 0;
+	}
+
+	.system-message {
+		padding-left: 20px;
+		padding-right: 20px;
+		margin: 9px 0;
+	}
+
+	/* Shopping cart */
+	> li.shopping-cart > a .label { left: 75%; }
+
+	/* Company menu */
+	.dropdown .company-menu { right: -62px; }
+	.dropdown .company-menu::before { right: 80px; }
+	.dropdown .company-menu::after { right: 81px; }
+}
+
+/* All Navbars
+   ========================================================================== */
+.navbar-default .navbar-nav {
+	> li > a {
+		border: 1px solid #fff;
+	}
+	
+	/* CSS arrows at top of dropdowns. */
 	.dropdown {
+		.dropdown-menu {
+			/* Positioning */
+			top: 120%;
+			left: auto;
+			right: 0;
+
+			/* Display & Box Model */
+			min-width: 250px;
+
+			.item-name {
+				font-weight: bold;
+			}
+
+			.item-description {
+				color: #999;
+			}
+
+			.glyphicons {
+				min-width: 40px;
+			}
+		}
+
 		> .dropdown-menu::before,
 		> .dropdown-menu::after {
 			/* Positioning */
@@ -190,36 +294,6 @@ a:hover {
 		}
 	}
 
-	a {
-		color: $gray;
-
-		&:hover {
-			background-color: $lighter-gray;
-		}
-	}
-
-	.dropdown-menu {
-		/* Positioning */
-		top: 120%;
-		left: auto;
-		right: 0;
-
-		/* Display & Box Model */
-		min-width: 250px;
-
-		.item-name {
-			font-weight: bold;
-		}
-
-		.item-description {
-			color: #999;
-		}
-
-		.glyphicons {
-			min-width: 40px;
-		}
-	}
-
 	/* Expanded dropdown. */
 	.open .dropdown-menu {
 		/* Positioning */
@@ -254,93 +328,11 @@ a:hover {
 		}
 	}
 
-	/* System Messages */
-	> li > a .label {
-		/* Positioning */
-		position: absolute;
-		left: 60%;
-		top: -2px;
-		z-index: 1;
-
-		/* Display & Box Model */
-		padding: 4px 7px;
-
-		/* Visual */
-		font-size: 50%;
-		vertical-align: middle;
-	}
-
-	.system-messages { 
-		left: 0;
-	}
-
-	.system-message {
-		padding-left: 20px;
-		padding-right: 20px;
-		margin: 9px 0;
-	}
-
-	.open .dropdown-menu .system-message > a {
-		/* Display & Box Model */
-		display: inline-block;
-		padding: 0;
-
-		/* Visual */
-		color: $rise-blue;
-		background-color: transparent;
-	}
-
-	/* Shopping cart */
-	> li.shopping-cart > a .label { left: 75%; }
-
-	/* Company menu */
-	.dropdown .company-menu { right: -62px; }
-	.dropdown .company-menu::before { right: 80px; }
-	.dropdown .company-menu::after { right: 81px; }
-}
-
-/* First-level menu items. */
-.navbar-default .actions-nav {
-	> li {
-		/* Positioning */
-		float: none;
-
-		/* Display & Box Model */
-		display: inline-block;
-
-		/* Visual */
-		vertical-align: top;
-
-		ul {
-			text-align: left;
-		}
-
-		> a {
-			@extend .glyphicon-box;
-			border: 1px solid #fff;
-		}
-
-		> a:hover {
-			border-color: $light-gray;
-			background-color: $lighter-gray;
-		}
-
-		> a:focus {
-			background-color: transparent;
-		}
-	}
-
 	/* Top-level links and hover state of icons in expanded dropdown. */
 	> .open {
 		> a,
 		> a:hover,
 		> a:focus {
-			/* Display & Box Model */
-			border: 1px solid $light-gray;
-
-			/* Visual */
-			background-color: $lighter-gray;
-
 			.glyphicons::before {
 				color: $dark-gray;
 			}
@@ -361,8 +353,16 @@ a:hover {
 	text-align: center;
 
 	a {
+		/* Display & Box Model */
 		display: block;
 		padding: 20px 10px;
+
+		/* Visual */
+		color: $gray;
+
+		&:hover {
+			background-color: $lighter-gray;
+		}
 	}
 
 	span {
@@ -433,18 +433,23 @@ a:hover {
 			margin-left: 40px;
 
 			.navbar-nav {
-				li {
+				> li {
 					margin-left: 5px;
-				}
 
-				a {
-					/* Display & Box Model */
-					border: 1px solid #fff;
-
-					/* Visual */
-					font-weight: bold;
-					line-height: 32px;
+					> a {
+						font-weight: bold;
+						line-height: 32px;
+					}
 				}
+			}
+		}
+
+		.navbar-nav {
+			margin-top: 3px;
+
+			> li > a {
+				/* Display & Box Model */
+				/* border: 1px solid #fff; */
 			}
 		}
 	}
@@ -456,12 +461,7 @@ a:hover {
 		padding: 3px 10px;
 	}
 
-	.navbar-left,
-	.actions-nav {
-		margin-top: 3px;
-	}
-
-	.actions-nav {
+	.navbar-default .actions-nav {
 		padding: 0;
 		border-top: none;
 
@@ -562,16 +562,6 @@ input[type="url"],
 /* Drop-down menu items */
 .dropdown-menu {
 	font-size: 12px;
-
-	> li {
-		a {
-			color: #333; /* TODO: Change in bootstrap.css */
-		}
-
-		a:hover {
-			color: #262626; /* TODO: Change in bootstrap.css */
-		}
-	}
 }
 
 /* Input field focus */
