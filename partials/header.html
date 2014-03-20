@@ -22,7 +22,7 @@
 						<a href="#/account">Account</a>
 					</li>
 					<li>
-						<a href="">My Sales</a>
+						<a href="">Sales</a>
 					</li>
 					<li class="dropdown">
 						<a href="" class="dropdown-toggle" data-toggle="dropdown">
@@ -30,16 +30,21 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li>
-								<a href="http://community.risevision.com/rise_vision_inc" target="_blank">User Community</a>
+								<a href="http://community.risevision.com/rise_vision_inc" class="item-name" target="_blank">Community</a>
 							</li>
+							<li class="divider"></li>
 							<li>
-								<a href="">Get Help Now</a>
+								<a href="http://www.risevision.com/user-training/" class="item-name" target="_blank">Training</a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="http://www.risevision.com/help/users/" class="item-name" target="_blank">Documentation</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</div>
-			<ul class="nav navbar-nav navbar-right" ng-show="authStatus == 1">
+			<ul class="nav navbar-nav navbar-right actions-nav" ng-show="authStatus == 1">
 				<li class="dropdown">
 					<a href="" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="glyphicons bell"></i>
@@ -140,7 +145,7 @@
 						<li>
 							<a href="" ng-click="switchCompany()" ng-show="canChangeCompany">
 								<i class="glyphicons new_window"></i>
-								<span class="item-name">Select Different Company</span>
+								<span class="item-name">Select Sub-Company</span>
 								<div class="item-description">Use to navigate between your Home<br> Company and a Sub-Company.</div>
 							</a>
 						</li>
