@@ -609,12 +609,13 @@ ul.social {
 
 /* Other
    ========================================================================== */
+.title {
+  margin-top: 10px;
+  margin-bottom: 0; }
+
 .dropdown-title {
   color: #383838;
   font-weight: bold; }
-
-.top-buffer {
-  margin-top: 20px; }
 
 .qty {
   width: 40px;

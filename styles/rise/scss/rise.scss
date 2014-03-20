@@ -861,13 +861,14 @@ ul.social {
 
 /* Other
    ========================================================================== */
+.title {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
 .dropdown-title {
 	color: $dark-gray;
 	font-weight: bold;
-}
-
-.top-buffer {
-	margin-top: 20px;
 }
 
 .qty {
