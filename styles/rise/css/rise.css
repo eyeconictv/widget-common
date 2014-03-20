@@ -347,6 +347,11 @@ a:hover {
 .chevron-right::before {
   font-size: 16px; }
 
+.glyphicons-back {
+  width: 24px;
+  height: 24px;
+  background: url("//s3.amazonaws.com/rise-common-test/images/glyphicons-back.png") center no-repeat; }
+
 /* ==========================================================================
    Content
    ========================================================================== */
@@ -572,6 +577,9 @@ ul.social {
   .btn-all .glyphicons {
     margin-top: -5px; }
 
+.btn-back:hover .glyphicons-back {
+  background: url("//s3.amazonaws.com/rise-common-test/images/glyphicons-back-active.png") center no-repeat; }
+
 .btn-fixed-width {
   width: 102px; }
 
@@ -623,6 +631,9 @@ ul.social {
 
 .danger {
   color: #d9534f; }
+
+.icon-left {
+  margin-right: 10px; }
 
 .icon-right {
   margin-left: 10px; }
