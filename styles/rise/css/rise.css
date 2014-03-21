@@ -167,8 +167,6 @@ a:hover {
     min-width: 250px; }
     .navbar-default .navbar-nav .dropdown .dropdown-menu .item-name {
       font-weight: bold; }
-    .navbar-default .navbar-nav .dropdown .dropdown-menu .item-description {
-      color: #999; }
     .navbar-default .navbar-nav .dropdown .dropdown-menu .glyphicons {
       min-width: 40px; }
   .navbar-default .navbar-nav .dropdown > .dropdown-menu::before,
