@@ -372,12 +372,6 @@ a:hover {
 	padding-top: 20px;
 }
 
-.company-list {
-	max-height: 400px;
-	overflow: auto;
-	cursor: pointer;
-}
-
 /* Profile picture */
 .profile-pic {
 	/* Display & Box Model */
@@ -571,12 +565,12 @@ input[type=number]::-webkit-outer-spin-button {
 		}
 	}
 
+	.btn-fixed-width {
+		width: 102px;
+	}
+
 	input[type="checkbox"] { float: none; }
 }
-
-/*.modal-body {
-	padding-bottom: 0;
-}*/
 
 .modal-header,
 .modal-footer {
@@ -816,10 +810,6 @@ ul.social {
 	background: url('//s3.amazonaws.com/rise-common-test/images/glyphicons-back-active.png') center no-repeat;
 }
 
-.btn-fixed-width {
-	width: 102px;
-}
-
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -869,6 +859,14 @@ ul.social {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	border-top: 2px dashed #cbcbcb;
+}
+
+/* Modal scrollable list
+   ========================================================================== */
+.scrollable-list {
+	max-height: 400px;
+	overflow: auto;
+	cursor: pointer;
 }
 
 /* Other
