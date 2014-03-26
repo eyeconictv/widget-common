@@ -277,15 +277,16 @@
 						</label>
 						<input id="zip" type="text" class="form-control" ng-model="company.postalCode" />
 					</div>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"> Monitoring Emails
+					<div class="form-group">
+						<label for="monitoring">
+							Send Monitoring Emails To
 						</label>
+						<input id="monitoring" type="email" class="form-control" />
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Add
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
 					<i class="glyphicons white ok icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Cancel
@@ -375,13 +376,13 @@
 						<label for="phone">
 							Telephone
 						</label>
-						<input id="phone" type="text" class="form-control" />
+						<input id="phone" type="tel" class="form-control" />
 					</div>
 					<div class="form-group">
 						<label for="email">
 							Email
 						</label>
-						<input id="email" type="text" class="form-control" />
+						<input id="email" type="email" class="form-control" />
 					</div>
 					<div class="checkbox">
 						<label>
