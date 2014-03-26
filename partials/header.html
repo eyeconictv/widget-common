@@ -151,7 +151,7 @@
 					</li>
 					<li class="divider" ng-show="canChangeCompany"></li>
 					<li>
-						<a href="" data-toggle="modal" data-target="#sub-company-modal">
+						<a href="" ng-click="showAddSubCompany()">
 							<i class="glyphicons plus"></i>
 							<span class="item-name">Add Sub-Company</span>
 						</a>
@@ -166,7 +166,7 @@
 
 					<li class="divider"></li>
 					<li>
-						<a href="" data-toggle="modal" data-target="#company-users-modal">
+						<a href="" ng-click="showCompanyUsers()">
 							<i class="glyphicons group"></i>
 							<span class="item-name">Company Users</span>
 						</a>
@@ -186,7 +186,7 @@
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="" data-toggle="modal" data-target="#user-settings-modal">
+						<a href="" ng-click="showUserSettings()">
 							<i class="glyphicons cogwheels"></i>
 							<span class="item-name">User Settings</span>
 						</a>
@@ -255,7 +255,7 @@
 						<label for="country">
 							Country
 						</label>
-						<select id="country" class="form-control" ng-model="company.country" ng-options="c[1] as c[0] for c in countries">
+						<select id="country" class="form-control selectpicker" ng-model="company.country" ng-options="c[1] as c[0] for c in countries">
 							<option value="">&lt; Select Country &gt;</option>
 						</select>
 					</div>
@@ -264,10 +264,10 @@
 							State / Province
 						</label>
 						<input id="state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" />
-						<select class="form-control" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'">
+						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'">
 							<option value="">&lt; Select Province &gt;</option>
 						</select>
-						<select class="form-control" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
+						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
 							<option value="">&lt; Select State &gt;</option>
 						</select>
 					</div>
@@ -392,7 +392,7 @@
 						<label for="status">
 							Status
 						</label>
-						<select id="status" class="form-control">
+						<select id="status" class="form-control selectpicker">
 							<option value="active">Active</option>
 							<option value="inactive">Inactive</option>
 						</select>
