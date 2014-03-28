@@ -253,11 +253,15 @@ a:hover {
   .menu-box .glyphicons::before {
     font-size: 40px; }
 
-/* Company selector */
+/* Company Settings Modal */
+.company-settings .action-link {
+  margin-left: 20px; }
+
+/* Company Selector */
 .company-search {
   padding-top: 20px; }
 
-/* Profile picture */
+/* Profile Picture */
 .profile-pic {
   /* Display & Box Model */
   width: 30px;
@@ -420,11 +424,6 @@ input[type=number]::-webkit-outer-spin-button {
 /* ==========================================================================
    Buttons
    ========================================================================== */
-/* Button text
-   ========================================================================== */
-.button-spacer {
-  padding-right: 5px; }
-
 /* Close button
    ========================================================================== */
 .close {

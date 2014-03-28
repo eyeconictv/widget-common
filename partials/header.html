@@ -158,7 +158,7 @@
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="">
+						<a href="" ng-click="showCompanySettings()">
 							<i class="glyphicons cogwheels"></i>
 							<span class="item-name">Company Settings</span>
 						</a>
@@ -228,42 +228,42 @@
 			<div class="modal-body">
 				<form role="form">
 					<div class="form-group">
-						<label for="name">
+						<label for="sub-company-name">
 							Name
 						</label>
-						<input id="name" type="text" class="form-control" ng-model="company.name" />
+						<input id="sub-company-name" type="text" class="form-control" ng-model="company.name" />
 					</div>
 					<div class="form-group">
-						<label for="street">
+						<label for="sub-company-street">
 							Street
 						</label>
-						<input id="street" type="text" class="form-control" ng-model="company.street" />
+						<input id="sub-company-street" type="text" class="form-control" ng-model="company.street" />
 					</div>
 					<div class="form-group">
-						<label for="unit">
+						<label for="sub-company-unit">
 							Unit
 						</label>
-						<input id="unit" type="text" class="form-control" ng-model="company.unit" />
+						<input id="sub-company-unit" type="text" class="form-control" ng-model="company.unit" />
 					</div>
 					<div class="form-group">
-						<label for="city">
+						<label for="sub-company-city">
 							City
 						</label>
-						<input id="city" type="text" class="form-control" ng-model="company.city" />
+						<input id="sub-company-city" type="text" class="form-control" ng-model="company.city" />
 					</div>
 					<div class="form-group">
-						<label for="country">
+						<label for="sub-company-country">
 							Country
 						</label>
-						<select id="country" class="form-control selectpicker" ng-model="company.country" ng-options="c[1] as c[0] for c in countries">
+						<select id="sub-company-country" class="form-control selectpicker" ng-model="company.country" ng-options="c[1] as c[0] for c in countries">
 							<option value="">&lt; Select Country &gt;</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="state">
+						<label for="sub-company-state">
 							State / Province
 						</label>
-						<input id="state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" />
+						<input id="sub-company-state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" />
 						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'">
 							<option value="">&lt; Select Province &gt;</option>
 						</select>
@@ -272,22 +272,157 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="zip">
+						<label for="sub-company-zip">
 							Zip / Postal Code
 						</label>
-						<input id="zip" type="text" class="form-control" ng-model="company.postalCode" />
+						<input id="sub-company-zip" type="text" class="form-control" ng-model="company.postalCode" />
 					</div>
 					<div class="form-group">
-						<label for="monitoring">
+						<label for="sub-company-monitoring">
 							Send Monitoring Emails To
 						</label>
-						<input id="monitoring" type="email" class="form-control" />
+						<input id="sub-company-monitoring" type="email" class="form-control" />
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
 					<i class="glyphicons white ok icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Cancel
+					<i class="glyphicons white remove icon-right"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Company Settings Modal -->
+<div id="company-settings-modal" class="company-settings modal fade" tabindex="-1" role="dialog" aria-labelledby="company-settings-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="glyphicons remove"></i>
+				</button>
+				<h2 id="company-settings-label" class="modal-title">Company Settings</h2>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<label for="company-settings-name">
+							Name
+						</label>
+						<input id="company-settings-name" type="text" class="form-control" ng-model="company.name" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-street">
+							Street
+						</label>
+						<input id="company-settings-street" type="text" class="form-control" ng-model="company.street" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-unit">
+							Unit
+						</label>
+						<input id="company-settings-unit" type="text" class="form-control" ng-model="company.unit" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-city">
+							City
+						</label>
+						<input id="company-settings-city" type="text" class="form-control" ng-model="company.city" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-country">
+							Country
+						</label>
+						<select id="company-settings-country" class="form-control selectpicker" ng-model="company.country" ng-options="c[1] as c[0] for c in countries">
+							<option value="">&lt; Select Country &gt;</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="company-settings-state">
+							State / Province
+						</label>
+						<input id="company-settings-state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" />
+						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'">
+							<option value="">&lt; Select Province &gt;</option>
+						</select>
+						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
+							<option value="">&lt; Select State &gt;</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="company-settings-zip">
+							Zip / Postal Code
+						</label>
+						<input id="company-settings-zip" type="text" class="form-control" ng-model="company.postalCode" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-phone">
+							Telephone
+						</label>
+						<input id="company-settings-phone" type="tel" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-monitoring">
+							Send Monitoring Emails To
+						</label>
+						<input id="company-settings-monitoring" type="email" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>
+							Authentication Key
+						</label>
+						<a class="action-link" href="">Reset</a>
+						<div>authKey</div>
+					</div>
+					<div class="form-group">
+						<label>
+							Claim ID
+						</label>
+						<a class="action-link" href="">Reset</a>
+						<div>abc123</div>
+					</div>
+					<div class="form-group">
+						<label for="company-settings-presentation">
+							Sub-Company Home Page Presentation
+						</label>
+						<a class="action-link" href="">Select</a>
+						<input id="company-settings-presentation" type="text" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-community-url">
+							Sub-Company Community URL
+						</label>
+						<a class="action-link" href="">Default</a>
+						<input id="company-settings-community-url" type="url" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-support-url">
+							Sub-Company Support URL
+						</label>
+						<a class="action-link" href="">Default</a>
+						<input id="company-settings-support-url" type="url" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="company-settings-status">
+							Status
+						</label>
+						<select id="company-settings-status" class="form-control selectpicker">
+							<option value="active">Active</option>
+							<option value="inactive">Inactive</option>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
+					<i class="glyphicons white ok icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Delete
+					<i class="glyphicons white ban icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Cancel
 					<i class="glyphicons white remove icon-right"></i>
@@ -355,34 +490,34 @@
 			<div class="modal-body">
 				<form role="form">
 					<div class="form-group">
-						<label for="name">
+						<label>
 							Username
 						</label>
 						<div>bloosbrock@gmail.com</div>
 					</div>
 					<div class="form-group">
-						<label for="first-name">
+						<label for="user-settings-first-name">
 							First Name
 						</label>
-						<input id="first-name" type="text" class="form-control" />
+						<input id="user-settings-first-name" type="text" class="form-control" />
 					</div>
 					<div class="form-group">
-						<label for="last-name">
+						<label for="user-settings-last-name">
 							Last Name
 						</label>
-						<input id="last-name" type="text" class="form-control" />
+						<input id="user-settings-last-name" type="text" class="form-control" />
 					</div>
 					<div class="form-group">
-						<label for="phone">
+						<label for="user-settings-phone">
 							Telephone
 						</label>
-						<input id="phone" type="tel" class="form-control" />
+						<input id="user-settings-phone" type="tel" class="form-control" />
 					</div>
 					<div class="form-group">
-						<label for="email">
+						<label for="user-settings-email">
 							Email
 						</label>
-						<input id="email" type="email" class="form-control" />
+						<input id="user-settings-email" type="email" class="form-control" />
 					</div>
 					<div class="checkbox">
 						<label>
@@ -390,16 +525,16 @@
 						</label>
 					</div>
 					<div class="form-group">
-						<label for="status">
+						<label for="user-settings-status">
 							Status
 						</label>
-						<select id="status" class="form-control selectpicker">
+						<select id="user-settings-status" class="form-control selectpicker">
 							<option value="active">Active</option>
 							<option value="inactive">Inactive</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="roles">
+						<label>
 							Roles
 						</label>
 						<div class="checkbox">
@@ -429,7 +564,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="last-login">
+						<label>
 							Last Login
 						</label>
 						<div>03/24/14 3:59 PM</div>

@@ -78,6 +78,11 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$("#sub-company-modal").modal("show");
 	};
 
+	$scope.showCompanySettings = function () {
+		$("#company-settings-modal .selectpicker").selectpicker();
+		$("#company-settings-modal").modal("show");
+	};
+
 	$scope.showCompanyUsers = function () {
 		$("#company-users-modal").modal("show");
 	};
