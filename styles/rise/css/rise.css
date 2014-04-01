@@ -228,7 +228,8 @@ a:hover {
   .navbar-default .navbar-nav > .open > a:focus .glyphicon-danger::before {
     color: #d9534f; }
 
-/* App menu items. */
+/* App menu items
+   ========================================================================== */
 .menu-box {
   /* Display & Box Model */
   width: 50%;
@@ -253,33 +254,24 @@ a:hover {
   .menu-box .glyphicons::before {
     font-size: 40px; }
 
-/* Company Settings Modal */
+/* Company Settings Modal
+   ========================================================================== */
 .company-settings .action-link {
   margin-left: 20px; }
 
-/* Company Selector */
+/* Company Selector
+   ========================================================================== */
 .company-search {
   padding-top: 20px; }
 
-/* Profile Picture */
+/* Profile Picture
+   ========================================================================== */
 .profile-pic {
   /* Display & Box Model */
   width: 30px;
   height: 30px;
   /* Visual */
   border-radius: 50%; }
-
-/* Sign In */
-.navbar-default .navbar-nav .sign-in {
-  color: #fff;
-  background-color: #2d60ad;
-  font-weight: bold; }
-  .navbar-default .navbar-nav .sign-in .glyphicons::before {
-    color: #fff; }
-  .navbar-default .navbar-nav .sign-in:hover, .navbar-default .navbar-nav .sign-in:focus {
-    color: #fff;
-    background: #2d60ad;
-    border: none; }
 
 /* Media queries
    ========================================================================== */
@@ -300,8 +292,7 @@ a:hover {
   .navbar-header {
     padding: 0; }
 
-  .navbar-left .navbar-nav > li > a,
-  .navbar-right .sign-in {
+  .navbar-left .navbar-nav > li > a {
     padding: 3px 10px; }
 
   .navbar-default .actions-nav {
@@ -566,6 +557,30 @@ ul.social {
 .btn-back:hover .glyphicons-back {
   background: url("//s3.amazonaws.com/rise-common-test/images/glyphicons-back-active.png") center no-repeat; }
 
+/* Sign In button */
+.btn-sign-in, .navbar-default .navbar-nav .sign-in, .modal-dialog .sign-in,
+.modal-dialog .sign-in:hover {
+  color: #fff;
+  background-color: #2d60ad;
+  font-weight: bold; }
+  .btn-sign-in .glyphicons::before, .navbar-default .navbar-nav .sign-in .glyphicons::before, .modal-dialog .sign-in .glyphicons::before {
+    color: #fff; }
+  .btn-sign-in:hover, .navbar-default .navbar-nav .sign-in:hover, .modal-dialog .sign-in:hover, .btn-sign-in:focus, .navbar-default .navbar-nav .sign-in:focus, .modal-dialog .sign-in:focus {
+    color: #fff;
+    background: #2d60ad;
+    border: none; }
+
+/* Sign In button that is part of a navbar. */
+/* Sign In button that is part of a modal. */
+.modal-dialog .sign-in,
+.modal-dialog .sign-in:hover {
+  /* Positioning */
+  float: left; }
+  .modal-dialog .sign-in .glyphicons::before,
+  .modal-dialog .sign-in:hover .glyphicons::before {
+    line-height: 30px;
+    /* TODO: Make this a variable. */ }
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -640,6 +655,13 @@ ul.social {
 .error {
   font-weight: bold; }
 
+/* Media queries
+   ========================================================================== */
+@media (min-width: 768px) {
+  .navbar-right .sign-in,
+  .modal-dialog .sign-in {
+    padding: 3px 10px;
+    /* TODO: Make this a variable. */ } }
 /* ==========================================================================
    Print Media Queries
    ========================================================================== */

@@ -329,7 +329,8 @@ a:hover {
 	}
 }
 
-/* App menu items. */
+/* App menu items
+   ========================================================================== */
 .menu-box {
 	/* Display & Box Model */
 	width: 50%;
@@ -367,17 +368,20 @@ a:hover {
 	.glyphicons::before { font-size: 40px; }
 }
 
-/* Company Settings Modal */
+/* Company Settings Modal
+   ========================================================================== */
 .company-settings .action-link {
 	margin-left: 20px;
 }
 
-/* Company Selector */
+/* Company Selector
+   ========================================================================== */
 .company-search {
 	padding-top: 20px;
 }
 
-/* Profile Picture */
+/* Profile Picture
+   ========================================================================== */
 .profile-pic {
 	/* Display & Box Model */
 	width: 30px;
@@ -385,24 +389,6 @@ a:hover {
 
 	/* Visual */
 	border-radius: 50%;
-}
-
-/* Sign In */
-.navbar-default .navbar-nav .sign-in {
-	color: #fff;
-	background-color: $rise-blue;
-	font-weight: bold;
-
-	.glyphicons::before {
-		color: #fff;
-	}
-
-	&:hover,
-	&:focus {
-		color: #fff;
-		background: $rise-blue;
-		border: none;
-	}
 }
 
 /* Media queries
@@ -434,8 +420,7 @@ a:hover {
 
 	.navbar-header { padding: 0; }
 
-	.navbar-left .navbar-nav > li > a,
-	.navbar-right .sign-in {
+	.navbar-left .navbar-nav > li > a {
 		padding: 3px 10px;
 	}
 
@@ -802,6 +787,42 @@ ul.social {
 	background: url('//s3.amazonaws.com/rise-common-test/images/glyphicons-back-active.png') center no-repeat;
 }
 
+/* Sign In button */
+.btn-sign-in {
+	color: #fff;
+	background-color: $rise-blue;
+	font-weight: bold;
+
+	.glyphicons::before {
+		color: #fff;
+	}
+
+	&:hover,
+	&:focus {
+		color: #fff;
+		background: $rise-blue;
+		border: none;
+	}
+}
+
+/* Sign In button that is part of a navbar. */
+.navbar-default .navbar-nav .sign-in {
+	@extend .btn-sign-in;
+}
+
+/* Sign In button that is part of a modal. */
+.modal-dialog .sign-in,
+.modal-dialog .sign-in:hover {
+	@extend .btn-sign-in;
+
+	/* Positioning */
+	float: left;
+
+	.glyphicons::before {
+		line-height: 30px; /* TODO: Make this a variable. */
+	}
+}
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -892,6 +913,15 @@ ul.social {
 
 .error {
 	font-weight: bold;
+}
+
+/* Media queries
+   ========================================================================== */
+@media (min-width: 768px) {
+	.navbar-right .sign-in,
+	.modal-dialog .sign-in {
+		padding: 3px 10px;	/* TODO: Make this a variable. */
+	}
 }
 
 /* ==========================================================================
