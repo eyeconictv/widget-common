@@ -273,6 +273,11 @@ a:hover {
   /* Visual */
   border-radius: 50%; }
 
+/* User Settings Modal
+   ========================================================================== */
+.user-settings .confirm {
+  display: none; }
+
 /* Media queries
    ========================================================================== */
 @media (min-width: 768px) {

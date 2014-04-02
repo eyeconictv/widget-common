@@ -478,7 +478,7 @@
 </div>
 
 <!-- User Settings Modal -->
-<div id="user-settings-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="user-settings-label" aria-hidden="true">
+<div id="user-settings-modal" class="user-settings modal fade" tabindex="-1" role="dialog" aria-labelledby="user-settings-label" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -525,15 +525,6 @@
 						</label>
 					</div>
 					<div class="form-group">
-						<label for="user-settings-status">
-							Status
-						</label>
-						<select id="user-settings-status" class="form-control selectpicker">
-							<option value="active">Active</option>
-							<option value="inactive">Inactive</option>
-						</select>
-					</div>
-					<div class="form-group">
 						<label>
 							Roles
 						</label>
@@ -569,17 +560,29 @@
 						</label>
 						<div>03/24/14 3:59 PM</div>
 					</div>
+					<div class="form-group">
+						<label for="user-settings-status">
+							Status
+						</label>
+						<select id="user-settings-status" class="form-control selectpicker">
+							<option value="active">Active</option>
+							<option value="inactive">Inactive</option>
+						</select>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
-					<i class="glyphicons white ok icon-right"></i>
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
+					Save <i class="glyphicons white ok icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Delete
-					<i class="glyphicons white ban icon-right"></i>
+				<button type="button" class="btn btn-danger btn-fixed-width" aria-hidden="true" ng-show="deleteButtonIsVisible" ng-click="delete()">
+					Delete <i class="glyphicons white bin icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Cancel
-					<i class="glyphicons white remove icon-right"></i>
+				<button type="button" class="btn btn-danger fade confirm" data-dismiss="modal" aria-hidden="true" ng-class="{in:confirmButtonIsVisible}">
+					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">
+					Cancel <i class="glyphicons white remove icon-right"></i>
 				</button>
 			</div>
 		</div>

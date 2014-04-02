@@ -13,6 +13,8 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	$scope.selectedCompanyName = "";
 	$scope.canChangeCompany = false;
 	$scope.companyLoaded = false;
+	$scope.deleteButtonIsVisible = true;
+	$scope.confirmButtonIsVisible = false;
 
 	$scope.updateCartIcon = function () {
 		updateShoopingCartIcon(storageGetProducts().length);
@@ -123,5 +125,11 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$scope.isPurchaser = apiAuth.isPurchaser;
 		$scope.getSystemMessages();
 	});
+
+	$scope.delete = function () {
+		$(".confirm").show();
+		$scope.deleteButtonIsVisible = false;
+		$scope.confirmButtonIsVisible = true;
+	}
 }
 ]);
