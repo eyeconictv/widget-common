@@ -138,7 +138,7 @@
 					<li ng-show="canChangeCompany">
 						<a href="" ng-click="resetCompany()">
 							<i class="glyphicons home"></i>
-							<span class="item-name">Switch To Home Company</span>
+							<span class="item-name">Switch To My Company</span>
 						</a>
 					</li>
 					<li class="divider" ng-show="canChangeCompany"></li>
@@ -146,7 +146,6 @@
 						<a href="" ng-click="switchCompany()">
 							<i class="glyphicons new_window"></i>
 							<span class="item-name">Select Sub-Company</span>
-							<div>Use to navigate between your Home<br> Company and a Sub-Company.</div>
 						</a>
 					</li>
 					<li class="divider" ng-show="canChangeCompany"></li>
@@ -386,11 +385,12 @@
 						<div>abc123</div>
 					</div>
 					<div class="form-group">
-						<label for="company-settings-presentation">
+						<label>
 							Sub-Company Home Page Presentation
 						</label>
 						<a class="action-link" href="">Select</a>
-						<input id="company-settings-presentation" type="text" class="form-control" />
+						<a class="action-link" href="">Default</a>
+						<div>Rise Vision Default</div>
 					</div>
 					<div class="form-group">
 						<label for="company-settings-community-url">
@@ -421,8 +421,11 @@
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
 					<i class="glyphicons white ok icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Delete
-					<i class="glyphicons white ban icon-right"></i>
+				<button type="button" class="btn btn-danger btn-fixed-width" aria-hidden="true" ng-show="showCompanySettingsDelete" ng-click="deleteCompany()">
+					Delete <i class="glyphicons white bin icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" aria-hidden="true" ng-class="{in:showCompanySettingsConfirm}">
+					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Cancel
 					<i class="glyphicons white remove icon-right"></i>
@@ -433,7 +436,7 @@
 </div>
 
 <!-- Company Users Modal -->
-<div id="company-users-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="company-users-label" aria-hidden="true">
+<div id="company-users-modal" class="company-users modal fade" tabindex="-1" role="dialog" aria-labelledby="company-users-label" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -443,6 +446,22 @@
 				<h2 id="company-users-label" class="modal-title">Company Users</h2>
 			</div>
 			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-1 sort">
+						<label for="sort">Sort</label>
+					</div>
+					<div class="col-md-5">
+						<select id="sort" class="form-control selectpicker">
+							<option value="user-name">Username</option>
+							<option value="name">Name</option>
+							<option value="status">Status</option>
+							<option value="last-login">Last Login</option>
+						</select>
+					</div>
+					<div class="col-md-6 csv text-right">
+						<a href="">Download to CSV</a>
+					</div>
+				</div>
 				<div class="list-group scrollable-list">
 					<div class="list-group-item">
 						<h3 class="list-group-item-heading">
@@ -451,8 +470,8 @@
 						<div class="list-group-item-text">
 							Byron Darlison<br>
 							Editor, Publisher, Display, Administrator, System<br>
-							Active<br>
-							03/24/14 6:35 PM
+							Last Logged In 03/24/14 6:35PM<br>
+							Active
 						</div>
 					</div>
 					<div class="list-group-item">
@@ -462,15 +481,15 @@
 						<div class="list-group-item-text">
 							Robb Price<br>
 							Editor, Publisher, Display<br>
-							Inactive<br>
-							12/05/13 9:01 AM
+							Last Logged In 12/05/13 9:01AM<br>
+							Inactive
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="showUserSettings()">Add User
-					<i class="glyphicons white ok icon-right"></i>
+					<i class="glyphicons white plus icon-right"></i>
 				</button>
 			</div>
 		</div>
@@ -575,10 +594,10 @@
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
 					Save <i class="glyphicons white ok icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-danger btn-fixed-width" aria-hidden="true" ng-show="deleteButtonIsVisible" ng-click="delete()">
+				<button type="button" class="btn btn-danger btn-fixed-width" aria-hidden="true" ng-show="showUserSettingsDelete" ng-click="deleteUser()">
 					Delete <i class="glyphicons white bin icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-danger fade confirm" data-dismiss="modal" aria-hidden="true" ng-class="{in:confirmButtonIsVisible}">
+				<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" aria-hidden="true" ng-class="{in:showUserSettingsConfirm}">
 					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">

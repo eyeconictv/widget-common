@@ -368,16 +368,23 @@ a:hover {
 	.glyphicons::before { font-size: 40px; }
 }
 
-/* Company Settings Modal
+/* Company Selector
+   ========================================================================== */
+.company-search {
+	padding-top: 20px;
+}
+
+/* Company Settings
    ========================================================================== */
 .company-settings .action-link {
 	margin-left: 20px;
 }
 
-/* Company Selector
+/* Company Users
    ========================================================================== */
-.company-search {
-	padding-top: 20px;
+.company-users .sort,
+.company-users .csv {
+	line-height: 34px;
 }
 
 /* Profile Picture
@@ -391,9 +398,9 @@ a:hover {
 	border-radius: 50%;
 }
 
-/* User Settings Modal
+/* Confirm Deletion Button
    ========================================================================== */
-.user-settings .confirm {
+.confirm-delete {
 	display: none;
 }
 

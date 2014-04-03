@@ -13,8 +13,10 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	$scope.selectedCompanyName = "";
 	$scope.canChangeCompany = false;
 	$scope.companyLoaded = false;
-	$scope.deleteButtonIsVisible = true;
-	$scope.confirmButtonIsVisible = false;
+	$scope.showCompanySettingsDelete = true;
+	$scope.showCompanySettingsConfirm = false;
+	$scope.showUserSettingsDelete = true;
+	$scope.showUserSettingsConfirm = false;
 
 	$scope.updateCartIcon = function () {
 		updateShoopingCartIcon(storageGetProducts().length);
@@ -86,6 +88,7 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	};
 
 	$scope.showCompanyUsers = function () {
+		$("#company-users-modal .selectpicker").selectpicker();
 		$("#company-users-modal").modal("show");
 	};
 
@@ -126,10 +129,30 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$scope.getSystemMessages();
 	});
 
-	$scope.delete = function () {
-		$(".confirm").show();
-		$scope.deleteButtonIsVisible = false;
-		$scope.confirmButtonIsVisible = true;
+	$scope.deleteCompany = function () {
+		$(".company-settings .confirm-delete").show();
+		$scope.showCompanySettingsDelete = false;
+		$scope.showCompanySettingsConfirm = true;
+
+		//Reset button visibility when modal is re-opened.
+		$("#company-settings-modal").on("show.bs.modal", function (e) {
+			$(".company-settings .confirm-delete").hide();
+			$scope.showCompanySettingsDelete = true;
+			$scope.showCompanySettingsConfirm = false;
+		})
+	}
+
+	$scope.deleteUser = function () {
+		$(".user-settings .confirm-delete").show();
+		$scope.showUserSettingsDelete = false;
+		$scope.showUserSettingsConfirm = true;
+
+		//Reset button visibility when modal is re-opened.
+		$("#user-settings-modal").on("show.bs.modal", function (e) {
+			$(".user-settings .confirm-delete").hide();
+			$scope.showUserSettingsDelete = true;
+			$scope.showUserSettingsConfirm = false;
+		})
 	}
 }
 ]);
