@@ -274,8 +274,7 @@ a:hover {
 
 /* Company Users
    ========================================================================== */
-.company-users .sort,
-.company-users .csv {
+.company-users .sort {
   line-height: 34px; }
 
 /* Profile Picture
