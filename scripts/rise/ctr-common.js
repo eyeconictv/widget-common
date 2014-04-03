@@ -139,7 +139,7 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 			$(".company-settings .confirm-delete").hide();
 			$scope.showCompanySettingsDelete = true;
 			$scope.showCompanySettingsConfirm = false;
-		})
+		});
 	}
 
 	$scope.deleteUser = function () {
@@ -152,7 +152,20 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 			$(".user-settings .confirm-delete").hide();
 			$scope.showUserSettingsDelete = true;
 			$scope.showUserSettingsConfirm = false;
-		})
+		});
+	}
+
+	$scope.selectPresentation = function(e) {
+		$(".presentation-selector").show();
+
+		$("#company-settings-modal").on("hide.bs.modal", function (e) {
+			$(".presentation-selector").hide();
+		});
+	}
+
+	$scope.setPresentation = function(name) {
+		$(".presentation-selector").hide();
+		$("#presentation-name").text(name);
 	}
 }
 ]);
