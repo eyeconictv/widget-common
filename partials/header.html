@@ -282,7 +282,7 @@
 						<input id="sub-company-monitoring" type="email" class="form-control" />
 					</div>
 					<div class="form-group">
-						<a href="">Move a Company Under Your Company</a>
+						<a href="">Move A Company Under Your Company</a>
 					</div>
 				</form>
 			</div>
@@ -377,14 +377,18 @@
 							Authentication Key
 						</label>
 						<a class="action-link" href="">Reset</a>
-						<div>authKey</div>
+						<div>
+							authKey
+						</div>
 					</div>
 					<div class="form-group">
 						<label>
 							Claim ID
 						</label>
 						<a class="action-link" href="">Reset</a>
-						<div>abc123</div>
+						<div>
+							abc123
+						</div>
 					</div>
 					<div class="form-group">
 						<label>
@@ -393,26 +397,41 @@
 						<a class="action-link" href="" ng-click="selectPresentation()">Select</a>
 						<a class="action-link" href="">Default</a>
 						<div id="presentation-name">Rise Vision Default</div>
-						<div class="panel panel-default presentation-selector">
-							<div class="panel-heading">
-								Select a Presentation
-							</div>
-							<div class="panel-body">
-								<div class="input-group search">
-									<input type="text" class="form-control" placeholder="Search Presentations">
-									<span class="input-group-btn">
-										<button class="btn btn-primary" type="submit">
-											<i class="glyphicon glyphicon-search"></i>
-										</button>
-									</span>
+						<div class="presentation-selector">
+							<!-- Don't style as navbar. Style as links. -->
+							<!-- <nav class="navbar navbar-default" role="navigation">
+								<div class="collapse navbar-collapse navbar-left">
+									<ul class="nav navbar-nav">
+										<li>
+											<a href="">Search Presentations</a>
+										</li>
+										<li>
+											<a href="">Enter Presentation ID</a>
+										</li>
+									</ul>
 								</div>
-								<div class="list-group scrollable-list">
-									<a href="" class="list-group-item" ng-click="setPresentation('Demo Presentation')">
-										Demo Presentation
-									</a>
-									<a href="" class="list-group-item" ng-click="setPresentation('My First Presentation')">
-										My First Presentation
-									</a>
+							</nav> -->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Select a Presentation
+								</div>
+								<div class="panel-body">
+									<div class="input-group search">
+										<input type="text" class="form-control" placeholder="Search Presentations">
+										<span class="input-group-btn">
+											<button class="btn btn-primary" type="submit">
+												<i class="glyphicon glyphicon-search"></i>
+											</button>
+										</span>
+									</div>
+									<div class="list-group scrollable-list">
+										<a href="" class="list-group-item" ng-click="setPresentation('Demo Presentation')">
+											Demo Presentation
+										</a>
+										<a href="" class="list-group-item" ng-click="setPresentation('My First Presentation')">
+											My First Presentation
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -431,6 +450,16 @@
 						<a class="action-link" href="">Default</a>
 						<input id="company-settings-support-url" type="url" class="form-control" />
 					</div>
+
+					<div class="form-group">
+						<label>
+							Seller ID
+						</label>
+						<div>
+							123456
+						</div>
+					</div>
+
 					<div class="form-group">
 						<label for="company-settings-status">
 							Status
