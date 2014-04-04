@@ -290,7 +290,7 @@
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
 					<i class="glyphicons white ok icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Cancel
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Cancel
 					<i class="glyphicons white remove icon-right"></i>
 				</button>
 			</div>
@@ -446,13 +446,13 @@
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
 					<i class="glyphicons white ok icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-danger btn-fixed-width" aria-hidden="true" ng-show="showCompanySettingsDelete" ng-click="deleteCompany()">
+				<button type="button" class="btn btn-danger btn-fixed-width" ng-show="showCompanySettingsDelete" ng-click="deleteCompany()">
 					Delete <i class="glyphicons white bin icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" aria-hidden="true" ng-class="{in:showCompanySettingsConfirm}">
+				<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" ng-class="{in:showCompanySettingsConfirm}">
 					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">Cancel
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Cancel
 					<i class="glyphicons white remove icon-right"></i>
 				</button>
 			</div>
@@ -485,37 +485,6 @@
 						<a href="">Download to CSV</a>
 					</div>
 				</div>
-				<!-- <form role="form">
-					<div class="row">
-						<div class="col-md-2 sort">
-							<label for="sort">Sort By</label>
-						</div>
-						<div class="col-md-5">
-							<select id="sort" class="form-control selectpicker">
-								<option value="user-name">Username</option>
-								<option value="name">Name</option>
-								<option value="status">Status</option>
-								<option value="last-login">Last Login</option>
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-2">
-							<label for="direction">Direction</label>
-						</div>
-						<div class="col-md-5">
-							<label class="radio-inline">
-								<input type="radio" name="direction" value="asc" checked> Ascending
-							</label>
-							<label class="radio-inline">
-								<input type="radio" name="direction" value="desc"> Descending
-							</label>
-						</div>
-						<div class="col-md-5 text-right">
-							<a href="">Download to CSV</a>
-						</div>
-					</div>
-				</form> -->
 				<div class="list-group scrollable-list">
 					<div class="list-group-item">
 						<h3 class="list-group-item-heading">
@@ -544,6 +513,9 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="showUserSettings()">Add User
 					<i class="glyphicons white plus icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">
+					Cancel <i class="glyphicons white remove icon-right"></i>
 				</button>
 			</div>
 		</div>
@@ -648,13 +620,13 @@
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
 					Save <i class="glyphicons white ok icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-danger btn-fixed-width" aria-hidden="true" ng-show="showUserSettingsDelete" ng-click="deleteUser()">
+				<button type="button" class="btn btn-danger btn-fixed-width" ng-show="showUserSettingsDelete" ng-click="deleteUser()">
 					Delete <i class="glyphicons white bin icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" aria-hidden="true" ng-class="{in:showUserSettingsConfirm}">
+				<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" ng-class="{in:showUserSettingsConfirm}">
 					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" aria-hidden="true">
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
 					Cancel <i class="glyphicons white remove icon-right"></i>
 				</button>
 			</div>

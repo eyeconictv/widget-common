@@ -395,17 +395,16 @@ a:hover {
 .action-bar {
 	margin-bottom: 10px;
 
-	.sort > a {
-		/* Display & Box Model */
-		margin-left: 15px;
+	.sort {
+		> a {
+			color: #333;
+		}
 
-		/* Visual */
-		color: #333;
+		> a:not(:first-child) {
+			margin-left: 15px;
+		}
 	}
 }
-/*.company-users .sort {
-	line-height: 34px;
-}*/
 
 /* Profile
    ========================================================================== */
