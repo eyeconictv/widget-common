@@ -11,6 +11,7 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	$scope.userProfilePicture = apiAuth.DEFAULT_PROFILE_PICTURE;
 	$scope.messages = [];
 	$scope.selectedCompanyName = "";
+	$scope.selected = "list";
 	$scope.canChangeCompany = false;
 	$scope.companyLoaded = false;
 	$scope.showCompanySettingsDelete = true;
@@ -77,27 +78,6 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		}
 	};
 
-	$scope.showAddSubCompany = function () {
-		$("#sub-company-modal .selectpicker").selectpicker();
-		$("#sub-company-modal").modal("show");
-	};
-
-	$scope.showCompanySettings = function () {
-		$("#company-settings-modal .selectpicker").selectpicker();
-		$("#company-settings-modal").modal("show");
-	};
-
-	$scope.showCompanyUsers = function () {
-		$("#company-users-modal .selectpicker").selectpicker();
-		$("#company-users-modal").modal("show");
-	};
-
-	$scope.showUserSettings = function () {
-		$("#user-settings-modal .selectpicker").selectpicker();
-		$("#company-users-modal").modal("hide");
-		$("#user-settings-modal").modal("show");
-	};
-
 	$scope.navigateToHomePageIfNeeded = function () {
 		var addr = document.location.hash;
 		if (addr !== "#/" && addr.substr(0, 10) !== "#/product/") {
@@ -155,17 +135,65 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		});
 	}
 
+	$scope.showAddSubCompany = function () {
+		$("#sub-company-modal .selectpicker").selectpicker();
+		$("#sub-company-modal").modal("show");
+	};
+
+	$scope.showCompanySettings = function () {
+		$("#company-settings-modal .selectpicker").selectpicker();
+		$("#company-settings-modal").modal("show");
+	};
+
+	$scope.showCompanyUsers = function () {
+		$("#company-users-modal .selectpicker").selectpicker();
+		$("#company-users-modal").modal("show");
+	};
+
+	$scope.showUserSettings = function () {
+		$("#user-settings-modal .selectpicker").selectpicker();
+		$("#company-users-modal").modal("hide");
+		$("#user-settings-modal").modal("show");
+	};
+
+	$scope.setSelected = function(section) {
+		$scope.selected = section;
+
+		if (section == "list") {
+			$(".presentation-list").show();
+			$(".presentation-search").hide();
+		}
+		else {
+			$(".presentation-search").show();
+			$(".presentation-list").hide();
+		}
+	};
+
+	$scope.isSelected = function(section) {
+		return $scope.selected === section;
+	}
+
 	$scope.selectPresentation = function(e) {
 		$(".presentation-selector").show();
 
+		/* TODO: Move event handler to somewhere after the page has loaded 
+		to avoid attaching the same handler multiple times. */
 		$("#company-settings-modal").on("hide.bs.modal", function (e) {
 			$(".presentation-selector").hide();
 		});
 	}
 
 	$scope.setPresentation = function(name) {
-		$(".presentation-selector").hide();
+		if (name == null) {
+			name = $("#presentation-id").val();
+		}
+
 		$("#presentation-name").text(name);
+		$(".presentation-selector").hide();
+	}
+
+	$scope.closeSelector = function(name) {
+		$(".presentation-selector").hide();
 	}
 }
 ]);

@@ -384,10 +384,71 @@ a:hover {
 .presentation-selector {
 	display: none;
 	margin-top: 20px;
-}
 
-.presentation-selector .search {
-	margin-bottom: 20px;
+	/* Styled the same as navbar-left. */
+	.selector-header {
+		/* Positioning */
+		float: left;
+
+		/* Display & Box Model */
+		width: 100%;
+		padding: 5px 15px 5px 0;
+		border-bottom: $light-border;
+		margin: 0;
+
+		li {
+			/* Positioning */
+			float: left;
+
+			/* Display & Box Model */
+			display: block;
+			margin-left: 5px;
+		}
+
+		a {
+			/* Display & Box Model */
+			display: block;
+			padding: 3px 10px;
+			border: 1px solid #fff;
+
+			/* Visual */
+			font-weight: bold;
+			line-height: 32px;
+			color: $gray;
+		}
+
+		a:hover,
+		.active > a,
+		.active > a:hover,
+		.active > a:focus {
+			/* Display & Box Model */
+			border: 1px solid $light-gray;
+
+			/* Visual */
+			color: $rise-blue;
+			background-color: $lighter-gray;
+		}
+
+		.close-button {
+			float: right;
+		}
+
+		.close {
+			line-height: 32px;
+		}
+	}
+
+	.search {
+		margin-bottom: 20px;
+	}
+
+	.panel-body {
+		clear: both;
+	}
+
+	.presentation-search {
+		display: none;
+	}
 }
 
 /* Company Users
@@ -560,12 +621,12 @@ input[type=number]::-webkit-outer-spin-button {
 	z-index: 9999;
 }
 
-.modal-header .close {
+/*.modal-header .close {
 	opacity: 1;
 
 	.glyphicons::before { color: $gray; }
 	&:hover .glyphicons::before { color: $dark-gray; }
-}
+}*/
 
 .modal-footer {
 	margin-top: 0;
@@ -614,13 +675,20 @@ input[type=number]::-webkit-outer-spin-button {
 /* Close button
    ========================================================================== */
 .close {
+	opacity: 1;
+
+	.glyphicons::before { color: $gray; }
+	&:hover .glyphicons::before { color: $dark-gray; }
+}
+
+/*.close {
 	opacity: 0.2;
 
 	img {
 		width: 24px;
 		height: 24px;
 	}
-}
+}*/
 
 /* Sticky buttons
    ========================================================================== */
@@ -887,7 +955,7 @@ ul.social {
 
 	/* Display & Box Model */
 	padding: 20px;
-	border: 1px solid #ddd;
+	border: $light-border;
 
 	/* Visual */
 	background: #fff;

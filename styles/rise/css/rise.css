@@ -267,10 +267,50 @@ a:hover {
 /* Presentation Selector */
 .presentation-selector {
   display: none;
-  margin-top: 20px; }
-
-.presentation-selector .search {
-  margin-bottom: 20px; }
+  margin-top: 20px;
+  /* Styled the same as navbar-left. */ }
+  .presentation-selector .selector-header {
+    /* Positioning */
+    float: left;
+    /* Display & Box Model */
+    width: 100%;
+    padding: 5px 15px 5px 0;
+    border-bottom: 1px solid #dddddd;
+    margin: 0; }
+    .presentation-selector .selector-header li {
+      /* Positioning */
+      float: left;
+      /* Display & Box Model */
+      display: block;
+      margin-left: 5px; }
+    .presentation-selector .selector-header a {
+      /* Display & Box Model */
+      display: block;
+      padding: 3px 10px;
+      border: 1px solid #fff;
+      /* Visual */
+      font-weight: bold;
+      line-height: 32px;
+      color: #777777; }
+    .presentation-selector .selector-header a:hover,
+    .presentation-selector .selector-header .active > a,
+    .presentation-selector .selector-header .active > a:hover,
+    .presentation-selector .selector-header .active > a:focus {
+      /* Display & Box Model */
+      border: 1px solid #e5e5e5;
+      /* Visual */
+      color: #2d60ad;
+      background-color: #f4f4f4; }
+    .presentation-selector .selector-header .close-button {
+      float: right; }
+    .presentation-selector .selector-header .close {
+      line-height: 32px; }
+  .presentation-selector .search {
+    margin-bottom: 20px; }
+  .presentation-selector .panel-body {
+    clear: both; }
+  .presentation-selector .presentation-search {
+    display: none; }
 
 /* Company Users
    ========================================================================== */
@@ -398,13 +438,12 @@ input[type=number]::-webkit-outer-spin-button {
 .modal {
   z-index: 9999; }
 
-.modal-header .close {
-  opacity: 1; }
-  .modal-header .close .glyphicons::before {
-    color: #777777; }
-  .modal-header .close:hover .glyphicons::before {
-    color: #383838; }
+/*.modal-header .close {
+	opacity: 1;
 
+	.glyphicons::before { color: $gray; }
+	&:hover .glyphicons::before { color: $dark-gray; }
+}*/
 .modal-footer {
   margin-top: 0; }
   .modal-footer .btn .glyphicons::before {
@@ -440,11 +479,20 @@ input[type=number]::-webkit-outer-spin-button {
 /* Close button
    ========================================================================== */
 .close {
-  opacity: 0.2; }
-  .close img {
-    width: 24px;
-    height: 24px; }
+  opacity: 1; }
+  .close .glyphicons::before {
+    color: #777777; }
+  .close:hover .glyphicons::before {
+    color: #383838; }
 
+/*.close {
+	opacity: 0.2;
+
+	img {
+		width: 24px;
+		height: 24px;
+	}
+}*/
 /* Sticky buttons
    ========================================================================== */
 .sticky-buttons {
@@ -625,7 +673,7 @@ ul.social {
   position: relative;
   /* Display & Box Model */
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   /* Visual */
   background: #fff;
   border-radius: 5px; }
