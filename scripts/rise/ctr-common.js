@@ -188,7 +188,7 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 			name = $("#presentation-id").val();
 		}
 
-		$("#presentation-name").text(name);
+		$("#presentation-name").text(name + " (ID=a6789044-ae4a-48c7-b6fd-b5d4ffea2f24)");
 		$(".presentation-selector").hide();
 	}
 
