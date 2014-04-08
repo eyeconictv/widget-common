@@ -382,7 +382,6 @@ a:hover {
 
 /* Presentation Selector */
 .presentation-selector {
-	display: none;
 	margin-top: 20px;
 
 	/* Styled the same as navbar-left. */
@@ -478,10 +477,15 @@ a:hover {
 	border-radius: 50%;
 }
 
-/* Confirm Deletion Button
-   ========================================================================== */
-.confirm-delete {
-	display: none;
+/* Payment Methods */
+.payment-methods {
+	.list-group-item {
+		padding: 10px 0;
+	}
+
+	.expiry {
+		color: $gray;
+	}
 }
 
 /* Media queries
@@ -538,6 +542,9 @@ a:hover {
 	}
 
 	.actions-nav:last-child { margin-right: 0; }
+
+	/* Payment Methods */
+	.payment-methods .edit { text-align: right; }
 }
 
 /* ==========================================================================
@@ -923,6 +930,9 @@ ul.social {
 	}
 }
 
+/* Stripe */
+.stripe { margin-bottom: 10px; }
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -1022,6 +1032,8 @@ ul.social {
 	.modal-dialog .sign-in {
 		padding: 3px 10px;	/* TODO: Make this a variable. */
 	}
+
+	.stripe { margin-bottom: 0; }
 }
 
 /* ==========================================================================

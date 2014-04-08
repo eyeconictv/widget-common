@@ -266,7 +266,6 @@ a:hover {
 
 /* Presentation Selector */
 .presentation-selector {
-  display: none;
   margin-top: 20px;
   /* Styled the same as navbar-left. */ }
   .presentation-selector .selector-header {
@@ -330,10 +329,11 @@ a:hover {
   /* Visual */
   border-radius: 50%; }
 
-/* Confirm Deletion Button
-   ========================================================================== */
-.confirm-delete {
-  display: none; }
+/* Payment Methods */
+.payment-methods .list-group-item {
+  padding: 10px 0; }
+.payment-methods .expiry {
+  color: #777777; }
 
 /* Media queries
    ========================================================================== */
@@ -370,7 +370,11 @@ a:hover {
       min-width: 425px; }
 
   .actions-nav:last-child {
-    margin-right: 0; } }
+    margin-right: 0; }
+
+  /* Payment Methods */
+  .payment-methods .edit {
+    text-align: right; } }
 /* ==========================================================================
    Glyphicons
    ========================================================================== */
@@ -651,6 +655,10 @@ ul.social {
     line-height: 30px;
     /* TODO: Make this a variable. */ }
 
+/* Stripe */
+.stripe {
+  margin-bottom: 10px; }
+
 /* Glyphicon buttons
    ========================================================================== */
 .btn-box {
@@ -731,7 +739,10 @@ ul.social {
   .navbar-right .sign-in,
   .modal-dialog .sign-in {
     padding: 3px 10px;
-    /* TODO: Make this a variable. */ } }
+    /* TODO: Make this a variable. */ }
+
+  .stripe {
+    margin-bottom: 0; } }
 /* ==========================================================================
    Print Media Queries
    ========================================================================== */

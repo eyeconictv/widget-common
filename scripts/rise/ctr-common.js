@@ -14,10 +14,10 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	$scope.selected = "list";
 	$scope.canChangeCompany = false;
 	$scope.companyLoaded = false;
-	$scope.showCompanySettingsDelete = true;
-	$scope.showCompanySettingsConfirm = false;
-	$scope.showUserSettingsDelete = true;
-	$scope.showUserSettingsConfirm = false;
+	$scope.isDeletingCompany = false;
+	$scope.isDeletingUser = false;
+	$scope.isDeletingCard = false;
+	$scope.showSelector = false;
 
 	$scope.updateCartIcon = function () {
 		updateShoopingCartIcon(storageGetProducts().length);
@@ -109,52 +109,43 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$scope.getSystemMessages();
 	});
 
-	$scope.deleteCompany = function () {
-		$(".company-settings .confirm-delete").show();
-		$scope.showCompanySettingsDelete = false;
-		$scope.showCompanySettingsConfirm = true;
+	/* TODO: There is probably a better way of doing this.
+	   This is here to make the UI somewhat functional. */
+	$scope.$on("$viewContentLoaded", function() {
+		/* Style the dropdowns. */
+		$(".selectpicker").selectpicker();
 
-		//Reset button visibility when modal is re-opened.
+		/* Reset button visibility when modals are re-opened. */
 		$("#company-settings-modal").on("show.bs.modal", function (e) {
-			$(".company-settings .confirm-delete").hide();
-			$scope.showCompanySettingsDelete = true;
-			$scope.showCompanySettingsConfirm = false;
+			$scope.isDeletingCompany = false;
 		});
+
+		$("#user-settings-modal").on("show.bs.modal", function (e) {
+			$scope.isDeletingUser = false;
+		});
+
+		$("#credit-cards-modal").on("show.bs.modal", function (e) {
+			$scope.isDeletingCard = false;
+		});
+
+		/* Hide the presentation selector when the Company Settings
+		   modal is closed. */
+		$("#company-settings-modal").on("hide.bs.modal", function (e) {
+			$(".presentation-selector").hide();
+		});
+	});
+
+	$scope.deleteCompany = function () {
+		$scope.isDeletingCompany = true;
 	}
 
 	$scope.deleteUser = function () {
-		$(".user-settings .confirm-delete").show();
-		$scope.showUserSettingsDelete = false;
-		$scope.showUserSettingsConfirm = true;
-
-		//Reset button visibility when modal is re-opened.
-		$("#user-settings-modal").on("show.bs.modal", function (e) {
-			$(".user-settings .confirm-delete").hide();
-			$scope.showUserSettingsDelete = true;
-			$scope.showUserSettingsConfirm = false;
-		});
+		$scope.isDeletingUser = true;
 	}
 
-	$scope.showAddSubCompany = function () {
-		$("#sub-company-modal .selectpicker").selectpicker();
-		$("#sub-company-modal").modal("show");
-	};
-
-	$scope.showCompanySettings = function () {
-		$("#company-settings-modal .selectpicker").selectpicker();
-		$("#company-settings-modal").modal("show");
-	};
-
-	$scope.showCompanyUsers = function () {
-		$("#company-users-modal .selectpicker").selectpicker();
-		$("#company-users-modal").modal("show");
-	};
-
-	$scope.showUserSettings = function () {
-		$("#user-settings-modal .selectpicker").selectpicker();
-		$("#company-users-modal").modal("hide");
-		$("#user-settings-modal").modal("show");
-	};
+	$scope.deleteCard = function () {
+		$scope.isDeletingCard = true;
+	}
 
 	$scope.setSelected = function(section) {
 		$scope.selected = section;
@@ -174,13 +165,7 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	}
 
 	$scope.selectPresentation = function(e) {
-		$(".presentation-selector").show();
-
-		/* TODO: Move event handler to somewhere after the page has loaded 
-		to avoid attaching the same handler multiple times. */
-		$("#company-settings-modal").on("hide.bs.modal", function (e) {
-			$(".presentation-selector").hide();
-		});
+		$scope.showSelector = true;
 	}
 
 	$scope.setPresentation = function(name) {
@@ -189,11 +174,11 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		}
 
 		$("#presentation-name").text(name + " (ID=a6789044-ae4a-48c7-b6fd-b5d4ffea2f24)");
-		$(".presentation-selector").hide();
+		$scope.showSelector = false;
 	}
 
 	$scope.closeSelector = function(name) {
-		$(".presentation-selector").hide();
+		$scope.showSelector = false;
 	}
 }
 ]);

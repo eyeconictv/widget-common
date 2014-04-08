@@ -150,21 +150,21 @@
 					</li>
 					<li class="divider" ng-show="canChangeCompany"></li>
 					<li>
-						<a href="" ng-click="showAddSubCompany()">
+						<a href="" data-toggle="modal" data-target="#sub-company-modal">
 							<i class="glyphicons plus"></i>
 							<span class="item-name">Add Sub-Company</span>
 						</a>
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="" ng-click="showCompanySettings()">
+						<a href="" data-toggle="modal" data-target="#company-settings-modal">
 							<i class="glyphicons cogwheels"></i>
 							<span class="item-name">Company Settings</span>
 						</a>
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="" ng-click="showCompanyUsers()">
+						<a href="" data-toggle="modal" data-target="#company-users-modal">
 							<i class="glyphicons group"></i>
 							<span class="item-name">Company Users</span>
 						</a>
@@ -184,9 +184,16 @@
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="" ng-click="showUserSettings()">
+						<a href="" data-toggle="modal" data-target="#user-settings-modal">
 							<i class="glyphicons cogwheels"></i>
 							<span class="item-name">User Settings</span>
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="" data-toggle="modal" data-target="#payment-methods-modal">
+							<i class="glyphicons usd"></i>
+							<span class="item-name">Payment Methods</span>
 						</a>
 					</li>
 					<li class="divider"></li>
@@ -397,7 +404,7 @@
 						<a class="action-link" href="" ng-click="selectPresentation()">Select</a>
 						<a class="action-link" href="">Default</a>
 						<div id="presentation-name">Rise Vision Default (ID=a6789044-ae4a-48c7-b6fd-b5d4ffea2f24)</div>
-						<div class="presentation-selector">
+						<div class="presentation-selector" ng-show="showSelector">
 							<div class="panel panel-default">
 								<ul class="list-unstyled selector-header">
 									<li ng-class="{active : isSelected('list')}">
@@ -458,7 +465,6 @@
 							<a class="action-link" href="">Default</a>
 							<input id="company-settings-support-url" type="url" class="form-control" />
 						</div>
-
 						<div class="form-group">
 							<label>
 								Seller ID
@@ -467,7 +473,6 @@
 								123456
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label for="company-settings-status">
 								Status
@@ -483,10 +488,10 @@
 					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
 						<i class="glyphicons white ok icon-right"></i>
 					</button>
-					<button type="button" class="btn btn-danger btn-fixed-width" ng-show="showCompanySettingsDelete" ng-click="deleteCompany()">
+					<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingCompany" ng-click="deleteCompany()">
 						Delete <i class="glyphicons white bin icon-right"></i>
 					</button>
-					<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" ng-class="{in:showCompanySettingsConfirm}">
+					<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingCompany">
 						Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 					</button>
 					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Cancel
@@ -496,177 +501,367 @@
 			</div>
 		</div>
 	</div>
+</div>
 
-	<!-- Company Users Modal -->
-	<div id="company-users-modal" class="company-users modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="company-users-label" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-						<i class="glyphicons remove"></i>
-					</button>
-					<h2 id="company-users-label" class="modal-title">Company Users</h2>
+<!-- Company Users Modal -->
+<div id="company-users-modal" class="company-users modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="company-users-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="glyphicons remove"></i>
+				</button>
+				<h2 id="company-users-label" class="modal-title">Company Users</h2>
+			</div>
+			<div class="modal-body">
+				<div class="row action-bar">
+					<div class="col-md-8 sort">
+						<a href="">
+							Username
+							<span class="caret"></span>
+						</a>
+						<a href="">Name</a>
+						<a href="">Status</a>
+						<a href="">Last Login</a>
+					</div>
+					<div class="col-md-4 text-right">
+						<a href="">Download to CSV</a>
+					</div>
 				</div>
-				<div class="modal-body">
-					<div class="row action-bar">
-						<div class="col-md-8 sort">
-							<a href="">
-								Username
-								<span class="caret"></span>
+				<div class="list-group scrollable-list">
+					<div class="list-group-item">
+						<h3 class="list-group-item-heading">
+							<a href="" data-toggle="modal" data-target="#user-settings-modal">
+								bld@riseholdings.com
 							</a>
-							<a href="">Name</a>
-							<a href="">Status</a>
-							<a href="">Last Login</a>
-						</div>
-						<div class="col-md-4 text-right">
-							<a href="">Download to CSV</a>
+						</h3>
+						<div class="list-group-item-text">
+							Byron Darlison<br>
+							Editor, Publisher, Display, Administrator, System<br>
+							Last Logged In 03/24/14 6:35PM<br>
+							Active
 						</div>
 					</div>
-					<div class="list-group scrollable-list">
-						<div class="list-group-item">
-							<h3 class="list-group-item-heading">
-								<a href="" ng-click="showUserSettings()">bld@riseholdings.com</a>
-							</h3>
-							<div class="list-group-item-text">
-								Byron Darlison<br>
-								Editor, Publisher, Display, Administrator, System<br>
-								Last Logged In 03/24/14 6:35PM<br>
-								Active
-							</div>
-						</div>
-						<div class="list-group-item">
-							<h3 class="list-group-item-heading">
-								<a href="" ng-click="showUserSettings()">robb.price@risevision.com</a>
-							</h3>
-							<div class="list-group-item-text">
-								Robb Price<br>
-								Editor, Publisher, Display<br>
-								Last Logged In 12/05/13 9:01AM<br>
-								Inactive
-							</div>
+					<div class="list-group-item">
+						<h3 class="list-group-item-heading">
+							<a href="" data-toggle="modal" data-target="#user-settings-modal">
+								robb.price@risevision.com
+							</a>
+						</h3>
+						<div class="list-group-item-text">
+							Robb Price<br>
+							Editor, Publisher, Display<br>
+							Last Logged In 12/05/13 9:01AM<br>
+							Inactive
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="showUserSettings()">Add User
-						<i class="glyphicons white plus icon-right"></i>
-					</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">
-						Cancel <i class="glyphicons white remove icon-right"></i>
-					</button>
-				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#user-settings-modal">Add User
+					<i class="glyphicons white plus icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">
+					Cancel <i class="glyphicons white remove icon-right"></i>
+				</button>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<!-- User Settings Modal -->
-	<div id="user-settings-modal" class="user-settings modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="user-settings-label" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-						<i class="glyphicons remove"></i>
-					</button>
-					<h2 id="user-settings-label" class="modal-title">User Settings</h2>
-				</div>
-				<div class="modal-body">
-					<form role="form">
-						<div class="form-group">
+<!-- User Settings Modal -->
+<div id="user-settings-modal" class="user-settings modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="user-settings-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="glyphicons remove"></i>
+				</button>
+				<h2 id="user-settings-label" class="modal-title">User Settings</h2>
+			</div>
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<label>
+							Username
+						</label>
+						<div>bloosbrock@gmail.com</div>
+					</div>
+					<div class="form-group">
+						<label for="user-settings-first-name">
+							First Name
+						</label>
+						<input id="user-settings-first-name" type="text" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="user-settings-last-name">
+							Last Name
+						</label>
+						<input id="user-settings-last-name" type="text" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="user-settings-phone">
+							Telephone
+						</label>
+						<input id="user-settings-phone" type="tel" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="user-settings-email">
+							Email
+						</label>
+						<input id="user-settings-email" type="email" class="form-control" />
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Subscribe To Email Updates
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Roles
+						</label>
+						<div class="checkbox">
 							<label>
-								Username
+								<input type="checkbox"> Editor
 							</label>
-							<div>bloosbrock@gmail.com</div>
-						</div>
-						<div class="form-group">
-							<label for="user-settings-first-name">
-								First Name
-							</label>
-							<input id="user-settings-first-name" type="text" class="form-control" />
-						</div>
-						<div class="form-group">
-							<label for="user-settings-last-name">
-								Last Name
-							</label>
-							<input id="user-settings-last-name" type="text" class="form-control" />
-						</div>
-						<div class="form-group">
-							<label for="user-settings-phone">
-								Telephone
-							</label>
-							<input id="user-settings-phone" type="tel" class="form-control" />
-						</div>
-						<div class="form-group">
-							<label for="user-settings-email">
-								Email
-							</label>
-							<input id="user-settings-email" type="email" class="form-control" />
 						</div>
 						<div class="checkbox">
 							<label>
-								<input type="checkbox"> Subscribe To Email Updates
+								<input type="checkbox"> Publisher
 							</label>
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label>
-								Roles
+								<input type="checkbox"> Display
 							</label>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox"> Editor
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox"> Publisher
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox"> Display
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox"> Administrator
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox"> System
-								</label>
-							</div>
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label>
-								Last Login
+								<input type="checkbox"> Administrator
 							</label>
-							<div>03/24/14 3:59 PM</div>
 						</div>
-						<div class="form-group">
-							<label for="user-settings-status">
-								Status
+						<div class="checkbox">
+							<label>
+								<input type="checkbox"> System
 							</label>
-							<select id="user-settings-status" class="form-control selectpicker">
-								<option value="active">Active</option>
-								<option value="inactive">Inactive</option>
-							</select>
 						</div>
-					</form>
+					</div>
+					<div class="form-group">
+						<label>
+							Last Login
+						</label>
+						<div>03/24/14 3:59 PM</div>
+					</div>
+					<div class="form-group">
+						<label for="user-settings-status">
+							Status
+						</label>
+						<select id="user-settings-status" class="form-control selectpicker">
+							<option value="active">Active</option>
+							<option value="inactive">Inactive</option>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
+					Save <i class="glyphicons white ok icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingUser" ng-click="deleteUser()">
+					Delete <i class="glyphicons white bin icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingUser">
+					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
+				</button>
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
+					Cancel <i class="glyphicons white remove icon-right"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Payment Methods Modal -->
+<div id="payment-methods-modal" class="payment-methods modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="payment-methods-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="glyphicons remove"></i>
+				</button>
+				<h2 id="user-settings-label" class="modal-title">Payment Methods</h2>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid list-group">
+					<div class="row list-group-item">
+						<div class="col-sm-10">
+							Visa - 123
+							<span class="expiry">Expires - 02/15</span>
+						</div>
+						<div class="col-sm-2 edit">
+							<a href="" data-dismiss="modal" data-toggle="modal" data-target="#credit-cards-modal">
+								Edit
+							</a>
+						</div>
+					</div>
+					<div class="row list-group-item">
+						<div class="col-sm-10">
+							Amex - 123
+							<span class="expiry">Expires - 02/15</span>
+						</div>
+						<div class="col-sm-2 edit">
+							<a href="" data-dismiss="modal" data-toggle="modal" data-target="#credit-cards-modal">
+								Edit
+							</a>
+						</div>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
-						Save <i class="glyphicons white ok icon-right"></i>
-					</button>
-					<button type="button" class="btn btn-danger btn-fixed-width" ng-show="showUserSettingsDelete" ng-click="deleteUser()">
-						Delete <i class="glyphicons white bin icon-right"></i>
-					</button>
-					<button type="button" class="btn btn-danger fade confirm-delete" data-dismiss="modal" ng-class="{in:showUserSettingsConfirm}">
-						Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
-					</button>
-					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
-						Cancel <i class="glyphicons white remove icon-right"></i>
-					</button>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-sm-3 stripe">
+						<a href="https://stripe.com/" target="_blank">
+							<img src="img/powered-by-stripe.png" width="119" height="26" alt="Powered by Stripe">
+						</a>
+					</div>
+					<div class="col-sm-9">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">
+							Cancel <i class="glyphicons white remove icon-right"></i>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Credit Cards Modal -->
+<div id="credit-cards-modal" class="credit-cards modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="credit-cards-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="glyphicons remove"></i>
+				</button>
+				<h2 id="pay-now-label" class="modal-title">Credit Cards</h2>
+			</div>
+			<div class="modal-body" ng-scroll-event="handleScroll($event, isEndEvent)">
+				<form role="form">
+					<div class="form-group">
+						<label for="card-number">Card Number</label>
+						<input id="card-number" data-stripe="number" class="form-control" type="text" ng-model="card.number"/>
+					</div>
+					<div class="form-group">
+						<label for="card-name">Cardholder Name</label>
+						<input id="card-name" data-stripe="name" class="form-control" type="text" ng-model="card.name"/>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-3">
+							<label for="expiry-month">Exp. Month</label>
+							<select id="expiry-month" data-stripe="exp-month" class="form-control selectpicker" ng-model="card.expMonth">
+								<option value="1">01</option>
+								<option value="2">02</option>
+								<option value="3">03</option>
+								<option value="4" selected>04</option>
+								<option value="5">05</option>
+								<option value="6">06</option>
+								<option value="7">07</option>
+								<option value="8">08</option>
+								<option value="9">09</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<label for="expiry-year">Exp. Year</label>
+							<select id="expiry-year" data-stripe="exp-year" class="form-control selectpicker" ng-model="card.expYear">
+								<option value="2014" selected>2014</option>
+								<option value="2015">2015</option>
+								<option value="2016">2016</option>
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+								<option value="2021">2021</option>
+								<option value="2022">2022</option>
+								<option value="2023">2023</option>
+								<option value="2024">2024</option>
+							</select>
+						</div>
+						<div class="col-md-3">
+							<label for="cvc">Security Code</label>
+							<input id="cvc" data-stripe="cvc" class="form-control" type="text" size="4" ng-model="card.cvc">
+						</div>
+					</div>
+					<!-- Address -->
+					<h3>Billing Address</h3>
+					<div class="form-group">
+						<label for="street">Street</label>
+						<input id="street" type="text" class="form-control" ng-model="addr.address1" />
+					</div>
+					<div class="form-group">
+						<label for="unit">Street (Line 2)</label>
+						<input id="unit" type="text" class="form-control" ng-model="addr.address2" />
+					</div>
+					<div class="form-group">
+						<label for="city">City</label>
+						<input id="city" type="text" class="form-control" ng-model="addr.city" />
+					</div>
+					<div class="form-group">
+						<label for="country">Country</label>
+						<select id="country" class="form-control selectpicker" ng-model="addr.country" ng-options="c[1] as c[0] for c in countries">
+							<option value="">&lt; Select Country &gt;</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="province">State / Province</label>
+						<input id="province" type="text" class="form-control" ng-model="addr.province" ng-hide="addr.country == 'US' || addr.country == 'CA'" />
+						<select class="form-control selectpicker" ng-model="addr.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="addr.country == 'CA'">
+							<option value="">&lt; Select Province &gt;</option>
+						</select>
+						<select class="form-control selectpicker" ng-model="addr.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="addr.country == 'US'">
+							<option value="">&lt; Select State &gt;</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="zip">Zip / Postal Code</label>
+						<input id="zip" type="text" class="form-control" ng-model="addr.postalCode" />
+					</div>
+					<!-- End Address-->
+					<div class="form-group danger" ng-show="isDeletingCard">
+						Warning! If you delete this credit card from your account all subscription renewals paid on this card will fail at the time of renewal resulting in potential loss of service. Please confirm you wish to proceed with deleting this card by typing "DELETE" into the box below and clicking on the Confirm Deletion button.
+						<div class="row">
+							<div class="col-sm-4">
+								<input type="text" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-sm-3">
+						<a href="https://stripe.com/" target="_blank">
+							<img src="img/powered-by-stripe.png" class="stripe" width="119" height="26" alt="Powered by Stripe">
+						</a>
+					</div>
+					<div class="col-sm-9">
+						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
+							<i class="glyphicons white ok icon-right"></i>
+						</button>
+						<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingCard" ng-click="deleteCard()">
+							Delete <i class="glyphicons white bin icon-right"></i>
+						</button>
+						<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingCard">
+							Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
+						</button>
+						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Cancel
+							<i class="glyphicons white remove icon-right"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
