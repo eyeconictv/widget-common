@@ -374,6 +374,26 @@ a:hover {
 	padding-top: 20px;
 }
 
+/* Move Company
+   ========================================================================== */
+.move-company {
+	label {
+		font-weight: normal;
+	}
+
+	a {
+		line-height: 34px;
+	}
+
+	h3 {
+		font-size: 16px;
+	}
+
+	.to-company {
+		margin-bottom: 20px;
+	}
+}
+
 /* Company Settings
    ========================================================================== */
 .company-settings .action-link {

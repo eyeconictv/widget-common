@@ -259,6 +259,17 @@ a:hover {
 .company-search {
   padding-top: 20px; }
 
+/* Move Company
+   ========================================================================== */
+.move-company label {
+  font-weight: normal; }
+.move-company a {
+  line-height: 34px; }
+.move-company h3 {
+  font-size: 16px; }
+.move-company .to-company {
+  margin-bottom: 20px; }
+
 /* Company Settings
    ========================================================================== */
 .company-settings .action-link {
