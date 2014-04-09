@@ -1,12 +1,10 @@
 "use strict";
 
-// Create a module for our core Store services
 var commonModule = angular.module("common", ["ngRoute"]);
 
 commonModule.run(function (apiAuth) { apiAuth.init(); });
 
 commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "apiAuth", "apiStore", function ($scope, $rootScope, $sce, apiAuth, apiStore) {
-
 	$scope.authStatus = apiAuth.AUTH_STATUS_UNDEFINED; //this value is linked to the UI
 	$scope.userProfilePicture = apiAuth.DEFAULT_PROFILE_PICTURE;
 	$scope.messages = [];
@@ -17,7 +15,7 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	$scope.isDeletingCompany = false;
 	$scope.isDeletingUser = false;
 	$scope.isDeletingCard = false;
-	$scope.showSelector = false;
+	$scope.isSelectorVisible = false;
 
 	$scope.updateCartIcon = function () {
 		updateShoopingCartIcon(storageGetProducts().length);
@@ -85,6 +83,52 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		}
 	};
 
+	$scope.deleteCompany = function () {
+		$scope.isDeletingCompany = true;
+	}
+
+	$scope.closeCompany = function () {
+		$scope.isDeletingCompany = false;
+		$scope.closeSelector();
+	}
+
+	$scope.deleteUser = function () {
+		$scope.isDeletingUser = true;
+	}
+
+	$scope.closeUser = function () {
+		$scope.isDeletingUser = false;
+	}
+
+	$scope.deleteCard = function () {
+		$scope.isDeletingCard = true;
+	}
+
+	$scope.closeCard = function () {
+		$scope.isDeletingCard = false;
+	}
+
+	$scope.showSelector = function() {
+		$scope.isSelectorVisible = true;
+	}
+
+	$scope.showPresentationView = function(e, section) {
+		$scope.selected = section;
+	};
+
+	$scope.setPresentation = function(e, name) {
+		if (name == null) {
+			name = $("#presentation-id").val();
+		}
+
+		$("#presentation-name").text(name + " (ID=a6789044-ae4a-48c7-b6fd-b5d4ffea2f24)");
+		$scope.isSelectorVisible = false;
+	}
+
+	$scope.closeSelector = function() {
+		$scope.isSelectorVisible = false;
+	}
+
 	$scope.$on("profile.loaded", function (event) {
 		$scope.updateAuthStatus(apiAuth.authStatus);
 		$scope.$apply();
@@ -107,78 +151,10 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$scope.canChangeCompany = apiAuth.isRiseAdmin;
 		$scope.isPurchaser = apiAuth.isPurchaser;
 		$scope.getSystemMessages();
-	});
 
-	/* TODO: There is probably a better way of doing this.
-	   This is here to make the UI somewhat functional. */
-	$scope.$on("$viewContentLoaded", function() {
-		/* Style the dropdowns. */
+		/* TODO: This should be moved to some event that is called after
+		   the DOM has loaded. */
 		$(".selectpicker").selectpicker();
-
-		/* Reset button visibility when modals are re-opened. */
-		$("#company-settings-modal").on("show.bs.modal", function (e) {
-			$scope.isDeletingCompany = false;
-		});
-
-		$("#user-settings-modal").on("show.bs.modal", function (e) {
-			$scope.isDeletingUser = false;
-		});
-
-		$("#credit-cards-modal").on("show.bs.modal", function (e) {
-			$scope.isDeletingCard = false;
-		});
-
-		/* Hide the presentation selector when the Company Settings
-		   modal is closed. */
-		$("#company-settings-modal").on("hide.bs.modal", function (e) {
-			$(".presentation-selector").hide();
-		});
 	});
-
-	$scope.deleteCompany = function () {
-		$scope.isDeletingCompany = true;
-	}
-
-	$scope.deleteUser = function () {
-		$scope.isDeletingUser = true;
-	}
-
-	$scope.deleteCard = function () {
-		$scope.isDeletingCard = true;
-	}
-
-	$scope.setSelected = function(section) {
-		$scope.selected = section;
-
-		if (section == "list") {
-			$(".presentation-list").show();
-			$(".presentation-search").hide();
-		}
-		else {
-			$(".presentation-search").show();
-			$(".presentation-list").hide();
-		}
-	};
-
-	$scope.isSelected = function(section) {
-		return $scope.selected === section;
-	}
-
-	$scope.selectPresentation = function(e) {
-		$scope.showSelector = true;
-	}
-
-	$scope.setPresentation = function(name) {
-		if (name == null) {
-			name = $("#presentation-id").val();
-		}
-
-		$("#presentation-name").text(name + " (ID=a6789044-ae4a-48c7-b6fd-b5d4ffea2f24)");
-		$scope.showSelector = false;
-	}
-
-	$scope.closeSelector = function(name) {
-		$scope.showSelector = false;
-	}
 }
 ]);

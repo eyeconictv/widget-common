@@ -310,7 +310,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeCompany()">
 					<i class="glyphicons remove"></i>
 				</button>
 				<h2 id="company-settings-label" class="modal-title">Company Settings</h2>
@@ -401,17 +401,17 @@
 						<label>
 							Sub-Company Home Page Presentation
 						</label>
-						<a class="action-link" href="" ng-click="selectPresentation()">Select</a>
+						<a class="action-link" href="" ng-click="showSelector()">Select</a>
 						<a class="action-link" href="">Default</a>
 						<div id="presentation-name">Rise Vision Default (ID=a6789044-ae4a-48c7-b6fd-b5d4ffea2f24)</div>
-						<div class="presentation-selector" ng-show="showSelector">
+						<div class="presentation-selector" ng-show="isSelectorVisible">
 							<div class="panel panel-default">
 								<ul class="list-unstyled selector-header">
-									<li ng-class="{active : isSelected('list')}">
-										<a href="" ng-click="setSelected('list', $event)">Search Presentations</a>
+									<li ng-class="{active : selected == 'list'}">
+										<a href="" ng-click="showPresentationView($event, 'list')">Search Presentations</a>
 									</li>
-									<li ng-class="{active : isSelected('search')}">
-										<a href="" ng-click="setSelected('search', $event)">Enter Presentation ID</a>
+									<li ng-class="{active : selected == 'search'}">
+										<a href="" ng-click="showPresentationView($event, 'search')">Enter Presentation ID</a>
 									</li>
 									<li class="close-button">
 										<button type="button" class="close" aria-hidden="true" ng-click="closeSelector()">
@@ -420,7 +420,7 @@
 									</li>
 								</ul>
 								<div class="panel-body">
-									<div class="presentation-list">
+									<div class="presentation-list" ng-show="selected == 'list'">
 										<div class="input-group search">
 											<input type="text" class="form-control" placeholder="Search Presentations">
 											<span class="input-group-btn">
@@ -430,21 +430,21 @@
 											</span>
 										</div>
 										<div class="list-group scrollable-list">
-											<a href="" class="list-group-item" ng-click="setPresentation('Demo Presentation')">
+											<a href="" class="list-group-item" ng-click="setPresentation($event, 'Demo Presentation')">
 												Demo Presentation
 											</a>
-											<a href="" class="list-group-item" ng-click="setPresentation('My First Presentation')">
+											<a href="" class="list-group-item" ng-click="setPresentation($event, 'My First Presentation')">
 												My First Presentation
 											</a>
 										</div>
 									</div>
-									<div class="presentation-search">
+									<div class="presentation-search" ng-show="selected == 'search'">
 										<form role="form">
 											<div class="form-group">
 												<input id="presentation-id" type="text" class="form-control" placeholder="Enter Presentation ID" />
 											</div>
 											<div class="form-group">
-												<a href="" ng-click="setPresentation()">Retrieve Presentation</a>
+												<a href="" ng-click="setPresentation($event)">Retrieve Presentation</a>
 											</div>
 										</div>
 									</div>
@@ -485,16 +485,16 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
+					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCompany()">Save
 						<i class="glyphicons white ok icon-right"></i>
 					</button>
 					<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingCompany" ng-click="deleteCompany()">
 						Delete <i class="glyphicons white bin icon-right"></i>
 					</button>
-					<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingCompany">
+					<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingCompany" ng-click="closeCompany()">
 						Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 					</button>
-					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Cancel
+					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCompany()">Cancel
 						<i class="glyphicons white remove icon-right"></i>
 					</button>
 				</div>
@@ -574,7 +574,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeUser()">
 					<i class="glyphicons remove"></i>
 				</button>
 				<h2 id="user-settings-label" class="modal-title">User Settings</h2>
@@ -664,16 +664,16 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeUser()">
 					Save <i class="glyphicons white ok icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingUser" ng-click="deleteUser()">
 					Delete <i class="glyphicons white bin icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingUser">
+				<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingUser" ng-click="closeUser()">
 					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">
+				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeUser()">
 					Cancel <i class="glyphicons white remove icon-right"></i>
 				</button>
 			</div>
@@ -740,7 +740,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeCard()">
 					<i class="glyphicons remove"></i>
 				</button>
 				<h2 id="pay-now-label" class="modal-title">Credit Cards</h2>
@@ -847,16 +847,16 @@
 						</a>
 					</div>
 					<div class="col-sm-9">
-						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
+						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCard()">Save
 							<i class="glyphicons white ok icon-right"></i>
 						</button>
 						<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingCard" ng-click="deleteCard()">
 							Delete <i class="glyphicons white bin icon-right"></i>
 						</button>
-						<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingCard">
+						<button type="button" class="btn btn-danger btn-confirm-delete" data-dismiss="modal" ng-show="isDeletingCard" ng-click="closeCard()">
 							Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 						</button>
-						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Cancel
+						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCard()">Cancel
 							<i class="glyphicons white remove icon-right"></i>
 						</button>
 					</div>
