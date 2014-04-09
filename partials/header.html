@@ -227,7 +227,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					<i class="glyphicons remove"></i>
+					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 id="sub-company-label" class="modal-title">Add Sub-Company</h2>
 			</div>
@@ -269,13 +269,13 @@
 						<label for="sub-company-state">
 							State / Province
 						</label>
-						<input id="sub-company-state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" />
+						<!-- <input id="sub-company-state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" /> -->
 						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'">
 							<option value="">&lt; Select Province &gt;</option>
 						</select>
-						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
+						<!-- <select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
 							<option value="">&lt; Select State &gt;</option>
-						</select>
+						</select> -->
 					</div>
 					<div class="form-group">
 						<label for="sub-company-zip">
@@ -296,10 +296,10 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Save
-					<i class="glyphicons white ok icon-right"></i>
+					<i class="glyphicons white ok_2 icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal">Cancel
-					<i class="glyphicons white remove icon-right"></i>
+					<i class="glyphicons white remove_2 icon-right"></i>
 				</button>
 			</div>
 		</div>
@@ -312,7 +312,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeMoveCompany()">
-					<i class="glyphicons remove"></i>
+					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 id="move-company-label" class="modal-title">Move Company</h2>
 			</div>
@@ -333,13 +333,13 @@
 					</div>
 				</form>
 				<div ng-show="showCompanyDetails">
-					<h3>Details Of Company You Want To Move</h3>
+					<h3>Details Of The Company You Want To Move</h3>
 					<div>
 						Acme Company 123<br>
 						1234 W. 100th Ave<br>
 						Kansas City, KS 12345
 					</div>
-					<h3>Details Of Company You Are Moving The Above Company Under</h3>
+					<h3>Details Of The Company You Are Moving The Above Company Under</h3>
 					<div class="to-company">
 						Rise Display<br>
 						22019 W. 83rd St.<br>
@@ -357,10 +357,10 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-success" ng-show="showMoveCompany" ng-click="moveCompany()">Move Company
-					<i class="glyphicons white ok icon-right"></i>
+					<i class="glyphicons white ok_2 icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="closeMoveCompany()">
-					Cancel <i class="glyphicons white remove icon-right"></i>
+					Cancel <i class="glyphicons white remove_2 icon-right"></i>
 				</button>
 			</div>
 		</div>
@@ -373,7 +373,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeCompany()">
-					<i class="glyphicons remove"></i>
+					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 id="company-settings-label" class="modal-title">Company Settings</h2>
 			</div>
@@ -415,13 +415,13 @@
 						<label for="company-settings-state">
 							State / Province
 						</label>
-						<input id="company-settings-state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" />
+						<!-- <input id="company-settings-state" type="text" class="form-control" ng-model="company.province" ng-hide="company.country == 'US' || company.country == 'CA'" /> -->
 						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="company.country == 'CA'">
 							<option value="">&lt; Select Province &gt;</option>
 						</select>
-						<select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
+						<!-- <select class="form-control selectpicker" ng-model="company.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="company.country == 'US'">
 							<option value="">&lt; Select State &gt;</option>
-						</select>
+						</select> -->
 					</div>
 					<div class="form-group">
 						<label for="company-settings-zip">
@@ -477,7 +477,7 @@
 									</li>
 									<li class="close-button">
 										<button type="button" class="close" aria-hidden="true" ng-click="closeSelector()">
-											<i class="glyphicons remove"></i>
+											<i class="glyphicons remove_2"></i>
 										</button>
 									</li>
 								</ul>
@@ -548,7 +548,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCompany()">Save
-						<i class="glyphicons white ok icon-right"></i>
+						<i class="glyphicons white ok_2 icon-right"></i>
 					</button>
 					<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingCompany" ng-click="deleteCompany()">
 						Delete <i class="glyphicons white bin icon-right"></i>
@@ -557,7 +557,7 @@
 						Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 					</button>
 					<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCompany()">Cancel
-						<i class="glyphicons white remove icon-right"></i>
+						<i class="glyphicons white remove_2 icon-right"></i>
 					</button>
 				</div>
 			</div>
@@ -571,7 +571,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					<i class="glyphicons remove"></i>
+					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 id="company-users-label" class="modal-title">Company Users</h2>
 			</div>
@@ -642,7 +642,7 @@
 					<i class="glyphicons white plus icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary" data-dismiss="modal">
-					Cancel <i class="glyphicons white remove icon-right"></i>
+					Cancel <i class="glyphicons white remove_2 icon-right"></i>
 				</button>
 			</div>
 		</div>
@@ -655,7 +655,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeUser()">
-					<i class="glyphicons remove"></i>
+					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 id="user-settings-label" class="modal-title">User Settings</h2>
 			</div>
@@ -745,7 +745,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeUser()">
-					Save <i class="glyphicons white ok icon-right"></i>
+					Save <i class="glyphicons white ok_2 icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingUser" ng-click="deleteUser()">
 					Delete <i class="glyphicons white bin icon-right"></i>
@@ -754,7 +754,7 @@
 					Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 				</button>
 				<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeUser()">
-					Cancel <i class="glyphicons white remove icon-right"></i>
+					Cancel <i class="glyphicons white remove_2 icon-right"></i>
 				</button>
 			</div>
 		</div>
@@ -767,7 +767,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					<i class="glyphicons remove"></i>
+					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 id="user-settings-label" class="modal-title">Payment Methods</h2>
 			</div>
@@ -806,7 +806,7 @@
 					</div>
 					<div class="col-sm-9">
 						<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">
-							Cancel <i class="glyphicons white remove icon-right"></i>
+							Cancel <i class="glyphicons white remove_2 icon-right"></i>
 						</button>
 					</div>
 				</div>
@@ -821,7 +821,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeCard()">
-					<i class="glyphicons remove"></i>
+					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 id="pay-now-label" class="modal-title">Credit Cards</h2>
 			</div>
@@ -896,13 +896,13 @@
 					</div>
 					<div class="form-group">
 						<label for="province">State / Province</label>
-						<input id="province" type="text" class="form-control" ng-model="addr.province" ng-hide="addr.country == 'US' || addr.country == 'CA'" />
+						<!-- <input id="province" type="text" class="form-control" ng-model="addr.province" ng-hide="addr.country == 'US' || addr.country == 'CA'" /> -->
 						<select class="form-control selectpicker" ng-model="addr.province" ng-options="c[1] as c[0] for c in regionsCA" ng-show="addr.country == 'CA'">
 							<option value="">&lt; Select Province &gt;</option>
 						</select>
-						<select class="form-control selectpicker" ng-model="addr.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="addr.country == 'US'">
+						<!-- <select class="form-control selectpicker" ng-model="addr.province" ng-options="c[1] as c[0] for c in regionsUS" ng-show="addr.country == 'US'">
 							<option value="">&lt; Select State &gt;</option>
-						</select>
+						</select> -->
 					</div>
 					<div class="form-group">
 						<label for="zip">Zip / Postal Code</label>
@@ -928,7 +928,7 @@
 					</div>
 					<div class="col-sm-9">
 						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCard()">Save
-							<i class="glyphicons white ok icon-right"></i>
+							<i class="glyphicons white ok_2 icon-right"></i>
 						</button>
 						<button type="button" class="btn btn-danger btn-fixed-width" ng-show="!isDeletingCard" ng-click="deleteCard()">
 							Delete <i class="glyphicons white bin icon-right"></i>
@@ -937,7 +937,7 @@
 							Confirm Deletion <i class="glyphicons white warning_sign icon-right"></i>
 						</button>
 						<button type="button" class="btn btn-primary btn-fixed-width" data-dismiss="modal" ng-click="closeCard()">Cancel
-							<i class="glyphicons white remove icon-right"></i>
+							<i class="glyphicons white remove_2 icon-right"></i>
 						</button>
 					</div>
 				</div>
