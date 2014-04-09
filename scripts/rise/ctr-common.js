@@ -174,10 +174,11 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$scope.canChangeCompany = apiAuth.isRiseAdmin;
 		$scope.isPurchaser = apiAuth.isPurchaser;
 		$scope.getSystemMessages();
-
-		/* TODO: This should be moved to some event that is called after
-		   the DOM has loaded. */
-		$(".selectpicker").selectpicker();
 	});
+}
+]);
+
+commonModule.controller("headerController", ["$scope", function ($scope) {
+	$(".selectpicker").selectpicker();
 }
 ]);

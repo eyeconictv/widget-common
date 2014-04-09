@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
+<!-- <nav class="navbar navbar-default navbar-static-top" role="navigation"> -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="headerController">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -591,29 +592,47 @@
 				</div>
 				<div class="list-group scrollable-list">
 					<div class="list-group-item">
-						<h3 class="list-group-item-heading">
-							<a href="" data-toggle="modal" data-target="#user-settings-modal">
-								bld@riseholdings.com
-							</a>
-						</h3>
+						<div class="row">
+							<div class="col-sm-10">
+								<h3 class="list-group-item-heading">
+									<a href="" data-toggle="modal" data-target="#user-settings-modal">
+										bld@riseholdings.com
+									</a>
+								</h3>
+							</div>
+							<div class="col-sm-2 edit">
+								<a href="" data-dismiss="modal" data-toggle="modal" data-target="#user-settings-modal">
+									Edit
+								</a>
+							</div>
+						</div>
 						<div class="list-group-item-text">
-							Byron Darlison<br>
-							Editor, Publisher, Display, Administrator, System<br>
-							Last Logged In 03/24/14 6:35PM<br>
-							Active
+							<div>Byron Darlison</div>
+							<div>Editor, Publisher, Display, Administrator, System</div>
+							<div>Last Logged In <span>03/24/14 6:35PM</span></div>
+							<div>Active</div>
 						</div>
 					</div>
 					<div class="list-group-item">
-						<h3 class="list-group-item-heading">
-							<a href="" data-toggle="modal" data-target="#user-settings-modal">
-								robb.price@risevision.com
-							</a>
-						</h3>
+						<div class="row">
+							<div class="col-sm-10">
+								<h3 class="list-group-item-heading">
+									<a href="" data-toggle="modal" data-target="#user-settings-modal">
+										robb.price@risevision.com
+									</a>
+								</h3>
+							</div>
+							<div class="col-sm-2 edit">
+								<a href="" data-dismiss="modal" data-toggle="modal" data-target="#user-settings-modal">
+									Edit
+								</a>
+							</div>
+						</div>
 						<div class="list-group-item-text">
-							Robb Price<br>
-							Editor, Publisher, Display<br>
-							Last Logged In 12/05/13 9:01AM<br>
-							Inactive
+							<div>Robb Price</div>
+							<div>Editor, Publisher, Display</div>
+							<div>Last Logged In <span>12/05/13 9:01AM</span></div>
+							<div>Inactive</div>
 						</div>
 					</div>
 				</div>

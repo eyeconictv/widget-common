@@ -468,17 +468,23 @@ a:hover {
 
 /* Company Users
    ========================================================================== */
-.action-bar {
-	margin-bottom: 10px;
+.company-users {
+	.action-bar {
+		margin-bottom: 10px;
 
-	.sort {
-		> a {
-			color: #333;
-		}
+		.sort {
+			> a {
+				color: #333;
+			}
 
-		> a:not(:first-child) {
-			margin-left: 15px;
+			> a:not(:first-child) {
+				margin-left: 15px;
+			}
 		}
+	}
+
+	.edit {
+		text-align: right;
 	}
 }
 
