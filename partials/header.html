@@ -310,7 +310,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeMoveCompany()">
 					<i class="glyphicons remove"></i>
 				</button>
 				<h2 id="move-company-label" class="modal-title">Move Company</h2>
@@ -326,35 +326,39 @@
 								<input id="auth-key" type="text" class="form-control" />
 							</div>
 							<div class="col-sm-6">
-								<a href="">Retrieve Company Details</a>
+								<a href="" ng-click="getCompany()">Retrieve Company Details</a>
 							</div>
 						</div>
 					</div>
 				</form>
-				<h3>Details Of Company You Want To Move</h3>
-				<div>
-					Acme Company 123<br>
-					1234 W. 100th Ave<br>
-					Kansas City, KS 12345
+				<div ng-show="showCompanyDetails">
+					<h3>Details Of Company You Want To Move</h3>
+					<div>
+						Acme Company 123<br>
+						1234 W. 100th Ave<br>
+						Kansas City, KS 12345
+					</div>
+					<h3>Details Of Company You Are Moving The Above Company Under</h3>
+					<div class="to-company">
+						Rise Display<br>
+						22019 W. 83rd St.<br>
+						Shawnee, KS 66226
+					</div>
 				</div>
-				<h3>Details Of Company You Are Moving The Above Company Under</h3>
-				<div class="to-company">
-					Rise Display<br>
-					22019 W. 83rd St.<br>
-					Shawnee, KS 66226
-				</div>
-				<div class="alert alert-success">
-					The Company was moved successfully.
-				</div>
-				<div class="alert alert-danger">
-					There was a problem moving the Company. Please try again.
+				<div ng-show="showCompanyMessages">
+					<div class="alert alert-success">
+						The Company was moved successfully.
+					</div>
+					<div class="alert alert-danger">
+						There was a problem moving the Company. Please try again.
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" data-dismiss="modal">Move Company
+				<button type="button" class="btn btn-success" ng-show="showMoveCompany" ng-click="moveCompany()">Move Company
 					<i class="glyphicons white ok icon-right"></i>
 				</button>
-				<button type="button" class="btn btn-primary" data-dismiss="modal">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="closeMoveCompany()">
 					Cancel <i class="glyphicons white remove icon-right"></i>
 				</button>
 			</div>

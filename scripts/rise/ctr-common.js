@@ -16,6 +16,9 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 	$scope.isDeletingUser = false;
 	$scope.isDeletingCard = false;
 	$scope.isSelectorVisible = false;
+	$scope.showCompanyDetails = false;
+	$scope.showCompanyMessages = false;
+	$scope.showMoveCompany = false;
 
 	$scope.updateCartIcon = function () {
 		updateShoopingCartIcon(storageGetProducts().length);
@@ -87,25 +90,12 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$scope.isDeletingCompany = true;
 	}
 
-	$scope.closeCompany = function () {
-		$scope.isDeletingCompany = false;
-		$scope.closeSelector();
-	}
-
 	$scope.deleteUser = function () {
 		$scope.isDeletingUser = true;
 	}
 
-	$scope.closeUser = function () {
-		$scope.isDeletingUser = false;
-	}
-
 	$scope.deleteCard = function () {
 		$scope.isDeletingCard = true;
-	}
-
-	$scope.closeCard = function () {
-		$scope.isDeletingCard = false;
 	}
 
 	$scope.showSelector = function() {
@@ -125,8 +115,41 @@ commonModule.controller("commonController", ["$scope", "$rootScope", "$sce", "ap
 		$scope.isSelectorVisible = false;
 	}
 
+	$scope.getCompany = function() {
+		$scope.showCompanyDetails = true;
+		$scope.showMoveCompany = true;
+	}
+
+	$scope.moveCompany = function() {
+		$scope.showCompanyMessages = true;
+		$scope.showMoveCompany = false;
+	}
+
+	/* TODO: These close events would be better implemented as event handlers when
+	   the modals are closed. The problem is finding an appropriate event
+	   in which to add the event handlers, one where the DOM is loaded
+	   and available. */
+	$scope.closeCompany = function () {
+		$scope.isDeletingCompany = false;
+		$scope.closeSelector();
+	}
+
+	$scope.closeUser = function () {
+		$scope.isDeletingUser = false;
+	}
+
+	$scope.closeCard = function () {
+		$scope.isDeletingCard = false;
+	}
+
 	$scope.closeSelector = function() {
 		$scope.isSelectorVisible = false;
+	}
+
+	$scope.closeMoveCompany = function() {
+		$scope.showCompanyDetails = false;
+		$scope.showCompanyMessages = false;
+		$scope.showMoveCompany = false;
 	}
 
 	$scope.$on("profile.loaded", function (event) {
