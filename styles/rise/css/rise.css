@@ -652,8 +652,7 @@ ul.social {
     color: #fff; }
   .btn-sign-in:hover, .navbar-default .navbar-nav .sign-in:hover, .modal-dialog .sign-in:hover, .btn-sign-in:focus, .navbar-default .navbar-nav .sign-in:focus, .modal-dialog .sign-in:focus {
     color: #fff;
-    background: #2d60ad;
-    border: none; }
+    background: #2d60ad; }
 
 /* Sign In button that is part of a navbar. */
 /* Sign In button that is part of a modal. */
