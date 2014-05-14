@@ -461,11 +461,6 @@ input[type=number]::-webkit-outer-spin-button {
 }*/
 .modal-footer {
   margin-top: 0; }
-  .modal-footer .btn .glyphicons::before {
-    /* Display & Box Model */
-    margin-top: -2px;
-    /* Visual */
-    font-size: 18px; }
   .modal-footer .btn-fixed-width {
     width: 102px; }
   .modal-footer input[type="checkbox"] {
@@ -474,6 +469,12 @@ input[type=number]::-webkit-outer-spin-button {
 .modal-header,
 .modal-footer {
   border: none; }
+  .modal-header .btn .glyphicons::before,
+  .modal-footer .btn .glyphicons::before {
+    /* Display & Box Modes */
+    margin-top: -2px;
+    /* Visual */
+    font-size: 18px; }
 
 .modal-backdrop.in {
   /* Positioning */
@@ -684,6 +685,17 @@ ul.social {
   .btn-box .glyphicons::before {
     line-height: 30px; }
 
+/* (?) button to display a tooltip for help info
+   Assumes use of glyphicon circle_question_mark
+   Is to be used with .btn and .btn-link classes */
+.btn-help {
+  /* Display & Box Model */
+  padding: 0 5px 2px 5px;
+  /* Visual */ }
+  .btn-help .glyphicons::before {
+    /* Visual */
+    font-size: 18px; }
+
 /* Boxed content
    ========================================================================== */
 .content-box {
@@ -741,6 +753,9 @@ ul.social {
   width: auto; }
 
 .error {
+  font-weight: bold; }
+
+.checkbox-primary > label {
   font-weight: bold; }
 
 /* Media queries
