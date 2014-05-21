@@ -60,7 +60,7 @@
 
 			if (currentFont !== null) {
 				if (currentFont === "Use Custom Font") {
-					_utils.loadCustomFont("picker", $fontURL.val());
+					_utils.loadCustomFont("picker", $fontURL.val(), options.contentDocument);
 
 					$customFont.modal("show");
 				}
@@ -76,7 +76,7 @@
 
 					// It's a Google font.
 					if (!found) {
-						_utils.loadGoogleFont(currentFont);
+						_utils.loadGoogleFont(currentFont, options.contentDocument);
 						_addGoogleFont(currentFont);
 					}
 				}
@@ -108,9 +108,19 @@
 				}
 			});
 
+			// Custom font URL is changed.
+			$fontURL.on("change", function() {
+				//var family = $(this).attr("id");
+				var family = "picker";
+
+				if ($(this).val() !== "") {
+					_utils.loadCustomFont(family, $(this).val(), options.contentDocument);
+				}
+			});
+
 			// Google font is selected.
 			$googleFonts.on("select", function(e, family) {
-				_utils.loadGoogleFont(family);
+				_utils.loadGoogleFont(family, options.contentDocument);
 				_addGoogleFont(family);
 				$googleFonts.modal("hide");
 
@@ -126,16 +136,6 @@
 
 				if (currentFont === "Use Custom Font") {
 					//$customFont.show();
-				}
-			});
-
-			// Custom font URL is changed.
-			$fontURL.on("change", function() {
-				//var family = $(this).attr("id");
-				var family = "picker";
-
-				if ($(this).val() !== "") {
-					_utils.loadCustomFont(family, $(this).val());
 				}
 			});
 		}
