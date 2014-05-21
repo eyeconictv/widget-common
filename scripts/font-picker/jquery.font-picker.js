@@ -125,6 +125,8 @@
 				$googleFonts.modal("hide");
 
 				currentFont = $family.val();
+
+				$selectBox.trigger("googleFontSelected", family);
 			});
 
 			// Google font dialog is closed.
