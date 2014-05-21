@@ -104,7 +104,8 @@
 					currentFont = $family.val();
 
 					$customFont.modal("hide");
-					$selectBox.trigger("fontSelected");
+					$selectBox.trigger("fontSelected", [currentFont,
+						$element.find("a[data-option='" + currentFont + "']").css("font-family")]);
 				}
 			});
 
