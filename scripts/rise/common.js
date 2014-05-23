@@ -32,7 +32,7 @@ RiseVision.Common.Validation = (function() {
     return (parseFloat(value) < parseFloat(param));
   }
 
-  function required(element){
+  function numeric(element){
     var value = element.value.trim();
 
     /*
@@ -44,7 +44,7 @@ RiseVision.Common.Validation = (function() {
     return numericRegex.test(value);
   }
 
-  function url(element){
+  function required(element){
     var value = element.value.trim(),
         valid = false;
 
@@ -61,7 +61,7 @@ RiseVision.Common.Validation = (function() {
     return valid;
   }
 
-  function numeric(element){
+  function url(element){
     var value = element.value.trim();
     /*
      Discussion
