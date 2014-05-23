@@ -12,7 +12,7 @@ RiseVision.Common.Validation = (function() {
       numericRegex = /^(\-|\+)?([0-9]+|Infinity)$/,
       decimalRegex = /^\-?[0-9]*\.?[0-9]+$/;
 
-  function isGreaterThan(element, param) {
+  function greaterThan(element, param) {
     var value = element.value.trim();
 
     if (!decimalRegex.test(value)) {
@@ -22,7 +22,7 @@ RiseVision.Common.Validation = (function() {
     return (parseFloat(value) > parseFloat(param));
   }
 
-  function isLessThan(element, param) {
+  function lessThan(element, param) {
     var value = element.value.trim();
 
     if (!decimalRegex.test(value)) {
@@ -32,7 +32,7 @@ RiseVision.Common.Validation = (function() {
     return (parseFloat(value) < parseFloat(param));
   }
 
-  function isValidNumber(element){
+  function numeric(element){
     var value = element.value.trim();
 
     /*
@@ -44,7 +44,7 @@ RiseVision.Common.Validation = (function() {
     return numericRegex.test(value);
   }
 
-  function isValidRequired(element){
+  function required(element){
     var value = element.value.trim(),
         valid = false;
 
@@ -61,7 +61,7 @@ RiseVision.Common.Validation = (function() {
     return valid;
   }
 
-  function isValidURL(element){
+  function url(element){
     var value = element.value.trim();
     /*
      Discussion
@@ -76,10 +76,10 @@ RiseVision.Common.Validation = (function() {
   }
 
   return {
-    greaterThan: isGreaterThan,
-    lessThan: isLessThan,
-    required: isValidRequired,
-    url: isValidURL,
-    numeric: isValidNumber
+    isGreaterThan: greaterThan,
+    isLessThan: lessThan,
+    isValidRequired: required,
+    isValidURL: url,
+    isValidNumber: numeric
   }
 })();
