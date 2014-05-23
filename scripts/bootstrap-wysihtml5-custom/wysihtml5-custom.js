@@ -3,8 +3,8 @@
 	var REG_EXP = /wysiwyg-font-family-[a-z\-]+/g;
 
 	wysihtml5.commands.standardFont = {
-			exec: function(composer, command, fontName, fontFamily, attrs) {
-				var className = "wysiwyg-font-family-" + fontName.replace(" ", "-").toLowerCase();
+			exec: function(composer, command, font, fontFamily, attrs) {
+				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
 				var style = document.createElement("style");
 
 				// Add a CSS class for the selected font.
@@ -14,8 +14,8 @@
 
 				return wysihtml5.commands.formatInline.exec(composer, command, "span", className, REG_EXP, attrs);
 			},
-			state: function(composer, command, fontName, fontFamily, attrs) {
-				var className = "wysiwyg-font-family-" + fontName.replace(" ", "-").toLowerCase();
+			state: function(composer, command, font, fontFamily, attrs) {
+				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
 
 				return wysihtml5.commands.formatInline.state(composer, command, "span", className, REG_EXP, attrs);
 			}
@@ -31,7 +31,7 @@
 				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
 				var style = document.createElement("style");
 
-				// Add a CSS class for the selected font.
+				// Add CSS for the selected font plus a fallback.
 				style.type = "text/css";
 				style.innerHTML = "." + className +" { font-family: '" + font + "', serif; }";
 				composer.iframe.contentDocument.getElementsByTagName("head")[0].appendChild(style);
@@ -53,7 +53,7 @@
 				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
 				var style = document.createElement("style");
 
-				// Add a CSS class for the selected font.
+				// Add CSS for the selected font plus a fallback.
 				style.type = "text/css";
 				style.innerHTML = "." + className +" { font-family: '" + font + "', serif; }";
 				composer.iframe.contentDocument.getElementsByTagName("head")[0].appendChild(style);

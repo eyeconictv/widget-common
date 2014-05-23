@@ -17,18 +17,17 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button class="close" type="button" aria-hidden="true">
+				<button class="close" type="button" aria-hidden="true" data-dismiss="modal">
 					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 class="modal-title">Google Fonts</h2>
 			</div>
 			<div class="modal-body">
-				<!-- <div class="list-group bfh-googlefontlist" data-wysihtml5-command="googleFont"></div> -->
 				<div class="list-group bfh-googlefontlist"></div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">
-					<span>Cancel</span>
+					<span data-i18n="cancel"></span>
 					<i class="glyphicons white remove_2 icon-right"></i>
 				</button>
 			</div>
@@ -41,17 +40,22 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header no-border">
-				<button class="close" type="button" aria-hidden="true">
+				<button class="close" type="button" aria-hidden="true" data-dismiss="modal">
 					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 class="modal-title">Custom Font</h2>
 			</div>
 			<div class="modal-body">
+				<div class="custom-font-error alert alert-danger">Custom Font is a required field.</div>
 				<input class="font-url form-control" type="url" placedholder="Font URL" value="">
 			</div>
 			<div class="modal-footer no-border">
+				<button type="button" class="save-custom-font btn btn-primary">
+					<span data-i18n="save"></span>
+					<i class="glyphicons white ok_2 icon-right"></i>
+				</button>
 				<button type="button" class="btn btn-primary" data-dismiss="modal">
-					<span>Cancel</span>
+					<span data-i18n="cancel"></span>
 					<i class="glyphicons white remove_2 icon-right"></i>
 				</button>
 			</div>
