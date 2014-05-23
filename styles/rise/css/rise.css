@@ -758,6 +758,9 @@ ul.social {
 .checkbox-primary > label {
   font-weight: bold; }
 
+.label-disabled {
+  color: #383838; }
+
 /* Media queries
    ========================================================================== */
 @media (min-width: 768px) {
