@@ -24,7 +24,7 @@
 		 *	Private Methods
 		 */
 		function _init() {
-			var TEMPLATE_URL = "http://s3.amazonaws.com/rise-common-test/scripts/font-picker/html/template.html";
+			var TEMPLATE_URL = "http://s3.amazonaws.com/rise-common/scripts/bootstrap-font-picker/html/template.html";
 
 			// Get the HTML markup from the template.
 			$.get(TEMPLATE_URL).then(function(src) {
