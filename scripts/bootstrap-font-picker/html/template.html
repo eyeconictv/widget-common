@@ -1,7 +1,10 @@
 <!-- Font Family -->
+<!-- Can't use an HTML select because the items in the drop-down need to be
+		 styled individually. -->
 <div class="bfh-selectbox">
 	<input class="font-family" type="hidden" value="">
-	<a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox" href="#">
+	<a class="bfh-selectbox-toggle" role="button" data-toggle="bfh-selectbox"
+		href="#">
 		<span class="bfh-selectbox-option bfh-selectbox-large" data-option=""></span>
 		<b class="caret"></b>
 	</a>
@@ -13,11 +16,13 @@
 </div>
 
 <!-- Google Fonts -->
-<div class="google-fonts modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+<div class="google-fonts modal fade" tabindex="-1" role="dialog"
+	aria-hidden="true" data-backdrop="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button class="close" type="button" aria-hidden="true" data-dismiss="modal">
+				<button class="close" type="button" aria-hidden="true"
+					data-dismiss="modal">
 					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 class="modal-title">Google Fonts</h2>
@@ -36,18 +41,22 @@
 </div>
 
 <!-- Custom Font -->
-<div class="custom-font modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="false">
+<div class="custom-font modal fade" tabindex="-1" role="dialog"
+	aria-hidden="true" data-backdrop="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header no-border">
-				<button class="close" type="button" aria-hidden="true" data-dismiss="modal">
+				<button class="close" type="button" aria-hidden="true"
+					data-dismiss="modal">
 					<i class="glyphicons remove_2"></i>
 				</button>
 				<h2 class="modal-title">Custom Font</h2>
 			</div>
 			<div class="modal-body">
-				<div class="custom-font-error alert alert-danger">Custom Font is a required field.</div>
-				<input class="font-url form-control" type="url" placedholder="Font URL" value="">
+				<div class="custom-font-error alert alert-danger">
+					Custom Font is a required field.
+				</div>
+				<input class="font-url form-control" type="url" placeholder="Font URL">
 			</div>
 			<div class="modal-footer no-border">
 				<button type="button" class="save-custom-font btn btn-primary">
