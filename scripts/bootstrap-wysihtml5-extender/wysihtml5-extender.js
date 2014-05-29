@@ -4,7 +4,7 @@
 
 	wysihtml5.commands.standardFont = {
 			exec: function(composer, command, font, fontFamily, attrs) {
-				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
+				var className = "wysiwyg-font-family-" + font.replace(/ /g, "-").toLowerCase();
 				var style = document.createElement("style");
 
 				// Add a CSS class for the selected font.
@@ -15,7 +15,7 @@
 				return wysihtml5.commands.formatInline.exec(composer, command, "span", className, REG_EXP, attrs);
 			},
 			state: function(composer, command, font, fontFamily, attrs) {
-				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
+				var className = "wysiwyg-font-family-" + font.replace(/ /g, "-").toLowerCase();
 
 				return wysihtml5.commands.formatInline.state(composer, command, "span", className, REG_EXP, attrs);
 			}
@@ -28,7 +28,7 @@
 
 	wysihtml5.commands.googleFont = {
 			exec: function(composer, command, font, attrs) {
-				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
+				var className = "wysiwyg-font-family-" + font.replace(/ /g, "-").toLowerCase();
 				var style = document.createElement("style");
 
 				// Add CSS for the selected font plus a fallback.
@@ -39,7 +39,7 @@
 				return wysihtml5.commands.formatInline.exec(composer, command, "span", className, REG_EXP, attrs);
 			},
 			state: function(composer, command, font, attrs) {
-				return wysihtml5.commands.formatInline.state(composer, command, "span", "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase(), REG_EXP, attrs);
+				return wysihtml5.commands.formatInline.state(composer, command, "span", "wysiwyg-font-family-" + font.replace(/ /g, "-").toLowerCase(), REG_EXP, attrs);
 			}
 		};
 })(wysihtml5);
@@ -50,7 +50,7 @@
 
 	wysihtml5.commands.customFont = {
 			exec: function(composer, command, font, attrs) {
-				var className = "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase();
+				var className = "wysiwyg-font-family-" + font.replace(/ /g, "-").toLowerCase();
 				var style = document.createElement("style");
 
 				// Add CSS for the selected font plus a fallback.
@@ -61,7 +61,7 @@
 				return wysihtml5.commands.formatInline.exec(composer, command, "span", className, REG_EXP, attrs);
 			},
 			state: function(composer, command, font, attrs) {
-				return wysihtml5.commands.formatInline.state(composer, command, "span", "wysiwyg-font-family-" + font.replace(" ", "-").toLowerCase(), REG_EXP, attrs);
+				return wysihtml5.commands.formatInline.state(composer, command, "span", "wysiwyg-font-family-" + font.replace(/ /g, "-").toLowerCase(), REG_EXP, attrs);
 			}
 		};
 })(wysihtml5);
