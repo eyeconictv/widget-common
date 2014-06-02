@@ -2,6 +2,18 @@ var RiseVision = RiseVision || {};
 
 RiseVision.Common = RiseVision.Common || {};
 
+RiseVision.Common.GooglePicker = (function(gadgets) {
+  "use strict";
+
+  function openPicker(id, viewType){
+    gadgets.rpc.call("", "rscmd_openGooglePicker", null, id, viewType);
+  }
+
+  return {
+    openPicker:openPicker
+  }
+})(gadgets);
+
 RiseVision.Common.Validation = (function() {
 	"use strict";
 
