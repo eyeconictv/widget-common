@@ -10,7 +10,7 @@ RiseVision.Common.GooglePicker = (function(gadgets) {
   }
 
   return {
-    open:openPicker
+    openPicker:openPicker
   }
 })(gadgets);
 
