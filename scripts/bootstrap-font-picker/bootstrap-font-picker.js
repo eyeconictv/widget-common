@@ -213,12 +213,14 @@
 
       // This is a standard or Google font.
       if ($elem.length === 1) {
-        $selectBox.find(".bfh-selectbox-option").text($elem.text());
+        $selectBox.find(".bfh-selectbox-option").text($elem.text())
+          .data("option", font);
         $family.val(font);
       }
       // This must be a custom font.
       else {
-        $selectBox.find(".bfh-selectbox-option").text(CUSTOM_FONT_TEXT);
+        $selectBox.find(".bfh-selectbox-option").text(CUSTOM_FONT_TEXT)
+          .data("option", CUSTOM_FONT_TEXT);
         $family.val(CUSTOM_FONT_TEXT);
       }
     }
