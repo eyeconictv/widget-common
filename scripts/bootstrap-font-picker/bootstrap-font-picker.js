@@ -6,6 +6,7 @@
   "use strict";
 
   var _pluginName = "fontPicker";
+  var CUSTOM_FONT_TEXT = "Use Custom Font";
 
   function Plugin(element, options) {
     var utils = RiseVision.Common.Utilities,
@@ -24,7 +25,7 @@
      *  Private Methods
      */
     function _init() {
-      var TEMPLATE_URL = "http://s3.amazonaws.com/rise-common/scripts/bootstrap-font-picker/html/template.html";
+      var TEMPLATE_URL = "http://s3.amazonaws.com/rise-common-test/scripts/bootstrap-font-picker/html/template.html";
 
       // Get the HTML markup from the template.
       $.get(TEMPLATE_URL).then(function(src) {
@@ -66,7 +67,7 @@
       currentFont = $family.val();
 
       if (currentFont !== null) {
-        if (currentFont === "Use Custom Font") {
+        if (currentFont === CUSTOM_FONT_TEXT) {
           var fontFamily = _getCustomFontName();
 
           utils.loadCustomFont(fontFamily, customFontURL, options.contentDocument);
@@ -100,7 +101,7 @@
         if (e.target.value === "More Fonts...") {
           $googleFonts.modal("show");
         }
-        else if (e.target.value === "Use Custom Font") {
+        else if (e.target.value === CUSTOM_FONT_TEXT) {
           currentFont = $family.val();
           $customFontError.hide();
           $customFont.modal("show");
@@ -225,9 +226,15 @@
 
       $elem = $element.find("a[data-option='" + font + "']");
 
+      // This is a standard or Google font.
       if ($elem.length === 1) {
         $family.val(font);
         $selectBox.find(".bfh-selectbox-option").text($elem.text());
+      }
+      // This must be a custom font.
+      else {
+        $family.val(CUSTOM_FONT_TEXT);
+        $selectBox.find(".bfh-selectbox-option").text(CUSTOM_FONT_TEXT);
       }
     }
 
