@@ -83,8 +83,7 @@
 
           // It's a Google font.
           if (!found) {
-            utils.loadGoogleFont(currentFont, options.contentDocument);
-            _addGoogleFont(currentFont);
+            addGoogleFont(currentFont, true);
           }
         }
       }
@@ -134,8 +133,7 @@
 
       // Google font is selected.
       $googleFonts.on("select", function(e, family) {
-        utils.loadGoogleFont(family, options.contentDocument);
-        _addGoogleFont(family);
+        addGoogleFont(family, true);
         $googleFonts.modal("hide");
 
         currentFont = $family.val();
@@ -150,24 +148,6 @@
           .html(currentFont);
         $family.val(currentFont);
       });
-    }
-
-    /*
-     *  Add the selected Google font to the drop-down.
-     */
-    function _addGoogleFont(family) {
-      var $options = $selectBox.find("[role=option]");
-
-      // Remove previous Google font, if applicable, and add the new one.
-      $options.find("li.google-font").remove();
-      $options.prepend("<li class='google-font'><a tabindex='-1' href='#' " +
-        "style='font-family: Google' data-option='" + family + "'>" + family +
-        "</a></li>");
-
-      // Set Google font as default and sort.
-      $selectBox.find(".bfh-selectbox-option").data("option", family).html(family);
-      $selectBox.find(".font-family").val(family);
-      _sortFontList();
     }
 
     /*
@@ -215,8 +195,13 @@
       return $fontURL.val();
     }
 
-    function setFont(fontFamily) {
-      var font = fontFamily.split(",");
+    /*
+     * Set the selected font in the dropdown.
+     *
+     * @param    string    family    Font family.
+     */
+    function setFont(family) {
+      var font = family.split(",");
       var $elem = null;
 
       // Remove quotes so that a match can be found.
@@ -224,18 +209,46 @@
         font = font[0].replace(/'/g, "");
       }
 
-      $elem = $element.find("a[data-option='" + font + "']");
+      $elem = $selectBox.find("a[data-option='" + font + "']");
 
       // This is a standard or Google font.
       if ($elem.length === 1) {
-        $family.val(font);
         $selectBox.find(".bfh-selectbox-option").text($elem.text());
+        $family.val(font);
       }
       // This must be a custom font.
       else {
-        $family.val(CUSTOM_FONT_TEXT);
         $selectBox.find(".bfh-selectbox-option").text(CUSTOM_FONT_TEXT);
+        $family.val(CUSTOM_FONT_TEXT);
       }
+    }
+
+    /*
+     * Load the selected Google font and add it to the drop-down.
+     *
+     * @param   string    family        Font family
+     * @param   boolean   isSelected    Whether to set this font as the
+     *                                  currently selected font.
+     */
+    function addGoogleFont(family, isSelected) {
+      var $options = $selectBox.find("[role=option]");
+
+      // Load it.
+      utils.loadGoogleFont(family, options.contentDocument);
+
+      // Remove previous Google font, if applicable, and add the new one.
+      //$options.find("li.google-font").remove();
+      $options.prepend("<li class='google-font'><a tabindex='-1' href='#' " +
+        "style='font-family: Google' data-option='" + family + "'>" + family +
+        "</a></li>");
+
+      // Set Google font as default and sort.
+      if (isSelected) {
+        $selectBox.find(".bfh-selectbox-option").data("option", family).html(family);
+        $selectBox.find(".font-family").val(family);
+      }
+
+      _sortFontList();
     }
 
     _init();
@@ -244,7 +257,8 @@
       getFont: getFont,
       getFontStyle: getFontStyle,
       getFontURL: getFontURL,
-      setFont: setFont
+      setFont: setFont,
+      addGoogleFont: addGoogleFont,
     };
   }
 
