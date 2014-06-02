@@ -1,6 +1,6 @@
-/*	Copyright © 2014 Rise Vision Incorporated.
- *	Use of this software is governed by the GPLv3 license
- *	(reproduced in the LICENSE file).
+/*  Copyright © 2014 Rise Vision Incorporated.
+ *  Use of this software is governed by the GPLv3 license
+ *  (reproduced in the LICENSE file).
  */
  ;(function ($, window, document, undefined) {
 	"use strict";
@@ -21,7 +21,7 @@
 		options = $.extend({}, {"font": "Arial", "font-url": ""}, options);
 
 		/*
-		 *	Private Methods
+		 *  Private Methods
 		 */
 		function _init() {
 			var TEMPLATE_URL = "http://s3.amazonaws.com/rise-common/scripts/bootstrap-font-picker/html/template.html";
@@ -58,7 +58,7 @@
 		}
 
 		/*
-		 *	Load the selected font if necessary.
+		 *  Load the selected font if necessary.
 		 */
 		function _loadFont() {
 			var found = false;
@@ -67,7 +67,7 @@
 
 			if (currentFont !== null) {
 				if (currentFont === "Use Custom Font") {
-					var fontFamily = _getCustomFontName;
+					var fontFamily = _getCustomFontName();
 
 					utils.loadCustomFont(fontFamily, customFontURL, options.contentDocument);
 				}
@@ -90,7 +90,7 @@
 		}
 
 		/*
-		 *	Add event handlers.
+		 *  Add event handlers.
 		 */
 		function _bind() {
 			var $googleFonts = $element.find(".google-fonts");
@@ -117,7 +117,7 @@
 
 			// Custom font URL is saved.
 			$element.find(".save-custom-font").on("click", function() {
-				var fontFamily = _getCustomFontName;
+				var fontFamily = _getCustomFontName();
 
 				customFontURL = $fontURL.val();
 
@@ -151,9 +151,8 @@
 			});
 		}
 
-
 		/*
-		 *	Add the selected Google font to the drop-down.
+		 *  Add the selected Google font to the drop-down.
 		 */
 		function _addGoogleFont(family) {
 			var $options = $selectBox.find("[role=option]");
@@ -171,15 +170,15 @@
 		}
 
 		/*
-		 *	Create a unique name for a custom font by extracting the name
-		 *	from its URL.
+		 *  Create a unique name for a custom font by extracting the name
+		 *  from its URL.
 		 */
 		function _getCustomFontName() {
 			return customFontURL.split("/").pop().split(".")[0];
 		}
 
 		/*
-		 *	Sort the drop-down.
+		 *  Sort the drop-down.
 		 */
 		function _sortFontList() {
 			// Don't sort "Use Custom Font" or "More Fonts...".
@@ -200,7 +199,7 @@
 		}
 
 		/*
-		 *	Public Methods
+		 *  Public Methods
 		 */
 		function getFont() {
 			return $family.val();
@@ -215,18 +214,36 @@
 			return $fontURL.val();
 		}
 
+		function setFont(fontFamily) {
+			var font = fontFamily.split(",");
+			var $elem = null;
+
+			// Remove quotes so that a match can be found.
+			if (font.length > 0) {
+				font = font[0].replace(/'/g, "");
+			}
+
+			$elem = $element.find("a[data-option='" + font + "']");
+
+			if ($elem.length === 1) {
+				$family.val(font);
+				$selectBox.find(".bfh-selectbox-option").text($elem.text());
+			}
+		}
+
 		_init();
 
 		return {
 			getFont: getFont,
 			getFontStyle: getFontStyle,
-			getFontURL: getFontURL
+			getFontURL: getFontURL,
+			setFont: setFont
 		};
 	}
 
 	/*
-	 *	A lightweight plugin wrapper around the constructor that prevents
-	 *	multiple instantiations.
+	 *  A lightweight plugin wrapper around the constructor that prevents
+	 *  multiple instantiations.
 	 */
 	$.fn.fontPicker = function(options) {
 		return this.each(function() {
