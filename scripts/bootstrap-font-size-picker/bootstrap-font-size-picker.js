@@ -33,10 +33,28 @@
      */
     function getSize() {
       return $element.find(".font-size").val();
-  }
+    }
 
     function setSize(size) {
-      $element.find(".bfh-fontsizes").selectpicker("val", parseInt(size, 10));
+      var $selectElem = $element.find(".bfh-fontsizes");
+
+      if (size) {
+        size = parseInt(size, 10);
+
+        // Find the drop-down item for this font size and select it.
+        $selectElem.find("> .dropdown-menu li").each(function(index) {
+          if ($(this).find("span").text() == size) {
+            $(this).toggleClass("selected", true);
+          }
+          else {
+            $(this).toggleClass("selected", false);
+          }
+        });
+
+        // Update the UI with the current font size.
+        $selectElem.find("> button").attr("title", size);
+        $selectElem.find(".filter-option").html(size);
+      }
     }
 
     _init();
