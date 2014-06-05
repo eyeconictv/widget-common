@@ -1,7 +1,7 @@
 var RiseVision = RiseVision || {};
 
 // check if dependencies exist
-if (typeof jQuery === 'undefined' || typeof gapi !== 'undefined') {
+if (typeof jQuery === 'undefined' || typeof gapi === 'undefined') {
 
   throw new Error("authorization.js dependencies not loaded");
   
