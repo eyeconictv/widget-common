@@ -2,43 +2,6 @@ var RiseVision = RiseVision || {};
 
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.Authorization = (function($, gapi) {
-  "use strict";
-
-  // Constants
-  var CLIENT_ID = "726689182011.apps.googleusercontent.com",
-      SCOPE = "https://www.googleapis.com/auth/drive";
-
-  // Private vars
-  var oauthToken = null;
-
-  function checkAuth(immediate){
-    gapi.auth.authorize({
-      client_id : CLIENT_ID,
-      scope : SCOPE,
-      immediate : immediate
-    }, onAuthResult);
-  }
-
-  function getAuthToken(){
-    return oauthToken;
-  }
-
-  function onAuthResult(authResult){
-    if (authResult && !authResult.error) {
-      oauthToken = authResult.access_token;
-      $(window).trigger("gapi_auth_success");
-    } else {
-      $(window).trigger("gapi_auth_failure", [authResult.error]);
-    }
-  }
-
-  return {
-    checkAuth: checkAuth,
-    getAuthToken: getAuthToken
-  };
-})(jQuery, gapi);
-
 RiseVision.Common.Validation = (function() {
 	"use strict";
 
