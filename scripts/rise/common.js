@@ -39,18 +39,6 @@ RiseVision.Common.Authorization = (function($, gapi) {
   };
 })(jQuery, gapi);
 
-RiseVision.Common.GooglePicker = (function(gadgets) {
-  "use strict";
-
-  function openPicker(id, viewType){
-    gadgets.rpc.call("", "rscmd_openGooglePicker", null, id, viewType);
-  }
-
-  return {
-    openPicker:openPicker
-  };
-})(gadgets);
-
 RiseVision.Common.Validation = (function() {
 	"use strict";
 
