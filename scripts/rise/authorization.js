@@ -9,7 +9,7 @@ if (typeof gapi === 'undefined') {
     "use strict";
 
     // Constants
-    var CLIENT_ID = "726689182011.apps.googleusercontent.com";
+    var CLIENT_ID = "614513768474.apps.googleusercontent.com";
 
     // Private vars
     var oauthToken = null, loaded = false;
