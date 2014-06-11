@@ -126,6 +126,6 @@ RiseVision.Common.Utilities = (function() {
 
 	return {
 		loadCustomFont: loadCustomFont,
-		loadGoogleFont: loadGoogleFont
+		loadGoogleFont: loadGoogleFont,
 	};
 })();
