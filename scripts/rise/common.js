@@ -65,7 +65,7 @@ RiseVision.Common.Validation = (function() {
 		var value = element.value.trim();
 
     // Add http:// if no protocol parameter exists
-    if (value.indexOf("://") == -1) {
+    if (value.indexOf("://") === -1) {
       value = "http://" + value;
     }
 		/*
@@ -126,6 +126,6 @@ RiseVision.Common.Utilities = (function() {
 
 	return {
 		loadCustomFont: loadCustomFont,
-		loadGoogleFont: loadGoogleFont,
+		loadGoogleFont: loadGoogleFont
 	};
 })();
