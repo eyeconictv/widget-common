@@ -26,13 +26,17 @@
       $element.find(".bfh-fontsizes").bfhfontsizes({
         "size": options["font-size"]
       }).selectpicker();
+
+      $element.find(".bfh-selectbox").on("change.bfhselectbox", function(e) {
+        $element.trigger("sizeChanged", getSize());
+      });
     }
 
     /*
      *  Public Methods
      */
     function getSize() {
-      return $element.find(".font-size").val();
+      return $element.find(".bfh-fontsizes").val();
     }
 
     function setSize(size) {
