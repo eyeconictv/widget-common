@@ -58,6 +58,7 @@
         // Update the UI with the current font size.
         $selectElem.find("> button").attr("title", size);
         $selectElem.find(".filter-option").html(size);
+        $selectElem.val(size);
       }
     }
 
