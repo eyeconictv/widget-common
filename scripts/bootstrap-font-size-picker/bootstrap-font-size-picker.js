@@ -36,11 +36,11 @@
      *  Public Methods
      */
     function getSize() {
-      return $element.find(".bfh-fontsizes").val();
+      return $element.find("select.bfh-fontsizes").val();
     }
 
     function setSize(size) {
-      var $selectElem = $element.find(".bfh-fontsizes");
+      var $selectElem = $element.find("select.bfh-fontsizes");
 
       if (size) {
         size = parseInt(size, 10);
