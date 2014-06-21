@@ -840,6 +840,7 @@ ul.social {
 /* ==========================================================================
 	 Widgets
 	 ========================================================================== */
+/* Legacy, supporting old widgets */
 .widget-overlay {
 	/* Positioning */
 	position: absolute;
@@ -853,6 +854,7 @@ ul.social {
 	background: rgba(255, 255, 255, 0.7);
 }
 
+/* Legacy, supporting old widgets */
 .widget-wrapper {
 	/* Positioning */
 	z-index: 2;
@@ -867,6 +869,57 @@ ul.social {
 		padding-left: 0;
 		padding-right: 0;
 	}
+}
+
+.widget {
+  height: 100%;
+
+  .overlay {
+    /* Visual */
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .settings {
+    /* Positioning */
+    position: relative;
+
+    /* Display & Box Model */
+    height: 100%;
+  }
+
+  .settings-center {
+    /* Positioning */
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+
+    /* Display & Box Model */
+    width: 100%;
+    max-height: 90%;
+    overflow: auto;
+    margin: auto;
+    padding: 15px;
+
+    @media (min-width: 768px) {
+      width: 500px;
+    }
+  }
+
+  .wrapper {
+    /* Positioning */
+    z-index: 2;
+
+    /* Display & Box Model */
+    height: 99%;
+    padding-bottom: 25px;
+    margin: 0 auto;
+    overflow: auto;
+
+    > .modal-header {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
 }
 
 /* ==========================================================================
@@ -1076,6 +1129,19 @@ ul.social {
 
 .label-disabled {
   color: $light-gray;
+}
+
+.overlay {
+  /* Positioning */
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  /* Visual */
+  background: #fff;
 }
 
 /* Media queries

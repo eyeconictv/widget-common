@@ -589,6 +589,7 @@ ul.social {
 /* ==========================================================================
 	 Widgets
 	 ========================================================================== */
+/* Legacy, supporting old widgets */
 .widget-overlay {
   /* Positioning */
   position: absolute;
@@ -600,6 +601,7 @@ ul.social {
   /* Visual */
   background: rgba(255, 255, 255, 0.7); }
 
+/* Legacy, supporting old widgets */
 .widget-wrapper {
   /* Positioning */
   z-index: 2;
@@ -611,6 +613,44 @@ ul.social {
   .widget-wrapper > .modal-header {
     padding-left: 0;
     padding-right: 0; }
+
+.widget {
+  height: 100%; }
+  .widget .overlay {
+    /* Visual */
+    background: rgba(255, 255, 255, 0.7); }
+  .widget .settings {
+    /* Positioning */
+    position: relative;
+    /* Display & Box Model */
+    height: 100%; }
+  .widget .settings-center {
+    /* Positioning */
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* Display & Box Model */
+    width: 100%;
+    max-height: 90%;
+    overflow: auto;
+    margin: auto;
+    padding: 15px; }
+    @media (min-width: 768px) {
+      .widget .settings-center {
+        width: 500px; } }
+  .widget .wrapper {
+    /* Positioning */
+    z-index: 2;
+    /* Display & Box Model */
+    height: 99%;
+    padding-bottom: 25px;
+    margin: 0 auto;
+    overflow: auto; }
+    .widget .wrapper > .modal-header {
+      padding-left: 0;
+      padding-right: 0; }
 
 /* ==========================================================================
 	 Font Picker
@@ -766,6 +806,17 @@ ul.social {
 
 .label-disabled {
   color: #e5e5e5; }
+
+.overlay {
+  /* Positioning */
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* Visual */
+  background: #fff; }
 
 /* Media queries
 	 ========================================================================== */
