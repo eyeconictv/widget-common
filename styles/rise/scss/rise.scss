@@ -920,6 +920,20 @@ ul.social {
     }
   }
 
+  .section {
+    /* Display & Box Model */
+    padding: 10px;
+
+    /* Visual */
+    border: 1px solid $light-border-color;
+    border-radius: 10px;
+
+    > h5:first-of-type {
+      margin-top: -17px;
+      color: $rise-blue;
+    }
+  }
+
 }
 
 /* ==========================================================================
