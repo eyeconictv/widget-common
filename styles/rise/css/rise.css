@@ -618,6 +618,14 @@ ul.social {
 .font-picker .modal {
   margin-top: 40px; }
 
+.font-picker-text {
+  /* Display & Box Model */
+  padding: 15px;
+  /* Visual */
+  text-align: center;
+  background-color: #efefef;
+  border-radius: 8px; }
+
 /* ==========================================================================
 	 Custom Classes
 	 ========================================================================== */
@@ -766,14 +774,6 @@ ul.social {
 
 .label-disabled {
   color: #e5e5e5; }
-
-.font-picker-text {
-  /* Display & Box Model */
-  padding: 15px;
-  /* Visual */
-  text-align: center;
-  background-color: #efefef;
-  border-radius: 8px; }
 
 /* Media queries
 	 ========================================================================== */
