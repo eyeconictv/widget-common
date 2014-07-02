@@ -617,6 +617,13 @@ ul.social {
 .widget {
   height: 100%; }
   .widget .overlay {
+    /* Positioning */
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     /* Visual */
     background: rgba(255, 255, 255, 0.7); }
   .widget .settings {
@@ -824,17 +831,6 @@ ul.social {
 
 .label-disabled {
   color: #e5e5e5; }
-
-.overlay {
-  /* Positioning */
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /* Visual */
-  background: #fff; }
 
 /* Media queries
 	 ========================================================================== */
