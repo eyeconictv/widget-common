@@ -1,0 +1,25 @@
+{
+  "name": "widget-common",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Rise-Vision/widget-common",
+  "authors": [
+    "Rise Vision Inc <support@risevision.com>"
+  ],
+  "description": "Common functionality for Widgets not using Angular JS.",
+  "license": "GPL V3",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "test",
+    "tmp"
+  ],
+  "devDependencies": {
+
+  },
+  "dependencies": {
+    "jquery": "1.11.0",
+    "common-style": "https://github.com/Rise-Vision/widget-common.git"
+  }
+}
