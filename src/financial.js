@@ -57,13 +57,6 @@ RiseVision.Common.Financial.RealTime = function(displayID, instruments) {
     this.displayID = "preview";
   }
 
-  //Trim any whitespace from instruments.
-  instruments = instruments.split(",");
-
-  $.each(instruments, function(index, value) {
-    instruments[index] = $.trim(instruments[index]);
-  });
-
   this.instruments = instruments;
   this.isLoading = true;
   this.conditions = {};
