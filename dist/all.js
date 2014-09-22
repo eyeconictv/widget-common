@@ -1,3 +1,194 @@
+var RiseVision = RiseVision || {};
+
+// check if dependencies exist
+if (typeof gapi === 'undefined') {
+  throw new Error("authorization.js dependencies not loaded");
+} else {
+  // dependencies exist, create module
+  RiseVision.Authorization = (function(gapi) {
+    "use strict";
+
+    // Constants
+    var CLIENT_ID = "614513768474.apps.googleusercontent.com";
+
+    // Private vars
+    var oauthToken = null, loaded = false;
+
+    function authorize(immediate, scope, callbackFn){
+      gapi.auth.authorize({
+        client_id : CLIENT_ID,
+        scope : scope,
+        immediate : immediate
+      }, function(authResult){
+        if (authResult && !authResult.error) {
+          oauthToken = authResult.access_token;
+        } else {
+          if(window.console){
+            console.info("Authorization Fail: " + authResult.error);
+          }
+        }
+        callbackFn.call(null,oauthToken);
+      });
+    }
+
+    function isApiLoaded(){
+      return loaded;
+    }
+
+    function loadApi(callbackFn){
+      // Use the API Loader script to load the Authentication script.
+      gapi.load('auth', {'callback': function(){
+        loaded = true;
+        if(typeof callbackFn === 'function'){
+          callbackFn.apply(null);
+        }
+      }});
+    }
+
+    function getAuthToken(){
+      return oauthToken;
+    }
+
+    return {
+      authorize: authorize,
+      getAuthToken: getAuthToken,
+      isApiLoaded: isApiLoaded,
+      loadApi: loadApi
+    };
+  })(gapi);
+}
+
+var RiseVision = RiseVision || {};
+
+RiseVision.Common = RiseVision.Common || {};
+
+RiseVision.Common.Validation = (function() {
+	"use strict";
+
+	/*
+	Defining the regular expressions being used
+	 */
+	var urlRegExp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i,
+      numericRegex = /^(\-|\+)?([0-9]+|Infinity)$/,
+			decimalRegex = /^\-?[0-9]*\.?[0-9]+$/;
+
+	function greaterThan(element, param) {
+		var value = element.value.trim();
+
+		if (!decimalRegex.test(value)) {
+			return false;
+		}
+
+		return (parseFloat(value) > parseFloat(param));
+	}
+
+	function lessThan(element, param) {
+		var value = element.value.trim();
+
+		if (!decimalRegex.test(value)) {
+			return false;
+		}
+
+		return (parseFloat(value) < parseFloat(param));
+	}
+
+	function numeric(element){
+		var value = element.value.trim();
+
+		/*
+		 Regexp being used is stricter than parseInt. Using regular expression as
+		 mentioned on mozilla
+		 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/
+		 Global_Objects/parseInt
+		 */
+		return numericRegex.test(value);
+	}
+
+	function required(element){
+		var value = element.value.trim(),
+				valid = false;
+
+		if (element.type === "checkbox" || element.type === "radio") {
+			if(element.checked === true) {
+				valid = true;
+			}
+		} else {
+			if (value !== null && value !== '') {
+				valid = true;
+			}
+		}
+
+		return valid;
+	}
+
+	function url(element){
+		var value = element.value.trim();
+
+    // Add http:// if no protocol parameter exists
+    if (value.indexOf("://") === -1) {
+      value = "http://" + value;
+    }
+		/*
+		 Discussion
+		 http://stackoverflow.com/questions/37684/how-to-replace-plain-urls-
+		 with-links#21925491
+
+		 Using
+     https://gist.github.com/dperini/729294
+     Reasoning
+     http://mathiasbynens.be/demo/url-regex
+
+		 */
+		return urlRegExp.test(value);
+	}
+
+	return {
+		isGreaterThan: greaterThan,
+		isLessThan: lessThan,
+		isValidRequired: required,
+		isValidURL: url,
+		isValidNumber: numeric
+	};
+})();
+
+RiseVision.Common.Utilities = (function() {
+	function loadCustomFont(family, url, contentDocument) {
+		var sheet = null;
+		var rule = "font-family: " + family + "; " + "src: url('" + url + "');";
+
+		if (contentDocument == null) {
+			contentDocument = document;
+		}
+
+		sheet = contentDocument.styleSheets[0];
+
+		if (sheet !== null) {
+			sheet.addRule("@font-face", rule);
+		}
+	}
+
+	function loadGoogleFont(family, contentDocument) {
+		if (contentDocument == null) {
+			contentDocument = document;
+		}
+
+		var stylesheet = document.createElement("link");
+
+		stylesheet.setAttribute("rel", "stylesheet");
+		stylesheet.setAttribute("type", "text/css");
+		stylesheet.setAttribute("href", "https://fonts.googleapis.com/css?family=" +
+			family);
+
+		if (stylesheet !== null) {
+			contentDocument.getElementsByTagName("head")[0].appendChild(stylesheet);
+		}
+	}
+
+	return {
+		loadCustomFont: loadCustomFont,
+		loadGoogleFont: loadGoogleFont,
+	};
+})();
 var CONFIG = {
   FINANCIAL_SERVER_URL: "http://contentfinancial2-test.appspot.com/"
 };
@@ -30,13 +221,13 @@ RiseVision.Common.Financial.Helper.prototype.getInstruments = function(isLoading
 
     $.each(this.instruments, function(i, instrument) {
       for (var j = 0; j < len; j++) {
-        if (instrument == collectionTimes[j].instrument) {
+        if (instrument === collectionTimes[j].instrument) {
           var startTime = collectionTimes[j].startTime, endTime = collectionTimes[j].endTime, daysOfWeek = collectionTimes[j].daysOfWeek;
 
           //Check if the instrument should be requested again based on its collection data.
           $.each(daysOfWeek, function(j, day) {
             //Check collection day.
-            if (day == dayOfWeek) {
+            if (day === dayOfWeek) {
               //Check collection time.
               if (new Date().between(startTime, endTime)) {
                 instruments.push(self.instruments[i]);
@@ -110,12 +301,12 @@ RiseVision.Common.Financial.RealTime.prototype.getData = function(fields, loadLo
     duplicateFound = false;
 
     //Do nothing as instrument is already being requested.
-    if (field == "instrument") {
+    if (field === "instrument") {
     }
     else {
       //Visualization API doesn't allow requesting the same field more than once.
       $.each(self.dataFields, function(i, dataField) {
-        if (i == field) {
+        if (i === field) {
           duplicateFound = true;
           return false;
         }
@@ -218,10 +409,10 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
   //Only need to save collection time once for the entire chain.
   //Use the collection data from the first stock since the rest should all be the same.
   //Data is for a chain if there is only one instrument being requested, but multiple rows of data are returned.
-  if ((this.instruments.length == 1) && (this.data.getNumberOfRows() > 1)) {
-    if ((this.data.getValue(0, 0) != "INVALID_SYMBOL")) {
+  if ((this.instruments.length === 1) && (this.data.getNumberOfRows() > 1)) {
+    if ((this.data.getValue(0, 0) !== "INVALID_SYMBOL")) {
       // If the data is stale, then force collection times to be saved again later.
-      if (this.data.getValue(0, 0) == "...") {
+      if (this.data.getValue(0, 0) === "...") {
         this.isLoading = true;
       }
       else {
@@ -229,7 +420,7 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
         startTime = this.data.getValue(0, this.startTimeIndex);
         endTime = this.data.getValue(0, this.startTimeIndex + 1);
 
-        if (startTime && endTime && timeZoneOffset != "N/P") {
+        if (startTime && endTime && timeZoneOffset !== "N/P") {
           this.collectionTimes.push({
             "instrument" : this.instruments[0],
             "startTime" : startTime.setTimezoneOffset(timeZoneOffset),
@@ -243,9 +434,9 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
   //Save collection data for each stock.
   else {
     for (var row = 0; row < numRows; row++) {
-      if (this.data.getValue(row, 0) != "INVALID_SYMBOL") {
+      if (this.data.getValue(row, 0) !== "INVALID_SYMBOL") {
         // If the data is stale, then force collection times to be saved again later.
-        if (this.data.getValue(row, 0) == "...") {
+        if (this.data.getValue(row, 0) === "...") {
           this.isLoading = true;
         }
         else {
@@ -253,7 +444,7 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
           startTime = this.data.getValue(row, this.startTimeIndex);
           endTime = this.data.getValue(row, this.startTimeIndex + 1);
 
-          if (startTime && endTime && timeZoneOffset != "N/P") {
+          if (startTime && endTime && timeZoneOffset !== "N/P") {
             this.collectionTimes.push({
               "instrument" : this.instruments[row],
               "startTime" : startTime.setTimezoneOffset(timeZoneOffset),
@@ -359,7 +550,7 @@ RiseVision.Common.Financial.RealTime.prototype.compare = function(field) {
       $.each(this.conditions[field], function(index, value) {
         //Instrument is used to ensure that the rows that are being compared are for the same stock.
         //In chains, rows may be added or deleted.
-        if (value.instrument == self.data.getValue(row, 0)) {
+        if (value.instrument === self.data.getValue(row, 0)) {
           previous = value.value;
 
           if (isNaN(current)) {
@@ -467,7 +658,7 @@ RiseVision.Common.Financial.Historical.prototype.getHistoricalData = function(fi
   //Customize the query string.
   if (options) {
     if (options.sortOrder) {
-      if (options.sortOrder == "desc") {
+      if (options.sortOrder === "desc") {
         queryString += " desc";
       }
     }
@@ -515,7 +706,7 @@ RiseVision.Common.Financial.Historical.prototype.onHistoricalDataLoaded = functi
     this.historicalData = data;
     numDataRows = data.getNumberOfRows();
 
-    if ((numDataRows === 0) || ((numDataRows == 1) && (data.getFormattedValue(0, 0) == "0"))) {
+    if ((numDataRows === 0) || ((numDataRows === 1) && (data.getFormattedValue(0, 0) === "0"))) {
       this.isLoading = true;
     }
     else {
@@ -591,7 +782,7 @@ var CollectionTimes = (function() {
         numRows = data.getNumberOfRows();
 
         for (var i = 0; i < instruments.length; i++) {
-          if (instruments[i].instrument == instrument) {
+          if (instruments[i].instrument === instrument) {
             timeZoneOffset = data.getValue(0, 3);
             startTime = data.getValue(0, 0);
             endTime = data.getValue(0, 1);
@@ -614,7 +805,7 @@ var CollectionTimes = (function() {
     return {
       setIsUpdated : function(instrument, isUpdated) {
         for (var i = 0; i < instruments.length; i++) {
-          if (instruments[i].instrument == instrument) {
+          if (instruments[i].instrument === instrument) {
             if (instruments[i].collectionTimes !== null) {
               instruments[i].collectionTimes.isUpdated = isUpdated;
             }
@@ -626,7 +817,7 @@ var CollectionTimes = (function() {
 
         //Check if there is already collection data for this instrument.
         for (; i < instruments.length; i++) {
-          if (instruments[i].instrument == instrument) {
+          if (instruments[i].instrument === instrument) {
             //Issue 922 Start
             if (instruments[i].collectionTimes !== null) {
               if ((!Date.equals(Date.today(), now)) && (!instruments[i].collectionTimes.isUpdated)) {
