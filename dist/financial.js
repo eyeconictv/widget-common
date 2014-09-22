@@ -26,13 +26,13 @@ RiseVision.Common.Financial.Helper.prototype.getInstruments = function(isLoading
 
     $.each(this.instruments, function(i, instrument) {
       for (var j = 0; j < len; j++) {
-        if (instrument == collectionTimes[j].instrument) {
+        if (instrument === collectionTimes[j].instrument) {
           var startTime = collectionTimes[j].startTime, endTime = collectionTimes[j].endTime, daysOfWeek = collectionTimes[j].daysOfWeek;
 
           //Check if the instrument should be requested again based on its collection data.
           $.each(daysOfWeek, function(j, day) {
             //Check collection day.
-            if (day == dayOfWeek) {
+            if (day === dayOfWeek) {
               //Check collection time.
               if (new Date().between(startTime, endTime)) {
                 instruments.push(self.instruments[i]);
@@ -106,12 +106,12 @@ RiseVision.Common.Financial.RealTime.prototype.getData = function(fields, loadLo
     duplicateFound = false;
 
     //Do nothing as instrument is already being requested.
-    if (field == "instrument") {
+    if (field === "instrument") {
     }
     else {
       //Visualization API doesn't allow requesting the same field more than once.
       $.each(self.dataFields, function(i, dataField) {
-        if (i == field) {
+        if (i === field) {
           duplicateFound = true;
           return false;
         }
@@ -214,10 +214,10 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
   //Only need to save collection time once for the entire chain.
   //Use the collection data from the first stock since the rest should all be the same.
   //Data is for a chain if there is only one instrument being requested, but multiple rows of data are returned.
-  if ((this.instruments.length == 1) && (this.data.getNumberOfRows() > 1)) {
-    if ((this.data.getValue(0, 0) != "INVALID_SYMBOL")) {
+  if ((this.instruments.length === 1) && (this.data.getNumberOfRows() > 1)) {
+    if ((this.data.getValue(0, 0) !== "INVALID_SYMBOL")) {
       // If the data is stale, then force collection times to be saved again later.
-      if (this.data.getValue(0, 0) == "...") {
+      if (this.data.getValue(0, 0) === "...") {
         this.isLoading = true;
       }
       else {
@@ -225,7 +225,7 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
         startTime = this.data.getValue(0, this.startTimeIndex);
         endTime = this.data.getValue(0, this.startTimeIndex + 1);
 
-        if (startTime && endTime && timeZoneOffset != "N/P") {
+        if (startTime && endTime && timeZoneOffset !== "N/P") {
           this.collectionTimes.push({
             "instrument" : this.instruments[0],
             "startTime" : startTime.setTimezoneOffset(timeZoneOffset),
@@ -239,9 +239,9 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
   //Save collection data for each stock.
   else {
     for (var row = 0; row < numRows; row++) {
-      if (this.data.getValue(row, 0) != "INVALID_SYMBOL") {
+      if (this.data.getValue(row, 0) !== "INVALID_SYMBOL") {
         // If the data is stale, then force collection times to be saved again later.
-        if (this.data.getValue(row, 0) == "...") {
+        if (this.data.getValue(row, 0) === "...") {
           this.isLoading = true;
         }
         else {
@@ -249,7 +249,7 @@ RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() 
           startTime = this.data.getValue(row, this.startTimeIndex);
           endTime = this.data.getValue(row, this.startTimeIndex + 1);
 
-          if (startTime && endTime && timeZoneOffset != "N/P") {
+          if (startTime && endTime && timeZoneOffset !== "N/P") {
             this.collectionTimes.push({
               "instrument" : this.instruments[row],
               "startTime" : startTime.setTimezoneOffset(timeZoneOffset),
@@ -355,7 +355,7 @@ RiseVision.Common.Financial.RealTime.prototype.compare = function(field) {
       $.each(this.conditions[field], function(index, value) {
         //Instrument is used to ensure that the rows that are being compared are for the same stock.
         //In chains, rows may be added or deleted.
-        if (value.instrument == self.data.getValue(row, 0)) {
+        if (value.instrument === self.data.getValue(row, 0)) {
           previous = value.value;
 
           if (isNaN(current)) {
@@ -463,7 +463,7 @@ RiseVision.Common.Financial.Historical.prototype.getHistoricalData = function(fi
   //Customize the query string.
   if (options) {
     if (options.sortOrder) {
-      if (options.sortOrder == "desc") {
+      if (options.sortOrder === "desc") {
         queryString += " desc";
       }
     }
@@ -511,7 +511,7 @@ RiseVision.Common.Financial.Historical.prototype.onHistoricalDataLoaded = functi
     this.historicalData = data;
     numDataRows = data.getNumberOfRows();
 
-    if ((numDataRows === 0) || ((numDataRows == 1) && (data.getFormattedValue(0, 0) == "0"))) {
+    if ((numDataRows === 0) || ((numDataRows === 1) && (data.getFormattedValue(0, 0) === "0"))) {
       this.isLoading = true;
     }
     else {
@@ -587,7 +587,7 @@ var CollectionTimes = (function() {
         numRows = data.getNumberOfRows();
 
         for (var i = 0; i < instruments.length; i++) {
-          if (instruments[i].instrument == instrument) {
+          if (instruments[i].instrument === instrument) {
             timeZoneOffset = data.getValue(0, 3);
             startTime = data.getValue(0, 0);
             endTime = data.getValue(0, 1);
@@ -610,7 +610,7 @@ var CollectionTimes = (function() {
     return {
       setIsUpdated : function(instrument, isUpdated) {
         for (var i = 0; i < instruments.length; i++) {
-          if (instruments[i].instrument == instrument) {
+          if (instruments[i].instrument === instrument) {
             if (instruments[i].collectionTimes !== null) {
               instruments[i].collectionTimes.isUpdated = isUpdated;
             }
@@ -622,7 +622,7 @@ var CollectionTimes = (function() {
 
         //Check if there is already collection data for this instrument.
         for (; i < instruments.length; i++) {
-          if (instruments[i].instrument == instrument) {
+          if (instruments[i].instrument === instrument) {
             //Issue 922 Start
             if (instruments[i].collectionTimes !== null) {
               if ((!Date.equals(Date.today(), now)) && (!instruments[i].collectionTimes.isUpdated)) {
