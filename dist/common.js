@@ -96,7 +96,7 @@ RiseVision.Common.Utilities = (function() {
 		var sheet = null;
 		var rule = "font-family: " + family + "; " + "src: url('" + url + "');";
 
-		if (contentDocument == null) {
+		if (contentDocument === null) {
 			contentDocument = document;
 		}
 
@@ -108,7 +108,7 @@ RiseVision.Common.Utilities = (function() {
 	}
 
 	function loadGoogleFont(family, contentDocument) {
-		if (contentDocument == null) {
+		if (contentDocument === null) {
 			contentDocument = document;
 		}
 

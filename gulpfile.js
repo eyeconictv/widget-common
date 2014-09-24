@@ -60,6 +60,11 @@
     .pipe(gulp.dest("dist/locales"));
   });
 
+  gulp.task("css", function() {
+    return gulp.src("src/**/*.css")
+    .pipe(gulp.dest("dist/css"))
+  });
+
   gulp.task("js-prep", function (cb) {
     return gulp.src([
       "src/config/config.js",
@@ -83,7 +88,7 @@
   });
 
   gulp.task("build", function (cb) {
-    runSequence(["clean", "config", "lint"], ["js-uglify", "i18n"], cb);
+    runSequence(["clean", "config", "lint"], ["js-uglify", "i18n", "css"], cb);
   });
 
   gulp.task("e2e:server", factory.testServer());
