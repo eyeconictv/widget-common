@@ -27,7 +27,7 @@ RiseVision.Common.Store.Auth = function() {
               WIDGET_COMMON_CONFIG.AUTH_PATH_URL + 
               "?cid=" + companyId + "&pc=" + productCode + "";
               
-    this.callApi(url);
+    this.callApi();
   };
   
   this.callApi = function() {
