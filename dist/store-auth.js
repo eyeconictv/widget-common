@@ -7,6 +7,7 @@ RiseVision.Common.Store = RiseVision.Common.Store || {};
 RiseVision.Common.Store.Auth = {};
 
 RiseVision.Common.Store.Auth = function() {
+  var HOUR_IN_MILLIS = 60 * 60 * 1000;
   var backDrop, warningDialog;
   this.callback = null;
   this.authorized = true;
@@ -26,7 +27,7 @@ RiseVision.Common.Store.Auth = function() {
               WIDGET_COMMON_CONFIG.AUTH_PATH_URL + 
               "?cid=" + companyId + "&pc=" + productCode + "";
               
-    this.callApi(url);
+    this.callApi();
   };
   
   this.callApi = function() {
@@ -52,7 +53,7 @@ RiseVision.Common.Store.Auth = function() {
       hideNotification();
       
       // check again for authorization one hour before it expires
-      var milliSeconds = new Date(data.expiry).getTime() - new Date().getTime() - 60 * 60 * 1000;
+      var milliSeconds = new Date(data.expiry).getTime() - new Date().getTime() - HOUR_IN_MILLIS;
       setTimeout(this.callApi, milliSeconds);
     }
     else if (data && !data.authorized) {
@@ -61,11 +62,11 @@ RiseVision.Common.Store.Auth = function() {
       showNotification("Product not authorized.");
       
       // check authoriztation every hour if failed
-      setTimeout(this.callApi, 60 * 60 * 1000);
+      setTimeout(this.callApi, HOUR_IN_MILLIS);
     }
     else {
       // API failed, try again in an hour
-      setTimeout(this.callApi, 60 * 60 * 1000);      
+      setTimeout(this.callApi, HOUR_IN_MILLIS);
     }
 
     if (this.callback) {
@@ -79,7 +80,7 @@ RiseVision.Common.Store.Auth = function() {
     showNotification("Cannot connect to Store for authorization.");
     
     // check authoriztation every hour if failed
-    setTimeout(this.callApi, 60 * 60 * 1000);
+    setTimeout(this.callApi, HOUR_IN_MILLIS);
     
     if (this.callback) {
       this.callback(this.authorized);
