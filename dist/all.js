@@ -152,6 +152,18 @@ RiseVision.Common.Validation = (function() {
 })();
 
 RiseVision.Common.Utilities = (function() {
+
+  function getFontCssStyle(className, fontObj) {
+    var family = "font-family:" + fontObj.font.family + "; ";
+    var color = "color: " + fontObj.color + "; ";
+    var size = "font-size: " + fontObj.size + "px; ";
+    var weight = "font-weight: " + (fontObj.bold ? "bold" : "normal") + "; ";
+    var italic = "font-style: " + (fontObj.italic ? "italic" : "normal") + "; ";
+    var underline = "text-decoration: " + (fontObj.underline ? "underline" : "none") + "; ";
+
+    return "." + className + " {" + family + color + size + weight + italic + underline + "}";
+  }
+
 	function loadCustomFont(family, url, contentDocument) {
 		var sheet = null;
 		var rule = "font-family: " + family + "; " + "src: url('" + url + "');";
@@ -187,6 +199,7 @@ RiseVision.Common.Utilities = (function() {
 	return {
 		loadCustomFont: loadCustomFont,
 		loadGoogleFont: loadGoogleFont,
+    getFontCssStyle: getFontCssStyle
 	};
 })();
 var WIDGET_COMMON_CONFIG = {
