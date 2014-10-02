@@ -164,6 +164,16 @@ RiseVision.Common.Utilities = (function() {
     return "." + className + " {" + family + color + size + weight + italic + underline + "}";
   }
 
+  function addCSSRules(rules) {
+    var style = document.createElement("style");
+
+    for (var i = 0, length = rules.length; i < length; i++) {
+      style.appendChild(document.createTextNode(rules[i]));
+    }
+
+    document.head.appendChild(style);
+  }
+
 	function loadCustomFont(family, url, contentDocument) {
 		var sheet = null;
 		var rule = "font-family: " + family + "; " + "src: url('" + url + "');";
