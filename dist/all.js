@@ -168,9 +168,7 @@ RiseVision.Common.Utilities = (function() {
 		var sheet = null;
 		var rule = "font-family: " + family + "; " + "src: url('" + url + "');";
 
-		if (contentDocument === null) {
-			contentDocument = document;
-		}
+    contentDocument = contentDocument || document;
 
 		sheet = contentDocument.styleSheets[0];
 
@@ -180,11 +178,9 @@ RiseVision.Common.Utilities = (function() {
 	}
 
 	function loadGoogleFont(family, contentDocument) {
-		if (contentDocument === null) {
-			contentDocument = document;
-		}
+    var stylesheet = document.createElement("link");
 
-		var stylesheet = document.createElement("link");
+		contentDocument = contentDocument || document;
 
 		stylesheet.setAttribute("rel", "stylesheet");
 		stylesheet.setAttribute("type", "text/css");
