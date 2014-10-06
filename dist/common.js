@@ -142,9 +142,10 @@ RiseVision.Common.Utilities = (function() {
 		}
 	}
 
-	return {
-		loadCustomFont: loadCustomFont,
-		loadGoogleFont: loadGoogleFont,
-    getFontCssStyle: getFontCssStyle
-	};
+  return {
+    getFontCssStyle:  getFontCssStyle,
+    addCSSRules:      addCSSRules,
+    loadCustomFont:   loadCustomFont,
+    loadGoogleFont:   loadGoogleFont
+  };
 })();
