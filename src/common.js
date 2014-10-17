@@ -100,8 +100,9 @@ RiseVision.Common.Utilities = (function() {
     var weight = "font-weight: " + (fontObj.bold ? "bold" : "normal") + "; ";
     var italic = "font-style: " + (fontObj.italic ? "italic" : "normal") + "; ";
     var underline = "text-decoration: " + (fontObj.underline ? "underline" : "none") + "; ";
+    var highlight = "background-color: " + fontObj.highlightColor + "; ";
 
-    return "." + className + " {" + family + color + size + weight + italic + underline + "}";
+    return "." + className + " {" + family + color + size + weight + italic + underline + highlight + "}";
   }
 
   function addCSSRules(rules) {
