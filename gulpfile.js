@@ -100,13 +100,18 @@
     runSequence(["clean", "config", "lint"], ["js-uglify", "i18n", "css"], cb);
   });
 
-  gulp.task("e2e:server", factory.testServer());
-  gulp.task("e2e:server-close", factory.testServerClose());
-  gulp.task("test:e2e", factory.testE2E());
+  gulp.task("test:unit", factory.testUnitAngular(
+    {testFiles: [
+      "components/jquery/dist/jquery.min.js",
+      "test/ajax-mock.js",
+      "src/config/test.js",
+      "src/store-auth.js",
+      "test/unit/**/*spec.js"]}
+  ))
   gulp.task("metrics", factory.metrics());
 
-  gulp.task("test", ["build"], function (cb) {
-    return runSequence("e2e:server", "test:e2e", "e2e:server-close", "metrics", cb);
+  gulp.task("test", function(cb) {
+    runSequence("test:unit", "metrics", cb)
   });
 
   gulp.task("default", ["build"]);
