@@ -2,16 +2,17 @@
   "use strict";
 
   var gulp = require("gulp");
+  var bump = require("gulp-bump");
+  var concat = require("gulp-concat");
+  var folders = require('gulp-folders');
+  var html2js = require("gulp-html2js");
+  var jshint = require("gulp-jshint");
   var gutil = require("gulp-util");
-  var path = require("path");
   var rename = require("gulp-rename");
   var rimraf = require("gulp-rimraf");
-  var concat = require("gulp-concat");
-  var bump = require("gulp-bump");
-  var runSequence = require("run-sequence");
-  var jshint = require("gulp-jshint");
   var uglify = require("gulp-uglify");
-  var html2js = require("gulp-html2js");
+  var path = require("path");
+  var runSequence = require("run-sequence");
   var factory = require("widget-tester").gulpTaskFactory;
 
   var jsFiles = [
@@ -66,13 +67,21 @@
   });
 
   gulp.task("js-prep", function (cb) {
-    return gulp.src([
-      "src/config/config.js",
-      "src/*.js"])
+    return gulp.src("src/*.js")
       .pipe(gulp.dest("dist"));
   });
-  
-  gulp.task("js-concat", ["js-prep"], function (cb) {
+
+  gulp.task("js-folder-prep", folders("src", function(folder) {
+    if (folder === "config")
+      return gulp.src("src/config/config.js")
+        .pipe(gulp.dest("dist"));
+    else
+      return gulp.src(path.join("src", folder, "*.js"))
+        .pipe(concat(folder + ".js"))
+        .pipe(gulp.dest("dist"));
+  }));
+
+  gulp.task("js-concat", ["js-prep", "js-folder-prep"], function (cb) {
     return gulp.src("dist/**/*.js")
       .pipe(concat("all.js"))
       .pipe(gulp.dest("dist"));
