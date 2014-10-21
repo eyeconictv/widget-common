@@ -6,6 +6,12 @@ describe("Store Authorization service", function() {
      expect(RiseVision.Common.Store.Auth).not.to.equal(null);
   });
 
+  it("should not be authorized by default", function() {
+    var auth = new RiseVision.Common.Store.Auth();
+
+    expect(auth.isAuthorized()).be.false;
+  });
+
   it("should not authorize companyId", function() {
     var auth = new RiseVision.Common.Store.Auth();
 

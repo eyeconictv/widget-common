@@ -10,26 +10,30 @@ RiseVision.Common.Store.Auth = function() {
   var HOUR_IN_MILLIS = 60 * 60 * 1000;
   var backDrop, warningDialog;
   this.callback = null;
-  this.authorized = true;
-  
+  this.authorized = false;
+
+  this.isAuthorized = function() {
+    return this.authorized;
+  };
+
   this.checkForDisplay = function(displayId, productCode, callback) {
     this.callback = callback;
     this.url = WIDGET_COMMON_CONFIG.STORE_URL +
-              WIDGET_COMMON_CONFIG.AUTH_PATH_URL + 
+              WIDGET_COMMON_CONFIG.AUTH_PATH_URL +
               "?id=" + displayId + "&pc=" + productCode + "";
-              
+
     this.callApi();
   };
- 
+
   this.checkForCompany = function(companyId, productCode, callback) {
     this.callback = callback;
     this.url = WIDGET_COMMON_CONFIG.STORE_URL +
-              WIDGET_COMMON_CONFIG.AUTH_PATH_URL + 
+              WIDGET_COMMON_CONFIG.AUTH_PATH_URL +
               "?cid=" + companyId + "&pc=" + productCode + "";
-              
+
     this.callApi();
   };
-  
+
   this.callApi = function() {
     var self = this;
 
@@ -44,23 +48,23 @@ RiseVision.Common.Store.Auth = function() {
       }
     });
   };
-  
+
   this.onSuccess = function(data, textStatus) {
     var self = this;
     if (data && data.authorized) {
       this.authorized = true;
-      
+
       hideNotification();
-      
+
       // check again for authorization one hour before it expires
       var milliSeconds = new Date(data.expiry).getTime() - new Date().getTime() - HOUR_IN_MILLIS;
       setTimeout(this.callApi, milliSeconds);
     }
     else if (data && !data.authorized) {
       this.authorized = false;
-      
+
       showNotification("Product not authorized.");
-      
+
       // check authoriztation every hour if failed
       setTimeout(this.callApi, HOUR_IN_MILLIS);
     }
@@ -73,20 +77,20 @@ RiseVision.Common.Store.Auth = function() {
       this.callback(this.authorized);
     }
   };
-  
+
   this.onError = function() {
     this.authorized = false;
-    
+
     showNotification("Cannot connect to Store for authorization.");
-    
+
     // check authoriztation every hour if failed
     setTimeout(this.callApi, HOUR_IN_MILLIS);
-    
+
     if (this.callback) {
       this.callback(this.authorized);
     }
   };
-  
+
   function showNotification(message) {
     backDrop = document.createElement("div");
     backDrop.className = "overlay";
@@ -96,12 +100,12 @@ RiseVision.Common.Store.Auth = function() {
     warningDialog.className = "auth-warning";
     warningDialog.innerHTML = message;
     warningDialog = document.body.appendChild(warningDialog);
-  } 
-  
+  }
+
   function hideNotification() {
     if (backDrop && warningDialog) {
       warningDialog.parentNode.removeChild(warningDialog);
-      backDrop.parentNode.removeChild(backDrop);    
+      backDrop.parentNode.removeChild(backDrop);
     }
   }
 };

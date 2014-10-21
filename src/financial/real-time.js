@@ -4,15 +4,8 @@ RiseVision.Common.Financial = RiseVision.Common.Financial || {};
 
 RiseVision.Common.Financial.RealTime = {};
 
-RiseVision.Common.Financial.RealTime = function(displayID, instruments) {
+RiseVision.Common.Financial.RealTime = function(displayID, instruments, store_auth) {
   var self = this;
-
-  if (displayID) {
-    this.displayID = displayID;
-  }
-  else {
-    this.displayID = "preview";
-  }
 
   this.instruments = instruments;
   this.isLoading = true;
@@ -25,6 +18,15 @@ RiseVision.Common.Financial.RealTime = function(displayID, instruments) {
   this.logosURL = "https://s3.amazonaws.com/risecontentlogos/financial/";
   this.viz = new RiseVision.Common.Visualization();
   this.helper = new RiseVision.Common.Financial.Helper(this.instruments);
+
+  this.getDisplayId = function() {
+    if (displayID && store_auth.isAuthorized()) {
+      return displayID;
+    }
+    else {
+      return "preview";
+    }
+  };
 };
 
 RiseVision.Common.Financial.RealTime.prototype.setInstruments = function(instruments) {
@@ -101,7 +103,7 @@ RiseVision.Common.Financial.RealTime.prototype.getData = function(fields, loadLo
   //Perform a search for the instruments.
   if (codes) {
     var options = {
-      url : this.url + "id=" + this.displayID + "&codes=" + codes,
+      url : this.url + "id=" + this.getDisplayId() + "&codes=" + codes,
       refreshInterval : 0,
       queryString : queryString,
       callback : function rtCallback(data) {
