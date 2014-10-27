@@ -163,7 +163,7 @@ RiseVision.Common.Financial.Helper.prototype.getInstruments = function(isLoading
           //Check if the instrument should be requested again based on its collection data.
           $.each(daysOfWeek, function(j, day) {
             //Check collection day.
-            if (day === dayOfWeek) {
+            if (day == dayOfWeek) {
               //Check collection time.
               if (new Date().between(startTime, endTime)) {
                 instruments.push(self.instruments[i]);
@@ -179,6 +179,7 @@ RiseVision.Common.Financial.Helper.prototype.getInstruments = function(isLoading
     return instruments.join("|");
   }
 };
+
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 RiseVision.Common.Financial = RiseVision.Common.Financial || {};
