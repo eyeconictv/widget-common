@@ -15,11 +15,6 @@
   var runSequence = require("run-sequence");
   var factory = require("widget-tester").gulpTaskFactory;
 
-  var jsFiles = [
-    "src/**/*.js",
-    "test/**/*.js",
-  ];
-
   gulp.task("clean-dist", function () {
     return gulp.src("dist", {read: false})
       .pipe(rimraf());
@@ -50,7 +45,7 @@
   });
 
   gulp.task("lint", function() {
-    return gulp.src(jsFiles)
+    return gulp.src("src/**/*.js")
       .pipe(jshint())
       .pipe(jshint.reporter("jshint-stylish"));
     // .pipe(jshint.reporter("fail"));
@@ -103,9 +98,14 @@
   gulp.task("test:unit", factory.testUnitAngular(
     {testFiles: [
       "components/jquery/dist/jquery.min.js",
+      "test/date.js",
+      "test/financial-data.js",
+      "node_modules/widget-tester/mocks/visualization-api-mock.js",
       "test/ajax-mock.js",
       "src/config/test.js",
       "src/store-auth.js",
+      "src/visualization.js",
+      "src/financial/*.js",
       "test/unit/**/*spec.js"]}
   ))
   gulp.task("metrics", factory.metrics());
