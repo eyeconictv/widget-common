@@ -209,8 +209,8 @@ RiseVision.Common.Utilities = (function() {
       }
 
       if (item.fontSetting.font.type) {
-        if (item.fontSetting.font.type === "custom" && item.fontSetting.font.family
-          && item.fontSetting.font.url) {
+        if (item.fontSetting.font.type === "custom" && item.fontSetting.font.family &&
+          item.fontSetting.font.url) {
           loadCustomFont(item.fontSetting.font.family, item.fontSetting.font.url,
             contentDoc);
         }
@@ -257,6 +257,7 @@ RiseVision.Common.Utilities = (function() {
     loadGoogleFont:   loadGoogleFont
   };
 })();
+
 var WIDGET_COMMON_CONFIG = {
   STORE_URL: "https://store-dot-rvaserver2.appspot.com/",
   AUTH_PATH_URL: "v1/widget/auth",
@@ -427,6 +428,7 @@ RiseVision.Common.Financial.Helper.prototype.getInstruments = function(isLoading
           //Check if the instrument should be requested again based on its collection data.
           $.each(daysOfWeek, function(j, day) {
             //Check collection day.
+            // TODO: Use strict type comparison (===)
             if (day == dayOfWeek) {
               //Check collection time.
               if (new Date().between(startTime, endTime)) {
@@ -586,12 +588,58 @@ RiseVision.Common.Financial.RealTime = function(displayID, instruments, store_au
   this.viz = new RiseVision.Common.Visualization();
   this.helper = new RiseVision.Common.Financial.Helper(this.instruments);
 
-  this.getDisplayId = function() {
+  this._getDisplayId = function() {
     if (displayID && store_auth.isAuthorized()) {
       return displayID;
     }
     else {
       return "preview";
+    }
+  };
+
+  this._saveCollectionTimes = function() {
+    var numRows, timeZoneOffset, startTime, endTime;
+
+    numRows = this.data.getNumberOfRows();
+
+    //Only need to save collection time once for the entire chain.
+    //Use the collection data from the first stock since the rest should all be the same.
+    //Data is for a chain if there is only one instrument being requested, but multiple rows of data are returned.
+    if ((this.instruments.length === 1) && (this.data.getNumberOfRows() > 1)) {
+      this._saveCollectionTime(0);
+    }
+    //Save collection data for each stock.
+    else {
+      for (var row = 0; row < numRows; row++) {
+        this._saveCollectionTime(row);
+      }
+
+      if (this.collectionTimes.length === 0) {
+        console.log(this.collectionTimes);
+      }
+    }
+  };
+
+  this._saveCollectionTime = function(row) {
+    if (this.data.getValue(row, 0) !== "INVALID_SYMBOL") {
+      // If the data is stale, then force collection times to be saved again later.
+      if (this.data.getValue(row, 0) === "...") {
+        this.isLoading = true;
+      }
+      else {
+        timeZoneOffset = this.data.getValue(row, this.startTimeIndex + 3);
+        startTime = this.data.getValue(row, this.startTimeIndex);
+        endTime = this.data.getValue(row, this.startTimeIndex + 1);
+
+        if (startTime && endTime && timeZoneOffset !== "N/P") {
+          this.collectionTimes.push({
+            "instrument" : this.instruments[row],
+            "startTime" : startTime.setTimezoneOffset(timeZoneOffset),
+            "endTime" : endTime.setTimezoneOffset(timeZoneOffset),
+            "daysOfWeek" : this.data.getFormattedValue(row, this.startTimeIndex + 2).split(",")
+          });
+        }
+      }
     }
   };
 };
@@ -617,6 +665,7 @@ RiseVision.Common.Financial.RealTime.prototype.getData = function(fields, loadLo
 
   this.dataFields = {};
   this.dataFields.instrument = 0;
+
   //TODO: Get rid of startTimeIndex and append instruments as last column?
   this.startTimeIndex = 1;
   //Used to determine where collection data columns are.
@@ -670,7 +719,7 @@ RiseVision.Common.Financial.RealTime.prototype.getData = function(fields, loadLo
   //Perform a search for the instruments.
   if (codes) {
     var options = {
-      url : this.url + "id=" + this.getDisplayId() + "&codes=" + codes,
+      url : this.url + "id=" + this._getDisplayId() + "&codes=" + codes,
       refreshInterval : 0,
       queryString : queryString,
       callback : function rtCallback(data) {
@@ -700,7 +749,7 @@ RiseVision.Common.Financial.RealTime.prototype.onRealTimeDataLoaded = function(d
       this.isLoading = false;
 
       if (this.collectionTimes.length === 0) {
-        this.saveCollectionTimes();
+        this._saveCollectionTimes();
       }
 
       if (loadLogos) {
@@ -727,67 +776,6 @@ RiseVision.Common.Financial.RealTime.prototype.onRealTimeDataLoaded = function(d
   else {
     console.log("Error encountered loading real-time data for: ");
     console.log(this.instruments[0]);
-  }
-};
-
-RiseVision.Common.Financial.RealTime.prototype.saveCollectionTimes = function() {
-  var numRows, timeZoneOffset, startTime, endTime;
-
-  numRows = this.data.getNumberOfRows();
-
-  //Only need to save collection time once for the entire chain.
-  //Use the collection data from the first stock since the rest should all be the same.
-  //Data is for a chain if there is only one instrument being requested, but multiple rows of data are returned.
-  if ((this.instruments.length === 1) && (this.data.getNumberOfRows() > 1)) {
-    if ((this.data.getValue(0, 0) !== "INVALID_SYMBOL")) {
-      // If the data is stale, then force collection times to be saved again later.
-      if (this.data.getValue(0, 0) === "...") {
-        this.isLoading = true;
-      }
-      else {
-        timeZoneOffset = this.data.getValue(0, this.startTimeIndex + 3);
-        startTime = this.data.getValue(0, this.startTimeIndex);
-        endTime = this.data.getValue(0, this.startTimeIndex + 1);
-
-        if (startTime && endTime && timeZoneOffset !== "N/P") {
-          this.collectionTimes.push({
-            "instrument" : this.instruments[0],
-            "startTime" : startTime.setTimezoneOffset(timeZoneOffset),
-            "endTime" : endTime.setTimezoneOffset(timeZoneOffset),
-            "daysOfWeek" : this.data.getFormattedValue(0, this.startTimeIndex + 2).split(",")
-          });
-        }
-      }
-    }
-  }
-  //Save collection data for each stock.
-  else {
-    for (var row = 0; row < numRows; row++) {
-      if (this.data.getValue(row, 0) !== "INVALID_SYMBOL") {
-        // If the data is stale, then force collection times to be saved again later.
-        if (this.data.getValue(row, 0) === "...") {
-          this.isLoading = true;
-        }
-        else {
-          timeZoneOffset = this.data.getValue(row, this.startTimeIndex + 3);
-          startTime = this.data.getValue(row, this.startTimeIndex);
-          endTime = this.data.getValue(row, this.startTimeIndex + 1);
-
-          if (startTime && endTime && timeZoneOffset !== "N/P") {
-            this.collectionTimes.push({
-              "instrument" : this.instruments[row],
-              "startTime" : startTime.setTimezoneOffset(timeZoneOffset),
-              "endTime" : endTime.setTimezoneOffset(timeZoneOffset),
-              "daysOfWeek" : this.data.getFormattedValue(row, this.startTimeIndex + 2).split(",")
-            });
-          }
-        }
-      }
-    }
-
-    if (this.collectionTimes.length === 0) {
-      console.log(this.collectionTimes);
-    }
   }
 };
 

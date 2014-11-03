@@ -149,8 +149,8 @@ RiseVision.Common.Utilities = (function() {
       }
 
       if (item.fontSetting.font.type) {
-        if (item.fontSetting.font.type === "custom" && item.fontSetting.font.family
-          && item.fontSetting.font.url) {
+        if (item.fontSetting.font.type === "custom" && item.fontSetting.font.family &&
+          item.fontSetting.font.url) {
           loadCustomFont(item.fontSetting.font.family, item.fontSetting.font.url,
             contentDoc);
         }
