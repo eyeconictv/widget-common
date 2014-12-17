@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "description": "Common functionality for Widgets not using Angular JS.",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "build": "gulp build"
   },
   "dependencies": {
     "gulp": "^3.5.6",

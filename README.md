@@ -1,4 +1,4 @@
-# widget-common [![Build Status](http://devtools1.risevision.com:8080/job/Widget-Common-Master-Build/badge/icon)](http://devtools1.risevision.com:8080/job/Widget-Common-Master-Build/)
+# widget-common [![Circle CI](https://circleci.com/gh/Rise-Vision/widget-common/tree/master.svg?style=svg)](https://circleci.com/gh/Rise-Vision/widget-common/tree/master)
 
 ## Introduction
 
