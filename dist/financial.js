@@ -204,7 +204,7 @@ RiseVision.Common.Financial.Historical = function(displayID, instrument, duratio
   this.updateInterval = 60000;
   this.now = Date.today();
   //Issue 922
-  this.url = "http://contentfinancial2.appspot.com/data/historical?";
+  this.url = "https://contentfinancial2.appspot.com/data/historical?";
   this.historicalViz = new RiseVision.Common.Visualization();
   this.helper = new RiseVision.Common.Financial.Helper([this.instrument]);
 };
@@ -302,6 +302,7 @@ RiseVision.Common.Financial.Historical.prototype.onHistoricalDataLoaded = functi
     console.log(this);
   }
 };
+
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 RiseVision.Common.Financial = RiseVision.Common.Financial || {};
@@ -318,7 +319,7 @@ RiseVision.Common.Financial.RealTime = function(displayID, instruments, store_au
   this.updateInterval = 60000;
   this.now = Date.today();
   //Issue 922
-  this.url = "http://contentfinancial2.appspot.com/data?";
+  this.url = "https://contentfinancial2.appspot.com/data?";
   this.logosURL = "https://s3.amazonaws.com/risecontentlogos/financial/";
   this.viz = new RiseVision.Common.Visualization();
   this.helper = new RiseVision.Common.Financial.Helper(this.instruments);

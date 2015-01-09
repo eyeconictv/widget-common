@@ -21,7 +21,7 @@ RiseVision.Common.Financial.Historical = function(displayID, instrument, duratio
   this.updateInterval = 60000;
   this.now = Date.today();
   //Issue 922
-  this.url = "http://contentfinancial2.appspot.com/data/historical?";
+  this.url = "https://contentfinancial2.appspot.com/data/historical?";
   this.historicalViz = new RiseVision.Common.Visualization();
   this.helper = new RiseVision.Common.Financial.Helper([this.instrument]);
 };
