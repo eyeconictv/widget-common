@@ -14,7 +14,7 @@ RiseVision.Common.Financial.RealTime = function(displayID, instruments, store_au
   this.updateInterval = 60000;
   this.now = Date.today();
   //Issue 922
-  this.url = "http://contentfinancial2.appspot.com/data?";
+  this.url = "https://contentfinancial2.appspot.com/data?";
   this.logosURL = "https://s3.amazonaws.com/risecontentlogos/financial/";
   this.viz = new RiseVision.Common.Visualization();
   this.helper = new RiseVision.Common.Financial.Helper(this.instruments);
