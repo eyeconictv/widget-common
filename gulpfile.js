@@ -106,6 +106,7 @@
       "src/store-auth.js",
       "src/visualization.js",
       "src/financial/*.js",
+      "src/background.js",
       "test/unit/**/*spec.js"]}
   ))
   gulp.task("metrics", factory.metrics());
