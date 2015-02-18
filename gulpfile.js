@@ -16,9 +16,14 @@
   var del = require("del");
   var colors = require("colors");
   var minifyCSS = require("gulp-minify-css");
+  var bower = require("gulp-bower");
 
   gulp.task("clean", function (cb) {
     del(['./dist/**'], cb);
+  });
+
+  gulp.task("clean-bower", function(cb){
+    del(["./components/**"], cb);
   });
 
   gulp.task("config", function() {
@@ -92,6 +97,17 @@
 
   gulp.task("metrics", factory.metrics());
 
+  // ***** e2e Testing ***** //
+  gulp.task("e2e:server-close", factory.testServerClose());
+
+  gulp.task("e2e:server", ["config"], factory.testServer());
+
+  gulp.task("e2e:run", factory.testE2E());
+
+  gulp.task("test:e2e", function(cb) {
+    runSequence(["e2e:server"], "e2e:run", "e2e:server-close", cb);
+  });
+
   // ****** Unit Testing ***** //
   gulp.task("test:unit", factory.testUnitAngular(
     {testFiles: [
@@ -109,17 +125,24 @@
   ));
 
   // ***** Primary Tasks ***** //
+  gulp.task("bower-clean-install", ["clean-bower"], function(cb){
+    return bower().on("error", function(err) {
+      console.log(err);
+      cb();
+    });
+  });
 
   gulp.task("build", function (cb) {
     runSequence(["clean", "config", "lint"], ["js-uglify", "css-minify"], cb);
   });
 
   gulp.task("test", function(cb) {
-    runSequence("test:unit", "metrics", cb)
+    runSequence("test:unit", "test:e2e", "metrics", cb)
   });
 
   gulp.task("default", [], function() {
     console.log("********************************************************************".yellow);
+    console.log("  gulp bower-clean-install: delete and re-install bower components".yellow);
     console.log("  gulp test: run e2e and unit tests".yellow);
     console.log("  gulp build: build a distribution version".yellow);
     console.log("********************************************************************".yellow);
