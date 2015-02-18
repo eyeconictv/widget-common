@@ -9,23 +9,16 @@
   var jshint = require("gulp-jshint");
   var gutil = require("gulp-util");
   var rename = require("gulp-rename");
-  var rimraf = require("gulp-rimraf");
   var uglify = require("gulp-uglify");
   var path = require("path");
   var runSequence = require("run-sequence");
   var factory = require("widget-tester").gulpTaskFactory;
+  var del = require("del");
+  var colors = require("colors");
 
-  gulp.task("clean-dist", function () {
-    return gulp.src("dist", {read: false})
-      .pipe(rimraf());
+  gulp.task("clean", function (cb) {
+    del(['./dist/**'], cb);
   });
-
-  gulp.task("clean-tmp", function () {
-    return gulp.src("tmp", {read: false})
-      .pipe(rimraf());
-  });
-
-  gulp.task("clean", ["clean-dist", "clean-tmp"]);
 
   gulp.task("config", function() {
     var env = process.env.NODE_ENV || "dev";
@@ -33,11 +26,10 @@
 
     return gulp.src(["./src/config/" + env + ".js"])
       .pipe(rename("config.js"))
-      .pipe(gulp.dest("./src/config"));
+      .pipe(gulp.dest("./src/config"))
+      .pipe(gulp.dest("dist"));
   });
 
-  // Defined method of updating:
-  // Semantic
   gulp.task("bump", function(){
     return gulp.src(["./package.json", "./bower.json"])
     .pipe(bump({type:"patch"}))
@@ -47,36 +39,27 @@
   gulp.task("lint", function() {
     return gulp.src("src/**/*.js")
       .pipe(jshint())
-      .pipe(jshint.reporter("jshint-stylish"));
-    // .pipe(jshint.reporter("fail"));
-  });
-
-  gulp.task("i18n", function() {
-    return gulp.src("src/locales/**/*.json")
-    .pipe(gulp.dest("dist/locales"));
+      .pipe(jshint.reporter("jshint-stylish"))
+      //.pipe(jshint.reporter("fail"));
   });
 
   gulp.task("css", function() {
-    return gulp.src("src/**/*.css")
+    return gulp.src("src/css/**/*.css")
     .pipe(gulp.dest("dist/css"))
   });
 
-  gulp.task("js-prep", function (cb) {
-    return gulp.src("src/*.js")
+  gulp.task("js", function (cb) {
+    return gulp.src("src/js/*.js")
       .pipe(gulp.dest("dist"));
   });
 
-  gulp.task("js-folder-prep", folders("src", function(folder) {
-    if (folder === "config")
-      return gulp.src("src/config/config.js")
-        .pipe(gulp.dest("dist"));
-    else
-      return gulp.src(path.join("src", folder, "*.js"))
+  gulp.task("js-folder", folders("src/js", function(folder) {
+      return gulp.src(path.join("src/js", folder, "*.js"))
         .pipe(concat(folder + ".js"))
         .pipe(gulp.dest("dist"));
   }));
 
-  gulp.task("js-concat", ["js-prep", "js-folder-prep"], function (cb) {
+  gulp.task("js-concat", ["js", "js-folder"], function (cb) {
     return gulp.src("dist/**/*.js")
       .pipe(concat("all.js"))
       .pipe(gulp.dest("dist"));
@@ -91,30 +74,40 @@
       .pipe(gulp.dest("dist"));
   });
 
-  gulp.task("build", function (cb) {
-    runSequence(["clean", "config", "lint"], ["js-uglify", "i18n", "css"], cb);
-  });
+  gulp.task("metrics", factory.metrics());
 
+  // ****** Unit Testing ***** //
   gulp.task("test:unit", factory.testUnitAngular(
     {testFiles: [
       "components/jquery/dist/jquery.min.js",
       "test/date.js",
-      "test/financial-data.js",
+      "test/data/financial.js",
       "node_modules/widget-tester/mocks/visualization-api-mock.js",
-      "test/ajax-mock.js",
+      "test/mocks/ajax.js",
       "src/config/test.js",
-      "src/store-auth.js",
-      "src/visualization.js",
-      "src/financial/*.js",
-      "src/background.js",
+      "src/js/store-auth.js",
+      "src/js/visualization.js",
+      "src/js/financial/*.js",
+      "src/js/background.js",
       "test/unit/**/*spec.js"]}
-  ))
-  gulp.task("metrics", factory.metrics());
+  ));
+
+  // ***** Primary Tasks ***** //
+
+  gulp.task("build", function (cb) {
+    runSequence(["clean", "config", "lint"], ["js-uglify", "css"], cb);
+  });
 
   gulp.task("test", function(cb) {
     runSequence("test:unit", "metrics", cb)
   });
 
-  gulp.task("default", ["build"]);
+  gulp.task("default", [], function() {
+    console.log("********************************************************************".yellow);
+    console.log("  gulp test: run e2e and unit tests".yellow);
+    console.log("  gulp build: build a distribution version".yellow);
+    console.log("********************************************************************".yellow);
+    return true;
+  });
 
 })();
