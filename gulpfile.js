@@ -15,6 +15,7 @@
   var factory = require("widget-tester").gulpTaskFactory;
   var del = require("del");
   var colors = require("colors");
+  var minifyCSS = require("gulp-minify-css");
 
   gulp.task("clean", function (cb) {
     del(['./dist/**'], cb);
@@ -46,6 +47,21 @@
   gulp.task("css", function() {
     return gulp.src("src/css/**/*.css")
     .pipe(gulp.dest("dist/css"))
+  });
+
+  gulp.task("css-concat", ["css"], function () {
+    return gulp.src("dist/**/*.css")
+      .pipe(concat("all.css"))
+      .pipe(gulp.dest("dist/css"));
+  });
+
+  gulp.task("css-minify", ["css-concat"], function () {
+    gulp.src("dist/css/all.css")
+      .pipe(minifyCSS())
+      .pipe(rename(function (path) {
+        path.basename += ".min";
+      }))
+      .pipe(gulp.dest("dist/css"));
   });
 
   gulp.task("js", function (cb) {
@@ -95,7 +111,7 @@
   // ***** Primary Tasks ***** //
 
   gulp.task("build", function (cb) {
-    runSequence(["clean", "config", "lint"], ["js-uglify", "css"], cb);
+    runSequence(["clean", "config", "lint"], ["js-uglify", "css-minify"], cb);
   });
 
   gulp.task("test", function(cb) {
