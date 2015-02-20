@@ -38,7 +38,11 @@ RiseVision.Common.Background = function (data, companyId) {
           if (storage) {
             // Rise Storage
             storage.addEventListener("rise-storage-response", function(e) {
-              background.style.backgroundImage = "url(" + e.detail[0] + ")";
+              if (Array.isArray(e.detail)) {
+                background.style.backgroundImage = "url(" + e.detail[0] + ")";
+              } else {
+                background.style.backgroundImage = "url(" + e.detail + ")";
+              }
               _backgroundReady();
             });
 

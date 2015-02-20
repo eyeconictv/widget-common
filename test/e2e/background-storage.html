@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Background e2e Test</title>
+
+    <script src="/components/webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="import" href="/components/web-component-rise-storage/rise-storage.html">
+
+    <link rel="stylesheet" type="text/css" href="/src/css/background.css">
+
+</head>
+<body>
+
+<rise-storage id="backgroundStorage"></rise-storage>
+
+<div id="background"></div>
+
+<script src="/node_modules/widget-tester/mocks/rise-storage-mock.js"></script>
+<script src="/test/data/background-storage.js"></script>
+<script src="/node_modules/widget-tester/mocks/gadget-mocks.js"></script>
+<script src="/src/config/config.js"></script>
+<script src="/src/js/background.js"></script>
+
+<script type="text/javascript">
+    var prefs = new gadgets.Prefs(),
+            id = prefs.getString("id"),
+            company = "",
+            params = {};
+
+    function additionalParams(names, values) {
+        params = JSON.parse(values[0]);
+
+        // Creating background instance
+        var background = new RiseVision.Common.Background(params, company);
+        background.init();
+    }
+
+    function companyId(name, value) {
+        company = value;
+
+        gadgets.rpc.register("rsparam_set_" + id, additionalParams);
+        gadgets.rpc.call("", "rsparam_get", null, id, ["additionalParams"]);
+    }
+
+    if (id && id !== "") {
+        gadgets.rpc.register("rsparam_set_" + id, companyId);
+        gadgets.rpc.call("", "rsparam_get", null, id, "companyId");
+    }
+
+</script>
+
+</body>
+</html>

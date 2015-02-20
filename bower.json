@@ -15,10 +15,8 @@
     "test",
     "tmp"
   ],
-  "devDependencies": {
-
-  },
   "dependencies": {
-    "jquery": "1.11.0"
+    "jquery": "1.11.0",
+    "web-component-rise-storage": "https://github.com/Rise-Vision/web-component-rise-storage.git#0.1.5"
   }
 }
