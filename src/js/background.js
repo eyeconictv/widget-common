@@ -5,7 +5,9 @@ RiseVision.Common.Background = function (data, companyId) {
   "use strict";
 
   var _callback = null,
-    _ready = false;
+    _ready = false,
+    _background = null,
+    _storage = null;
 
   /*
    * Private Methods
@@ -18,38 +20,42 @@ RiseVision.Common.Background = function (data, companyId) {
     }
   }
 
+  function _storageResponse(e) {
+    _storage.removeEventListener("rise-storage-response", _storageResponse);
+
+    if (Array.isArray(e.detail)) {
+      _background.style.backgroundImage = "url(" + e.detail[0] + ")";
+    } else {
+      _background.style.backgroundImage = "url(" + e.detail + ")";
+    }
+    _backgroundReady();
+  }
+
   function _configure() {
-    var background = document.getElementById("background"),
-      storage = document.getElementById("backgroundStorage");
+    _background = document.getElementById("background");
+    _storage = document.getElementById("backgroundStorage");
 
     // set the document background
     document.body.style.background = data.background.color;
 
-    if (background) {
+    if (_background) {
       if (data.background.useImage) {
-        background.className = data.background.image.position;
-        background.className = data.background.image.scale ? background.className + " scale-to-fit"
-          : background.className;
+        _background.className = data.background.image.position;
+        _background.className = data.background.image.scale ? _background.className + " scale-to-fit"
+          : _background.className;
 
         if (Object.keys(data.backgroundStorage).length === 0) {
-          background.style.backgroundImage = "url(" + data.background.image.url + ")";
+          _background.style.backgroundImage = "url(" + data.background.image.url + ")";
           _backgroundReady();
         } else {
-          if (storage) {
+          if (_storage) {
             // Rise Storage
-            storage.addEventListener("rise-storage-response", function(e) {
-              if (Array.isArray(e.detail)) {
-                background.style.backgroundImage = "url(" + e.detail[0] + ")";
-              } else {
-                background.style.backgroundImage = "url(" + e.detail + ")";
-              }
-              _backgroundReady();
-            });
+            _storage.addEventListener("rise-storage-response", _storageResponse);
 
-            storage.setAttribute("folder", data.backgroundStorage.folder);
-            storage.setAttribute("fileName", data.backgroundStorage.fileName);
-            storage.setAttribute("companyId", companyId);
-            storage.go();
+            _storage.setAttribute("folder", data.backgroundStorage.folder);
+            _storage.setAttribute("fileName", data.backgroundStorage.fileName);
+            _storage.setAttribute("companyId", companyId);
+            _storage.go();
           } else {
             console.log("Missing element with id value of 'backgroundStorage'");
           }
