@@ -1,6 +1,6 @@
 {
   "name": "widget-common",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://github.com/Rise-Vision/widget-common",
   "authors": [
     "Rise Vision Inc <support@risevision.com>"
@@ -15,8 +15,10 @@
     "test",
     "tmp"
   ],
+  "devDependencies": {
+    "web-component-rise-storage": "https://github.com/Rise-Vision/web-component-rise-storage.git#0.1.6"
+  },
   "dependencies": {
-    "jquery": "1.11.0",
-    "web-component-rise-storage": "https://github.com/Rise-Vision/web-component-rise-storage.git#0.1.5"
+    "jquery": "1.11.0"
   }
 }

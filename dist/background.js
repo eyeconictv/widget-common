@@ -1,7 +1,7 @@
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.Background = function (data, companyId) {
+RiseVision.Common.Background = function (data) {
   "use strict";
 
   var _callback = null,
@@ -54,7 +54,7 @@ RiseVision.Common.Background = function (data, companyId) {
 
             _storage.setAttribute("folder", data.backgroundStorage.folder);
             _storage.setAttribute("fileName", data.backgroundStorage.fileName);
-            _storage.setAttribute("companyId", companyId);
+            _storage.setAttribute("companyId", data.backgroundStorage.companyId);
             _storage.go();
           } else {
             console.log("Missing element with id value of 'backgroundStorage'");
