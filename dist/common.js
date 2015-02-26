@@ -100,11 +100,22 @@ RiseVision.Common.Utilities = (function() {
     }
   }
 
+  function preloadImages(urls) {
+    var length = urls.length,
+      images = [];
+
+    for (var i = 0; i < length; i++) {
+      images[i] = new Image();
+      images[i].src = urls[i];
+    }
+  }
+
   return {
     getFontCssStyle:  getFontCssStyle,
     addCSSRules:      addCSSRules,
     loadFonts:        loadFonts,
     loadCustomFont:   loadCustomFont,
-    loadGoogleFont:   loadGoogleFont
+    loadGoogleFont:   loadGoogleFont,
+    preloadImages:    preloadImages
   };
 })();
