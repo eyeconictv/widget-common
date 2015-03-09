@@ -18,7 +18,7 @@
       },
       "backgroundStorage": {
         "folder": "",
-        "fileName": "url.to.home.jpg"
+        "fileName": "moon.jpg"
       }
     }
   };

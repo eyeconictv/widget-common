@@ -24,9 +24,9 @@ casper.test.begin("Background [Storage] - e2e Testing", function (test) {
         test.assertExists(".scale-to-fit", "Scale to fit");
         test.assertExists(".bottom-right", "Alignment");
         test.assertEquals(this.getElementAttribute("#backgroundStorage", "fileName"),
-        "url.to.home.jpg", "File Name");
+        "moon.jpg", "File Name");
         test.assertEquals(this.getElementAttribute("#background", "style"),
-          "background-image: url(https://url.to.home.jpg/); ", "Image");
+          "background-image: url(https://storage.googleapis.com/risemedialibrary-b428b4e8-c8b9-41d5-8a10-b4193c789443/Widgets%2Fmoon.jpg); ", "Image");
         test.assertEquals(this.getElementAttribute("body", "style"),
           "background-image: initial; background-attachment: initial; background-origin: initial; " +
           "background-clip: initial; background-color: rgba(145, 145, 145, 0); " +
