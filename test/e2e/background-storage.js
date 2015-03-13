@@ -15,9 +15,16 @@ casper.test.begin("Background [Storage] - e2e Testing", function (test) {
   );
 
   casper.then(function () {
+    casper.evaluate(function () {
+      var evt = document.createEvent("CustomEvent");
+
+      evt.initCustomEvent("polymer-ready", false, false);
+      window.dispatchEvent(evt);
+    });
+
     casper.waitFor(function waitForUI() {
         return this.evaluate(function configureBackground() {
-          return document.getElementById("background").getAttribute("style") !== "";
+          return document.getElementById("background").classList.contains("bottom-right");
         });
       },
       function then() {
