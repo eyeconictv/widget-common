@@ -36,10 +36,12 @@
       background.init();
     }
 
-    if (id && id !== "") {
-        gadgets.rpc.register("rsparam_set_" + id, additionalParams);
-        gadgets.rpc.call("", "rsparam_get", null, id, ["additionalParams"]);
-    }
+    window.addEventListener("polymer-ready", function() {
+        if (id && id !== "") {
+            gadgets.rpc.register("rsparam_set_" + id, additionalParams);
+            gadgets.rpc.call("", "rsparam_get", null, id, ["additionalParams"]);
+        }
+    });
 
 </script>
 

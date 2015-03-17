@@ -38,10 +38,8 @@ RiseVision.Common.Background = function (data) {
   function _storageResponse(e) {
     _storage.removeEventListener("rise-storage-response", _storageResponse);
 
-    if (Array.isArray(e.detail)) {
-      _background.style.backgroundImage = "url(" + e.detail[0] + ")";
-    } else {
-      _background.style.backgroundImage = "url(" + e.detail + ")";
+    if (e.detail && e.detail.files && e.detail.files.length > 0) {
+      _background.style.backgroundImage = "url(" + e.detail.files[0].url + ")";
     }
     _backgroundReady();
   }
