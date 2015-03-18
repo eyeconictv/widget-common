@@ -35,15 +35,6 @@ RiseVision.Common.Background = function (data) {
     }
   }
 
-  function _storageResponse(e) {
-    _storage.removeEventListener("rise-storage-response", _storageResponse);
-
-    if (e.detail && e.detail.files && e.detail.files.length > 0) {
-      _background.style.backgroundImage = "url(" + e.detail.files[0].url + ")";
-    }
-    _backgroundReady();
-  }
-
   function _configure() {
     var str;
 
@@ -72,7 +63,15 @@ RiseVision.Common.Background = function (data) {
         } else {
           if (_storage) {
             // Rise Storage
-            _storage.addEventListener("rise-storage-response", _storageResponse);
+            _storage.addEventListener("rise-storage-response", function (e) {
+              if (e.detail && e.detail.files && e.detail.files.length > 0) {
+                _background.style.backgroundImage = "url(" + e.detail.files[0].url + ")";
+              }
+
+              if (!_ready) {
+                _backgroundReady();
+              }
+            });
 
             _storage.setAttribute("folder", data.backgroundStorage.folder);
             _storage.setAttribute("fileName", data.backgroundStorage.fileName);

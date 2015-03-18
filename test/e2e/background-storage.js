@@ -39,6 +39,28 @@ casper.test.begin("Background [Storage] - e2e Testing", function (test) {
           "background-clip: initial; background-color: rgba(145, 145, 145, 0); " +
           "background-position: initial initial; background-repeat: initial initial; ",
           "Background color");
+
+        /* TODO: Test that image is refreshed. */
+        /*casper.evaluate(function() {
+          window.clock = sinon.useFakeTimers();
+        });
+
+        casper.waitFor(function waitForTimer() {
+           return this.evaluate(function expireTimer() {
+             window.clock.tick(900001);
+
+             return document.getElementById("background").getAttribute("style") !==
+               "background-image: url(https://storage.googleapis.com/risemedialibrary-b428b4e8-c8b9-41d5-8a10-b4193c789443/Widgets%2Fmoon.jpg);";
+           });
+         },
+         function then() {
+           this.evaluate(function() {
+             window.clock.restore();
+           });
+
+         // More assertions here.
+        });*/
+
       });
   });
 
