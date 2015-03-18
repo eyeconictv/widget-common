@@ -11,13 +11,13 @@
         "color": "rgba(145,145,145,0)",
         "useImage": true,
         "image": {
-          "url": "", // value comes from rise-storage-mock
+          "url": "https://storage.googleapis.com/risemedialibrary-b428b4e8-c8b9-41d5-8a10-b4193c789443/Widgets%2Fmoon.jpg",
           "position": "bottom-right",
           "scale": true
         }
       },
       "backgroundStorage": {
-        "folder": "",
+        "folder": "Widgets",
         "fileName": "moon.jpg"
       }
     }
