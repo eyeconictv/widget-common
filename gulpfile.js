@@ -4,7 +4,7 @@
   var gulp = require("gulp");
   var bump = require("gulp-bump");
   var concat = require("gulp-concat");
-  var folders = require('gulp-folders');
+  var folders = require("gulp-folders");
   var html2js = require("gulp-html2js");
   var jshint = require("gulp-jshint");
   var gutil = require("gulp-util");
@@ -19,7 +19,7 @@
   var bower = require("gulp-bower");
 
   gulp.task("clean", function (cb) {
-    del(['./dist/**'], cb);
+    del(["./dist/**"], cb);
   });
 
   gulp.task("clean-bower", function(cb){
@@ -61,7 +61,7 @@
   });
 
   gulp.task("css-minify", ["css-concat"], function () {
-    gulp.src("dist/css/all.css")
+    gulp.src("dist/css/*.css")
       .pipe(minifyCSS())
       .pipe(rename(function (path) {
         path.basename += ".min";
@@ -75,9 +75,9 @@
   });
 
   gulp.task("js-folder", folders("src/js", function(folder) {
-      return gulp.src(path.join("src/js", folder, "*.js"))
-        .pipe(concat(folder + ".js"))
-        .pipe(gulp.dest("dist"));
+    return gulp.src(path.join("src/js", folder, "*.js"))
+      .pipe(concat(folder + ".js"))
+      .pipe(gulp.dest("dist"));
   }));
 
   gulp.task("js-concat", ["js", "js-folder"], function (cb) {
@@ -87,15 +87,13 @@
   });
 
   gulp.task("js-uglify", ["js-concat"], function () {
-    gulp.src("dist/all.js")
+    gulp.src("dist/*.js")
       .pipe(uglify())
       .pipe(rename(function (path) {
         path.basename += ".min";
       }))
       .pipe(gulp.dest("dist"));
   });
-
-  gulp.task("metrics", factory.metrics());
 
   // ***** e2e Testing ***** //
   gulp.task("e2e:server-close", factory.testServerClose());
@@ -121,6 +119,7 @@
       "src/js/visualization.js",
       "src/js/financial/*.js",
       "src/js/background.js",
+      "src/js/common.js",
       "test/unit/**/*spec.js"]}
   ));
 
@@ -137,7 +136,7 @@
   });
 
   gulp.task("test", function(cb) {
-    runSequence("test:unit", "test:e2e", "metrics", cb)
+    runSequence("test:unit", "test:e2e", cb)
   });
 
   gulp.task("default", [], function() {
