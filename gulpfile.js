@@ -120,6 +120,7 @@
       "src/js/financial/*.js",
       "src/js/background.js",
       "src/js/common.js",
+      "src/js/rise-cache.js",
       "test/unit/**/*spec.js"]}
   ));
 
