@@ -27,7 +27,7 @@
   });
 
   gulp.task("config", function() {
-    var env = process.env.NODE_ENV || "dev";
+    var env = process.env.NODE_ENV || "prod";
     gutil.log("Environment is", env);
 
     return gulp.src(["./src/config/" + env + ".js"])
@@ -45,7 +45,7 @@
   gulp.task("lint", function() {
     return gulp.src("src/**/*.js")
       .pipe(jshint())
-      .pipe(jshint.reporter("jshint-stylish"))
+      .pipe(jshint.reporter("jshint-stylish"));
       //.pipe(jshint.reporter("fail"));
   });
 
@@ -133,7 +133,7 @@
   });
 
   gulp.task("build", function (cb) {
-    runSequence(["clean", "config", "lint"], ["js-uglify", "css-minify"], cb);
+    runSequence(["clean", "config"], ["lint", "js-uglify", "css-minify"], cb);
   });
 
   gulp.task("test", function(cb) {
