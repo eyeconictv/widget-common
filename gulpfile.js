@@ -95,6 +95,11 @@
       .pipe(gulp.dest("dist"));
   });
 
+  gulp.task("assets", function () {
+    gulp.src("src/assets/**/*")
+      .pipe(gulp.dest("dist/assets"))
+  });
+
   // ***** e2e Testing ***** //
   gulp.task("e2e:server-close", factory.testServerClose());
 
@@ -133,7 +138,7 @@
   });
 
   gulp.task("build", function (cb) {
-    runSequence(["clean", "config"], ["lint", "js-uglify", "css-minify"], cb);
+    runSequence(["clean"], ["config"], ["lint", "js-uglify", "css-minify", "assets"], cb);
   });
 
   gulp.task("test", function(cb) {
