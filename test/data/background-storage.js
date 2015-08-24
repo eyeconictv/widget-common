@@ -17,6 +17,7 @@
         }
       },
       "backgroundStorage": {
+        "companyId": "b428b4e8-c8b9-41d5-8a10-b4193c789443",
         "folder": "Widgets",
         "fileName": "moon.jpg"
       }
