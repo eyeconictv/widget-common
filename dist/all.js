@@ -1,3 +1,5 @@
+/* global config */
+
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
@@ -64,18 +66,28 @@ RiseVision.Common.Background = function (data) {
           if (_storage) {
             // Rise Storage
             _storage.addEventListener("rise-storage-response", function (e) {
-              if (e.detail && e.detail.files && e.detail.files.length > 0) {
-                _background.style.backgroundImage = "url(" + e.detail.files[0].url + ")";
-              }
-
               if (!_ready) {
+                if (e.detail && e.detail.url) {
+                  // Escape single quotes.
+                  _background.style.backgroundImage = "url('" + e.detail.url.replace("'", "\\'") + "')";
+                }
+
                 _backgroundReady();
+              } else {
+                if (e.detail && e.detail.url) {
+                  // check for "changed" property and ensure it is true
+                  if (e.detail.hasOwnProperty("changed") && e.detail.changed) {
+                    // Escape single quotes.
+                    _background.style.backgroundImage = "url('" + e.detail.url.replace("'", "\\'") + "')";
+                  }
+                }
               }
             });
 
             _storage.setAttribute("folder", data.backgroundStorage.folder);
             _storage.setAttribute("fileName", data.backgroundStorage.fileName);
             _storage.setAttribute("companyId", data.backgroundStorage.companyId);
+            _storage.setAttribute("env", config.STORAGE_ENV);
             _storage.go();
           } else {
             console.log("Missing element with id value of 'backgroundStorage'");
@@ -253,6 +265,12 @@ var WIDGET_COMMON_CONFIG = {
   STORE_URL: "https://store-dot-rvaserver2.appspot.com/",
   AUTH_PATH_URL: "v1/widget/auth",
 };
+
+if (typeof config === "undefined") {
+  var config = {
+    STORAGE_ENV: "prod"
+  };
+}
 
 /*
  * Singleton object to handle retrieving collection times for a historical instrument.
