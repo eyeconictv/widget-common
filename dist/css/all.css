@@ -38,6 +38,18 @@
     background-size: contain;
 }
 
+#messageContainer {
+    display: none; /* hide by default */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.message {
+    text-align: center;
+    vertical-align: middle;
+}
 .overlay {
   position: absolute;
   z-index: 1;
