@@ -126,6 +126,7 @@
       "src/js/background.js",
       "src/js/common.js",
       "src/js/rise-cache.js",
+      "src/js/logger.js",
       "test/unit/**/*spec.js"]}
   ));
 
