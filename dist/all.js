@@ -963,6 +963,7 @@ RiseVision.Common.LoggerUtils = (function() {
     "rows": [{
       "insertId": "",
       "json": {
+        "widget": "",
         "event": "",
         "display_id": "",
         "event_details": "",
@@ -971,16 +972,17 @@ RiseVision.Common.LoggerUtils = (function() {
     }]
   };
 
-  function getInsertData(eventName, displayId, eventDetails) {
+  function getInsertData(params) {
     var data = JSON.parse(JSON.stringify(INSERT_SCHEMA));
 
     data.rows[0].insertId = Math.random().toString(36).substr(2).toUpperCase();
-    data.rows[0].json.event = eventName;
-    data.rows[0].json.display_id = displayId;
+    data.rows[0].json.widget = params.widget;
+    data.rows[0].json.event = params.event;
+    data.rows[0].json.display_id = params.displayId;
     data.rows[0].json.ts = new Date().toISOString();
 
-    if (eventDetails) {
-      data.rows[0].json.event_details = eventDetails;
+    if (params.eventDetails) {
+      data.rows[0].json.event_details = params.eventDetails;
     }
 
     return data;
@@ -1044,8 +1046,8 @@ RiseVision.Common.Logger = (function(utils) {
   /*
    *  Public Methods
    */
-  function log(eventName, displayId, eventDetails, cb) {
-    if (!eventName) {
+  function log(params) {
+    if (!params.widget || !params.event) {
       return;
     }
 
@@ -1056,16 +1058,16 @@ RiseVision.Common.Logger = (function(utils) {
       url = serviceUrl.replace("TABLE_ID", utils.getTable("events"));
       refreshDate = refreshData.refreshedAt || refreshDate;
       token = refreshData.token || token;
-      insertData = utils.getInsertData(eventName, displayId, eventDetails);
+      insertData = utils.getInsertData(params);
 
       // Insert the data.
       xhr.open("POST", url, true);
       xhr.setRequestHeader("Content-Type", "application/json");
       xhr.setRequestHeader("Authorization", "Bearer " + token);
 
-      if (cb && typeof cb === "function") {
+      if (params.cb && typeof params.cb === "function") {
         xhr.onloadend = function() {
-          cb(xhr.response);
+          params.cb(xhr.response);
         };
       }
 

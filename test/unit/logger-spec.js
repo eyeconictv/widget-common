@@ -1,15 +1,18 @@
 "use strict";
 
 var utils = RiseVision.Common.LoggerUtils,
-  event = "load",
-  displayId = "abc123",
-  eventDetails = "Widget loaded";
+  params = {
+    "widget": "video",
+    "event": "load",
+    "displayId": "abc123",
+    "eventDetails": "Widget loaded"
+  };
 
 describe("getInsertData", function() {
   var data = null;
 
   before(function() {
-    data = utils.getInsertData(event, displayId, eventDetails);
+    data = utils.getInsertData(params);
   });
 
   it("should return an object containing insertId property", function() {
@@ -17,16 +20,22 @@ describe("getInsertData", function() {
     expect(data.rows[0].insertId).to.be.a("string");
   });
 
+  it("should return an object containing widget property", function() {
+    expect(data.rows[0].json.widget).to.exist;
+    expect(data.rows[0].json.widget).to.be.a("string");
+    expect(data.rows[0].json.widget).to.equal(params.widget);
+  });
+
   it("should return an object containing event property", function() {
     expect(data.rows[0].json.event).to.exist;
     expect(data.rows[0].json.event).to.be.a("string");
-    expect(data.rows[0].json.event).to.equal(event);
+    expect(data.rows[0].json.event).to.equal(params.event);
   });
 
   it("should return an object containing display_id property", function() {
     expect(data.rows[0].json.display_id).to.exist;
     expect(data.rows[0].json.display_id).to.be.a("string");
-    expect(data.rows[0].json.display_id).to.equal(displayId);
+    expect(data.rows[0].json.display_id).to.equal(params.displayId);
   });
 
   it("should return an object containing ts property", function() {
@@ -37,11 +46,11 @@ describe("getInsertData", function() {
   it("should return an object containing event_details property", function() {
     expect(data.rows[0].json.event_details).to.exist;
     expect(data.rows[0].json.event_details).to.be.a("string");
-    expect(data.rows[0].json.event_details).to.equal(eventDetails);
+    expect(data.rows[0].json.event_details).to.equal(params.eventDetails);
   });
 
   it("should set event_details property to an empty string", function() {
-    data = utils.getInsertData(event, displayId);
+    data = utils.getInsertData({ "event": params.event, "displayId": params.displayId });
 
     expect(data.rows[0].json.event_details).to.equal("");
   });
@@ -89,7 +98,7 @@ describe("log", function() {
     requests = [];
 
     clock.tick(interval);
-    logger.log(event, displayId, eventDetails);
+    logger.log(params);
 
     // Respond to refresh token request.
     requests[0].respond(200, { "Content-Type": "text/json" }, json);
@@ -119,14 +128,33 @@ describe("log", function() {
 
   it("should send string data in the body", function() {
     expect(requests[1].requestBody).to.contain('{"kind":"bigquery#tableDataInsertAllRequest","skipInvalidRows":false,"ignoreUnknownValues":false,"rows":[{"insertId":');
-    expect(requests[1].requestBody).to.contain('"json":{"event":"' + event + '","display_id":"' + displayId + '","event_details":"' + eventDetails + '","ts":');
+    expect(requests[1].requestBody).to.contain('"json":{"widget":"' + params.widget + '","event":"' + params.event + '","display_id":"' + params.displayId + '","event_details":"' + params.eventDetails + '","ts":');
+  });
+
+  it("should not make a request if widget is empty", function() {
+    requests = [];
+
+    clock.tick(interval);
+    logger.log({
+      "widget": "",
+      "event": params.event,
+      "displayId": params.displayId,
+      "eventDetails": params.eventDetails
+    });
+
+    expect(requests.length).to.equal(0);
   });
 
   it("should not make a request if event is empty", function() {
     requests = [];
 
     clock.tick(interval);
-    logger.log("", displayId, eventDetails);
+    logger.log({
+      "widget": params.widget,
+      "event": "",
+      "displayId": params.displayId,
+      "eventDetails": params.eventDetails
+    });
 
     expect(requests.length).to.equal(0);
   });
