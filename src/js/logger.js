@@ -65,9 +65,9 @@ RiseVision.Common.LoggerUtils = (function() {
 RiseVision.Common.Logger = (function(utils) {
   "use strict";
 
-  var REFRESH_URL = "https://www.googleapis.com/oauth2/v3/token?client_id=" + config.LOGGER_CLIENT_ID +
-      "&client_secret=" + config.LOGGER_CLIENT_SECRET +
-      "&refresh_token=" + config.LOGGER_REFRESH_TOKEN +
+  var REFRESH_URL = "https://www.googleapis.com/oauth2/v3/token?client_id=" + WIDGET_COMMON_CONFIG.LOGGER_CLIENT_ID +
+      "&client_secret=" + WIDGET_COMMON_CONFIG.LOGGER_CLIENT_SECRET +
+      "&refresh_token=" + WIDGET_COMMON_CONFIG.LOGGER_REFRESH_TOKEN +
       "&grant_type=refresh_token";
 
   var serviceUrl = "https://www.googleapis.com/bigquery/v2/projects/client-side-events/datasets/Widget_Events/tables/TABLE_ID/insertAll",
