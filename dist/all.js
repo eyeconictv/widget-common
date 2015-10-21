@@ -959,6 +959,22 @@ RiseVision.Common.LoggerUtils = (function() {
     }]
   };
 
+  function getFileName(url) {
+    if (!url || typeof url !== "string") {
+      return "";
+    }
+
+    return url.substr(url.lastIndexOf("/") + 1);
+  }
+
+  function getFileFormat(url) {
+    if (!url || typeof url !== "string") {
+      return "";
+    }
+
+    return url.substr(url.lastIndexOf(".") + 1);
+  }
+
   function getInsertData(params) {
     var data = JSON.parse(JSON.stringify(BASE_INSERT_SCHEMA));
 
@@ -988,6 +1004,8 @@ RiseVision.Common.LoggerUtils = (function() {
 
   return {
     "getInsertData": getInsertData,
+    "getFileName": getFileName,
+    "getFileFormat": getFileFormat,
     "getTable": getTable
   };
 })();

@@ -71,6 +71,22 @@ describe("getTable", function() {
   });
 });
 
+describe("getFileName", function() {
+  it("should return the file name from a file url", function() {
+    var fileUrl = "http://www.test.com/file.webm";
+
+    expect(utils.getFileName(fileUrl)).to.equal("file.webm");
+  });
+});
+
+describe("getFileFormat", function() {
+  it("should return the file format in lowercase from a file url", function() {
+    var fileUrl = "http://www.test.com/file.WEBm";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+});
+
 describe("log", function() {
   var logger = RiseVision.Common.Logger,
     tableName = "test",
