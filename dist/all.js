@@ -87,7 +87,7 @@ RiseVision.Common.Background = function (data) {
             _storage.setAttribute("folder", data.backgroundStorage.folder);
             _storage.setAttribute("fileName", data.backgroundStorage.fileName);
             _storage.setAttribute("companyId", data.backgroundStorage.companyId);
-            _storage.setAttribute("env", config.STORAGE_ENV);
+            _storage.setAttribute("env", WIDGET_COMMON_CONFIG.STORAGE_ENV);
             _storage.go();
           } else {
             console.log("Missing element with id value of 'backgroundStorage'");
@@ -262,19 +262,13 @@ RiseVision.Common.Utilities = (function() {
 })();
 
 var WIDGET_COMMON_CONFIG = {
-  STORE_URL: "https://store-dot-rvaserver2.appspot.com/",
   AUTH_PATH_URL: "v1/widget/auth",
+  LOGGER_CLIENT_ID: "1088527147109-6q1o2vtihn34292pjt4ckhmhck0rk0o7.apps.googleusercontent.com",
+  LOGGER_CLIENT_SECRET: "nlZyrcPLg6oEwO9f9Wfn29Wh",
+  LOGGER_REFRESH_TOKEN: "1/xzt4kwzE1H7W9VnKB8cAaCx6zb4Es4nKEoqaYHdTD15IgOrJDtdun6zK6XiATCKT",
+  STORAGE_ENV: "prod",
+  STORE_URL: "https://store-dot-rvaserver2.appspot.com/"
 };
-
-if (typeof config === "undefined") {
-  var config = {
-    STORAGE_ENV: "prod",
-    LOGGER_CLIENT_ID: "1088527147109-6q1o2vtihn34292pjt4ckhmhck0rk0o7.apps.googleusercontent.com",
-    LOGGER_CLIENT_SECRET: "nlZyrcPLg6oEwO9f9Wfn29Wh",
-    LOGGER_REFRESH_TOKEN: "1/xzt4kwzE1H7W9VnKB8cAaCx6zb4Es4nKEoqaYHdTD15IgOrJDtdun6zK6XiATCKT"
-  };
-}
-
 /*
  * Singleton object to handle retrieving collection times for a historical instrument.
  */
@@ -1014,9 +1008,9 @@ RiseVision.Common.LoggerUtils = (function() {
 RiseVision.Common.Logger = (function(utils) {
   "use strict";
 
-  var REFRESH_URL = "https://www.googleapis.com/oauth2/v3/token?client_id=" + config.LOGGER_CLIENT_ID +
-      "&client_secret=" + config.LOGGER_CLIENT_SECRET +
-      "&refresh_token=" + config.LOGGER_REFRESH_TOKEN +
+  var REFRESH_URL = "https://www.googleapis.com/oauth2/v3/token?client_id=" + WIDGET_COMMON_CONFIG.LOGGER_CLIENT_ID +
+      "&client_secret=" + WIDGET_COMMON_CONFIG.LOGGER_CLIENT_SECRET +
+      "&refresh_token=" + WIDGET_COMMON_CONFIG.LOGGER_REFRESH_TOKEN +
       "&grant_type=refresh_token";
 
   var serviceUrl = "https://www.googleapis.com/bigquery/v2/projects/client-side-events/datasets/Widget_Events/tables/TABLE_ID/insertAll",
