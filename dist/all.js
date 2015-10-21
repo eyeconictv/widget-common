@@ -87,7 +87,7 @@ RiseVision.Common.Background = function (data) {
             _storage.setAttribute("folder", data.backgroundStorage.folder);
             _storage.setAttribute("fileName", data.backgroundStorage.fileName);
             _storage.setAttribute("companyId", data.backgroundStorage.companyId);
-            _storage.setAttribute("env", config.STORAGE_ENV);
+            _storage.setAttribute("env", WIDGET_COMMON_CONFIG.STORAGE_ENV);
             _storage.go();
           } else {
             console.log("Missing element with id value of 'backgroundStorage'");
