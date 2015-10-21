@@ -949,35 +949,22 @@ RiseVision.Common = RiseVision.Common || {};
 RiseVision.Common.LoggerUtils = (function() {
   "use strict";
 
-  var INSERT_SCHEMA =
+  var BASE_INSERT_SCHEMA =
   {
     "kind": "bigquery#tableDataInsertAllRequest",
     "skipInvalidRows": false,
     "ignoreUnknownValues": false,
     "rows": [{
-      "insertId": "",
-      "json": {
-        "widget": "",
-        "event": "",
-        "display_id": "",
-        "event_details": "",
-        "ts": 0
-      }
+      "insertId": ""
     }]
   };
 
   function getInsertData(params) {
-    var data = JSON.parse(JSON.stringify(INSERT_SCHEMA));
+    var data = JSON.parse(JSON.stringify(BASE_INSERT_SCHEMA));
 
     data.rows[0].insertId = Math.random().toString(36).substr(2).toUpperCase();
-    data.rows[0].json.widget = params.widget;
-    data.rows[0].json.event = params.event;
-    data.rows[0].json.display_id = params.displayId;
+    data.rows[0].json = JSON.parse(JSON.stringify(params));
     data.rows[0].json.ts = new Date().toISOString();
-
-    if (params.eventDetails) {
-      data.rows[0].json.event_details = params.eventDetails;
-    }
 
     return data;
   }
@@ -1040,8 +1027,8 @@ RiseVision.Common.Logger = (function(utils) {
   /*
    *  Public Methods
    */
-  function log(params) {
-    if (!params.widget || !params.event) {
+  function log(tableName, params) {
+    if (!tableName || !params || !params.event) {
       return;
     }
 
@@ -1049,7 +1036,7 @@ RiseVision.Common.Logger = (function(utils) {
       var xhr = new XMLHttpRequest(),
         insertData, url;
 
-      url = serviceUrl.replace("TABLE_ID", utils.getTable("events"));
+      url = serviceUrl.replace("TABLE_ID", utils.getTable(tableName));
       refreshDate = refreshData.refreshedAt || refreshDate;
       token = refreshData.token || token;
       insertData = utils.getInsertData(params);
