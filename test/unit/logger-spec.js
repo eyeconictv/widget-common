@@ -71,6 +71,42 @@ describe("getTable", function() {
   });
 });
 
+describe("getIds", function() {
+  var rpcSpy;
+
+  beforeEach(function () {
+    rpcSpy = sinon.spy(gadgets.rpc, "call");
+  });
+
+  afterEach(function () {
+    gadgets.rpc.call.restore();
+  });
+
+  it("should make an RPC call and return Company ID and Display ID", function() {
+    utils.getIds(function(companyId, displayId) {
+      expect(companyId).to.equal('"companyId"');
+      expect(displayId).to.equal('"displayId"');
+      expect(rpcSpy).to.have.been.called.once;
+    });
+  });
+
+  it("should not make another RPC call but should still return Company ID and Display ID", function() {
+    utils.getIds(function(companyId, displayId) {
+      expect(companyId).to.equal('"companyId"');
+      expect(displayId).to.equal('"displayId"');
+      expect(rpcSpy).to.not.have.been.called;
+    });
+  });
+
+  it("should return undefined if no callback parameter is passed", function() {
+    expect(utils.getIds()).to.equal(undefined);
+  });
+
+  it("should return undefined if callback parameter is not a function", function() {
+    expect(utils.getIds("callback")).to.equal(undefined);
+  });
+});
+
 describe("getFileName", function() {
   it("should return the file name from a file url", function() {
     var fileUrl = "http://www.test.com/file.webm";

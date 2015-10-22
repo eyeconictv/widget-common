@@ -1,10 +1,15 @@
-/* global config */
+/* global gadgets */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.LoggerUtils = (function() {
+RiseVision.Common.LoggerUtils = (function(gadgets) {
   "use strict";
+
+   var id = new gadgets.Prefs().getString("id"),
+    displayId = "",
+    companyId = "",
+    callback = null;
 
   var BASE_INSERT_SCHEMA =
   {
@@ -15,6 +20,54 @@ RiseVision.Common.LoggerUtils = (function() {
       "insertId": ""
     }]
   };
+
+  /*
+   *  Private Methods
+   */
+
+  /* Set the Company and Display IDs. */
+  function setIds(names, values) {
+    if (Array.isArray(names) && names.length > 0) {
+      if (Array.isArray(values) && values.length > 0) {
+        if (names[0] === "companyId") {
+          companyId = values[0];
+        }
+
+        if (names[1] === "displayId") {
+          if (values[1]) {
+            displayId = values[1];
+          }
+          else {
+            displayId = "preview";
+          }
+        }
+
+        callback(companyId, displayId);
+      }
+    }
+  }
+
+  /*
+   *  Public Methods
+   */
+  function getIds(cb) {
+    if (!cb || typeof cb !== "function") {
+      return;
+    }
+    else {
+      callback = cb;
+    }
+
+    if (companyId && displayId) {
+      callback(companyId, displayId);
+    }
+    else {
+      if (id && id !== "") {
+        gadgets.rpc.register("rsparam_set_" + id, setIds);
+        gadgets.rpc.call("", "rsparam_get", null, id, ["companyId", "displayId"]);
+      }
+    }
+  }
 
   function getFileName(url) {
     if (!url || typeof url !== "string") {
@@ -29,7 +82,7 @@ RiseVision.Common.LoggerUtils = (function() {
       return "";
     }
 
-    return url.substr(url.lastIndexOf(".") + 1);
+    return url.substr(url.lastIndexOf(".") + 1).toLowerCase();
   }
 
   function getInsertData(params) {
@@ -60,12 +113,13 @@ RiseVision.Common.LoggerUtils = (function() {
   }
 
   return {
+    "getIds": getIds,
     "getInsertData": getInsertData,
     "getFileName": getFileName,
     "getFileFormat": getFileFormat,
     "getTable": getTable
   };
-})();
+})(gadgets);
 
 RiseVision.Common.Logger = (function(utils) {
   "use strict";
