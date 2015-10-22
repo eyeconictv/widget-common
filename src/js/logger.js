@@ -1,10 +1,15 @@
-/* global config */
+/* global gadgets */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.LoggerUtils = (function() {
+RiseVision.Common.LoggerUtils = (function(gadgets) {
   "use strict";
+
+   var id = new gadgets.Prefs().getString("id"),
+    displayId = "",
+    companyId = "",
+    callback = null;
 
   var BASE_INSERT_SCHEMA =
   {
@@ -15,6 +20,76 @@ RiseVision.Common.LoggerUtils = (function() {
       "insertId": ""
     }]
   };
+
+  /*
+   *  Private Methods
+   */
+
+  /* Set the Company and Display IDs. */
+  function setIds(names, values) {
+    if (Array.isArray(names) && names.length > 0) {
+      if (Array.isArray(values) && values.length > 0) {
+        if (names[0] === "companyId") {
+          companyId = values[0];
+        }
+
+        if (names[1] === "displayId") {
+          if (values[1]) {
+            displayId = values[1];
+          }
+          else {
+            displayId = "preview";
+          }
+        }
+
+        callback(companyId, displayId);
+      }
+    }
+  }
+
+  /*
+   *  Public Methods
+   */
+  function getIds(cb) {
+    if (!cb || typeof cb !== "function") {
+      return;
+    }
+    else {
+      callback = cb;
+    }
+
+    if (companyId && displayId) {
+      callback(companyId, displayId);
+    }
+    else {
+      if (id && id !== "") {
+        gadgets.rpc.register("rsparam_set_" + id, setIds);
+        gadgets.rpc.call("", "rsparam_get", null, id, ["companyId", "displayId"]);
+      }
+    }
+  }
+
+  function getFileFormat(url) {
+    var hasParams = /[?#&]/,
+      str;
+
+    if (!url || typeof url !== "string") {
+      return null;
+    }
+
+    str = url.substr(url.lastIndexOf(".") + 1);
+
+    // don't include any params after the filename
+    if (hasParams.test(str)) {
+      str = str.substr(0 ,(str.indexOf("?") !== -1) ? str.indexOf("?") : str.length);
+
+      str = str.substr(0, (str.indexOf("#") !== -1) ? str.indexOf("#") : str.length);
+
+      str = str.substr(0, (str.indexOf("&") !== -1) ? str.indexOf("&") : str.length);
+    }
+
+    return str.toLowerCase();
+  }
 
   function getInsertData(params) {
     var data = JSON.parse(JSON.stringify(BASE_INSERT_SCHEMA));
@@ -44,10 +119,12 @@ RiseVision.Common.LoggerUtils = (function() {
   }
 
   return {
+    "getIds": getIds,
     "getInsertData": getInsertData,
+    "getFileFormat": getFileFormat,
     "getTable": getTable
   };
-})();
+})(gadgets);
 
 RiseVision.Common.Logger = (function(utils) {
   "use strict";

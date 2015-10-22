@@ -71,6 +71,88 @@ describe("getTable", function() {
   });
 });
 
+describe("getIds", function() {
+  var rpcSpy;
+
+  beforeEach(function () {
+    rpcSpy = sinon.spy(gadgets.rpc, "call");
+  });
+
+  afterEach(function () {
+    gadgets.rpc.call.restore();
+  });
+
+  it("should make an RPC call and return Company ID and Display ID", function() {
+    utils.getIds(function(companyId, displayId) {
+      expect(companyId).to.equal('"companyId"');
+      expect(displayId).to.equal('"displayId"');
+      expect(rpcSpy).to.have.been.called.once;
+    });
+  });
+
+  it("should not make another RPC call but should still return Company ID and Display ID", function() {
+    utils.getIds(function(companyId, displayId) {
+      expect(companyId).to.equal('"companyId"');
+      expect(displayId).to.equal('"displayId"');
+      expect(rpcSpy).to.not.have.been.called;
+    });
+  });
+
+  it("should return undefined if no callback parameter is passed", function() {
+    expect(utils.getIds()).to.equal(undefined);
+  });
+
+  it("should return undefined if callback parameter is not a function", function() {
+    expect(utils.getIds("callback")).to.equal(undefined);
+  });
+});
+
+describe("getFileFormat", function() {
+  it("should return the file format from a file url", function() {
+    var fileUrl = "http://www.test.com/file.webm";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should return the file format in lower case", function() {
+    var fileUrl = "http://www.test.com/file.WEBM";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when param appended to file url", function() {
+    var fileUrl = "http://www.test.com/file.webm?a=123";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when multiple params appended to file url", function() {
+    var fileUrl = "http://www.test.com/file.webm?a=123&b=123";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when hash fragments appended to file url", function() {
+    var fileUrl = "http://www.test.com/file.webm#test#abc";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when a Rise Cache url is provided", function() {
+    var fileUrl = "http://localhost:9494/?url=https%3A%2F%2Fstorage.googleapis.com%2Frisemedialibrary-b428b4e8-c8b9-41d5-8a10-b4193c789443%2FWidgets%252FVideo%2520-%2520Issue%252038%252FWildlife.webmsd.webm";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should return null when no url provided", function() {
+    expect(utils.getFileFormat()).to.be.null;
+  });
+
+  it("should return null when no url param not a string", function() {
+    expect(utils.getFileFormat(123)).to.be.null;
+  });
+});
+
 describe("log", function() {
   var logger = RiseVision.Common.Logger,
     tableName = "test",

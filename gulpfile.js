@@ -117,6 +117,7 @@
       "components/jquery/dist/jquery.min.js",
       "test/date.js",
       "test/data/financial.js",
+      "node_modules/widget-tester/mocks/gadget-mocks.js",
       "node_modules/widget-tester/mocks/visualization-api-mock.js",
       "test/mocks/ajax.js",
       "src/config/test.js",
