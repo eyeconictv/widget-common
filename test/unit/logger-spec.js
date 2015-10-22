@@ -107,19 +107,49 @@ describe("getIds", function() {
   });
 });
 
-describe("getFileName", function() {
-  it("should return the file name from a file url", function() {
+describe("getFileFormat", function() {
+  it("should return the file format from a file url", function() {
     var fileUrl = "http://www.test.com/file.webm";
 
-    expect(utils.getFileName(fileUrl)).to.equal("file.webm");
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
   });
-});
 
-describe("getFileFormat", function() {
-  it("should return the file format in lowercase from a file url", function() {
-    var fileUrl = "http://www.test.com/file.WEBm";
+  it("should return the file format in lower case", function() {
+    var fileUrl = "http://www.test.com/file.WEBM";
 
     expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when param appended to file url", function() {
+    var fileUrl = "http://www.test.com/file.webm?a=123";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when multiple params appended to file url", function() {
+    var fileUrl = "http://www.test.com/file.webm?a=123&b=123";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when hash fragments appended to file url", function() {
+    var fileUrl = "http://www.test.com/file.webm#test#abc";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should correctly return file format when a Rise Cache url is provided", function() {
+    var fileUrl = "http://localhost:9494/?url=https%3A%2F%2Fstorage.googleapis.com%2Frisemedialibrary-b428b4e8-c8b9-41d5-8a10-b4193c789443%2FWidgets%252FVideo%2520-%2520Issue%252038%252FWildlife.webmsd.webm";
+
+    expect(utils.getFileFormat(fileUrl)).to.equal("webm");
+  });
+
+  it("should return null when no url provided", function() {
+    expect(utils.getFileFormat()).to.be.null;
+  });
+
+  it("should return null when no url param not a string", function() {
+    expect(utils.getFileFormat(123)).to.be.null;
   });
 });
 

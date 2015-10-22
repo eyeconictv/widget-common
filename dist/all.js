@@ -1012,20 +1012,26 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     }
   }
 
-  function getFileName(url) {
-    if (!url || typeof url !== "string") {
-      return "";
-    }
-
-    return url.substr(url.lastIndexOf("/") + 1);
-  }
-
   function getFileFormat(url) {
+    var hasParams = /[?#&]/,
+      str;
+
     if (!url || typeof url !== "string") {
-      return "";
+      return null;
     }
 
-    return url.substr(url.lastIndexOf(".") + 1).toLowerCase();
+    str = url.substr(url.lastIndexOf(".") + 1);
+
+    // don't include any params after the filename
+    if (hasParams.test(str)) {
+      str = str.substr(0 ,(str.indexOf("?") !== -1) ? str.indexOf("?") : str.length);
+
+      str = str.substr(0, (str.indexOf("#") !== -1) ? str.indexOf("#") : str.length);
+
+      str = str.substr(0, (str.indexOf("&") !== -1) ? str.indexOf("&") : str.length);
+    }
+
+    return str.toLowerCase();
   }
 
   function getInsertData(params) {
@@ -1058,7 +1064,6 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
   return {
     "getIds": getIds,
     "getInsertData": getInsertData,
-    "getFileName": getFileName,
     "getFileFormat": getFileFormat,
     "getTable": getTable
   };
