@@ -135,6 +135,9 @@ RiseVision.Common.Logger = (function(utils) {
       "&grant_type=refresh_token";
 
   var serviceUrl = "https://www.googleapis.com/bigquery/v2/projects/client-side-events/datasets/Widget_Events/tables/TABLE_ID/insertAll",
+    throttle = false,
+    throttleDelay = 1000,
+    lastEvent = "",
     refreshDate = 0,
     token = "";
 
@@ -158,13 +161,24 @@ RiseVision.Common.Logger = (function(utils) {
     xhr.send();
   }
 
+  function isThrottled(event) {
+    return throttle && (lastEvent === event);
+  }
+
   /*
    *  Public Methods
    */
   function log(tableName, params) {
-    if (!tableName || !params || !params.event) {
+    if (!tableName || !params || !params.event || isThrottled(params.event)) {
       return;
     }
+
+    throttle = true;
+    lastEvent = params.event;
+
+    setTimeout(function () {
+      throttle = false;
+    }, throttleDelay);
 
     function insertWithToken(refreshData) {
       var xhr = new XMLHttpRequest(),
