@@ -1242,7 +1242,7 @@ RiseVision.Common.RiseCache = (function () {
       return;
     }
 
-    r.open("GET", BASE_CACHE_URL + "ping", true);
+    r.open("GET", BASE_CACHE_URL + "ping?callback=_", true);
     r.onreadystatechange = function () {
       try {
         if (r.readyState === 4 ) {
