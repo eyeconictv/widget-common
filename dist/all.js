@@ -1203,7 +1203,6 @@ RiseVision.Common.Message = function (mainContainer, messageContainer) {
       p = document.createElement("p");
       p.innerHTML = message;
       p.setAttribute("class", "message");
-      p.style.lineHeight = messageContainer.style.height;
 
       fragment.appendChild(p);
       messageContainer.appendChild(fragment);
