@@ -1290,10 +1290,10 @@ RiseVision.Common.RiseCache = (function () {
 
         xhr.open("GET", url, true);
 
-        xhr.addEventListener('loadend', function () {
+        xhr.addEventListener("loadend", function () {
           var status = xhr.status || 0;
 
-          if (status === 0 || (status >= 200 && status < 300)) {
+          if (status >= 200 && status < 300) {
             callback(request);
           } else {
             callback(request, new Error("The request failed with status code: " + status));

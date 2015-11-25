@@ -166,6 +166,18 @@ describe("getFile - cache is running", function () {
     expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
     expect(spy.args[0][1].message).to.equal("The request failed with status code: 400");
   });
+
+  it("should execute callback providing the xhr request and an error when third party file " +
+    "does not exist", function () {
+    var spy = sinon.spy();
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy);
+
+    requests[1].respond(0);
+
+    expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
+    expect(spy.args[0][1].message).to.equal("The request failed with status code: 0");
+  });
 });
 
 describe("ping", function() {
