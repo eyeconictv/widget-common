@@ -85,24 +85,38 @@ describe("getFile - cache not running", function () {
     clock.restore();
   });
 
-  it("should execute callback passing a correctly structured URL with no cachebuster", function() {
+  it("should execute callback passing the xhr request and a correctly structured URL with no cachebuster", function() {
     var spy = sinon.spy();
 
     riseCache.getFile("http://www.test.com/test.jpg", spy, true);
 
-    expect(spy.calledWith({xhr:null, url:"http://www.test.com/test.jpg"})).to.be.true;
+    requests[1].respond(200);
+
+    expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
+    expect(spy.args[0][0].url).to.equal("http://www.test.com/test.jpg");
   });
 
-  it("should execute callback passing a correctly structured URL with cachebuster", function() {
+  it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function() {
+    var spy = sinon.spy();
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy);
+    requests[1].respond(200);
+    expect(spy.calledWith({xhr: requests[1], url: "http://www.test.com/test.jpg?cb=0"})).to.be.true;
+
+    riseCache.getFile("http://www.test.com/test.jpg?test=123", spy);
+    requests[2].respond(200);
+    expect(spy.calledWith({xhr: requests[2], url: "http://www.test.com/test.jpg?test=123&cb=0"})).to.be.true;
+  });
+
+  it("should execute callback providing the xhr request and an error when request fails", function () {
     var spy = sinon.spy();
 
     riseCache.getFile("http://www.test.com/test.jpg", spy);
 
-    expect(spy.calledWith({xhr:null, url:"http://www.test.com/test.jpg?cb=0"})).to.be.true;
+    requests[1].respond(404);
 
-    riseCache.getFile("http://www.test.com/test.jpg?test=123", spy);
-
-    expect(spy.calledWith({xhr:null, url:"http://www.test.com/test.jpg?test=123&cb=0"})).to.be.true;
+    expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
+    expect(spy.args[0][1].message).to.equal("The request failed with status code: 404");
   });
 });
 
