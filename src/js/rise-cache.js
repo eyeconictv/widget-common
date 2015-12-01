@@ -55,8 +55,6 @@ RiseVision.Common.RiseCache = (function () {
         // configure url with cachebuster or not
         url = (nocachebuster) ? BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl) :
           BASE_CACHE_URL + "cb=" + new Date().getTime() + "?url=" + encodeURIComponent(fileUrl);
-
-        makeRequest("GET", url);
       } else {
         if (nocachebuster) {
           url = fileUrl;
@@ -65,9 +63,9 @@ RiseVision.Common.RiseCache = (function () {
           separator = (str.length === 1) ? "?" : "&";
           url = fileUrl + separator + "cb=" + new Date().getTime();
         }
-
-        makeRequest("HEAD", url);
       }
+
+      makeRequest("HEAD", url);
     }
 
     function makeRequest(method, url) {
@@ -85,7 +83,13 @@ RiseVision.Common.RiseCache = (function () {
         if (status >= 200 && status < 300) {
           callback(request);
         } else {
-          callback(request, new Error("The request failed with status code: " + status));
+          // Server may not support HEAD request. Fallback to a GET request.
+          if (method === "HEAD") {
+            makeRequest("GET", url);
+          }
+          else {
+            callback(request, new Error("The request failed with status code: " + status));
+          }
         }
       });
 
