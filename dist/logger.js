@@ -169,7 +169,8 @@ RiseVision.Common.Logger = (function(utils) {
    *  Public Methods
    */
   function log(tableName, params) {
-    if (!tableName || !params || !params.event || isThrottled(params.event)) {
+    if (!tableName || !params || (params.hasOwnProperty("event") && !params.event) ||
+      (params.hasOwnProperty("event") && isThrottled(params.event))) {
       return;
     }
 
