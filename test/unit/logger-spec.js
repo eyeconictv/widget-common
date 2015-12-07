@@ -153,6 +153,77 @@ describe("RiseVision.Common.LoggerUtils", function() {
       expect(utils.getFileFormat(123)).to.be.null;
     });
   });
+
+  describe("logEvent", function() {
+    var logSpy,
+      tableName = "video_events";
+
+    beforeEach(function () {
+      logSpy = sinon.spy(RiseVision.Common.Logger, "log");
+    });
+
+    afterEach(function() {
+      RiseVision.Common.Logger.log.restore();
+    });
+
+    it("should call spy with correct parameters", function() {
+      var params = {
+        "event": "error",
+        "event_details": "storage error",
+        "file_url": "http://www.test.com/file.webm",
+        "file_format": "webm",
+        "company_id": '"companyId"',
+        "display_id":'"displayId"'
+      };
+
+      RiseVision.Common.LoggerUtils.logEvent(tableName, {
+        "event": "error",
+        "event_details": "storage error",
+        "file_url": "http://www.test.com/file.webm"
+      });
+
+      expect(logSpy).to.have.been.calledWith(tableName, params);
+    });
+
+    it("should call spy with correct parameters when the event_details parameter is not set", function() {
+      var params = {
+        "event": "error",
+        "file_url": "http://www.test.com/file.webm",
+        "file_format": "webm",
+        "company_id": '"companyId"',
+        "display_id":'"displayId"'
+      };
+
+      RiseVision.Common.LoggerUtils.logEvent(tableName, {
+        "event": "error",
+        "file_url": "http://www.test.com/file.webm"
+      });
+
+      expect(logSpy).to.have.been.calledWith(tableName, params);
+    });
+
+    it("should call spy with correct parameters when the file_url parameter is not set", function() {
+      var params = {
+        "event": "error",
+        "event_details": "storage error",
+        "company_id": '"companyId"',
+        "display_id":'"displayId"'
+      };
+
+      RiseVision.Common.LoggerUtils.logEvent(tableName, {
+        "event": "error",
+        "event_details": "storage error"
+      });
+
+      expect(logSpy).to.have.been.calledWith(tableName, params);
+    });
+
+    it("should not call spy if the event parameter is not set", function() {
+      RiseVision.Common.LoggerUtils.logEvent(tableName, { "event_details": "storage error" });
+
+      expect(logSpy).not.to.have.been.called;
+    });
+  });
 });
 
 describe("RiseVision.Common.Logger", function () {
