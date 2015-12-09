@@ -1342,7 +1342,23 @@ RiseVision.Common.RiseCache = (function () {
 
       xhr.open(method, url, true);
 
-      xhr.addEventListener("loadend", function () {
+      xhr.onerror = function () {
+        // Server may not support HEAD request. Fallback to a GET request.
+        if (method === "HEAD") {
+          makeRequest("GET", url);
+        }
+        else {
+          if (_isCacheRunning) {
+            callback(request, new Error("The request failed with no status"));
+          } else{
+            // This is to avoid throwing an error when there is a cross domain issue
+            callback(request);
+          }
+        }
+      };
+
+      xhr.onload = function () {
+
         var status = xhr.status || 0;
 
         if (status >= 200 && status < 300) {
@@ -1355,8 +1371,7 @@ RiseVision.Common.RiseCache = (function () {
           else {
             callback(request, new Error("The request failed with status code: " + status));
           }
-        }
-      });
+        }};
 
       xhr.send();
     }
