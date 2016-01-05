@@ -8,6 +8,23 @@ var utils = RiseVision.Common.LoggerUtils,
     "event_details": "Widget loaded"
   };
 
+function getDateSuffix() {
+  var date = new Date(),
+    year = date.getUTCFullYear(),
+    month = date.getUTCMonth() + 1,
+    day = date.getUTCDate();
+
+  if (month < 10) {
+    month = "0" + month;
+  }
+
+  if (day < 10) {
+    day = "0" + day;
+  }
+
+  return year + month + day;
+}
+
 describe("RiseVision.Common.LoggerUtils", function() {
   describe("getInsertData", function() {
     var data = null;
@@ -54,21 +71,9 @@ describe("RiseVision.Common.LoggerUtils", function() {
 
   describe("getTable", function() {
     it("should return the correct table name", function() {
-      var tableName = "test",
-        date = new Date(),
-        year = date.getUTCFullYear(),
-        month = date.getUTCMonth() + 1,
-        day = date.getUTCDate();
+      var tableName = "test";
 
-      if (month < 10) {
-        month = "0" + month;
-      }
-
-      if (day < 10) {
-        day = "0" + day;
-      }
-
-      expect(utils.getTable(tableName)).to.equal(tableName + year + month + day);
+      expect(utils.getTable(tableName)).to.equal(tableName + getDateSuffix());
     });
   });
 
@@ -279,7 +284,8 @@ describe("RiseVision.Common.Logger", function () {
     });
 
     it("should send string data in the body", function() {
-      expect(requests[1].requestBody).to.contain('{"kind":"bigquery#tableDataInsertAllRequest","skipInvalidRows":false,"ignoreUnknownValues":false,"rows":[{"insertId":');
+      expect(requests[1].requestBody).to.contain('{"kind":"bigquery#tableDataInsertAllRequest","skipInvalidRows":false,' +
+        '"ignoreUnknownValues":false,"templateSuffix":"' + getDateSuffix() + '","rows":[{"insertId":');
       expect(requests[1].requestBody).to.contain('"json":{"event":"' + params.event + '","display_id":"' +
         params.display_id + '","company_id":"' + params.company_id + '","event_details":"' + params.event_details + '","ts":');
     });

@@ -11,16 +11,6 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     companyId = "",
     callback = null;
 
-  var BASE_INSERT_SCHEMA =
-  {
-    "kind": "bigquery#tableDataInsertAllRequest",
-    "skipInvalidRows": false,
-    "ignoreUnknownValues": false,
-    "rows": [{
-      "insertId": ""
-    }]
-  };
-
   /*
    *  Private Methods
    */
@@ -71,6 +61,24 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     }
   }
 
+  // Get suffix for BQ table name.
+  function getSuffix() {
+    var date = new Date(),
+      year = date.getUTCFullYear(),
+      month = date.getUTCMonth() + 1,
+      day = date.getUTCDate();
+
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    if (day < 10) {
+      day = "0" + day;
+    }
+
+    return year + month + day;
+  }
+
   /*
    *  Public Methods
    */
@@ -116,7 +124,16 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
   }
 
   function getInsertData(params) {
-    var data = JSON.parse(JSON.stringify(BASE_INSERT_SCHEMA));
+    var BASE_INSERT_SCHEMA = {
+      "kind": "bigquery#tableDataInsertAllRequest",
+      "skipInvalidRows": false,
+      "ignoreUnknownValues": false,
+      "templateSuffix": getSuffix(),
+      "rows": [{
+        "insertId": ""
+      }]
+    },
+    data = JSON.parse(JSON.stringify(BASE_INSERT_SCHEMA));
 
     data.rows[0].insertId = Math.random().toString(36).substr(2).toUpperCase();
     data.rows[0].json = JSON.parse(JSON.stringify(params));
@@ -126,20 +143,7 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
   }
 
   function getTable(name) {
-    var date = new Date(),
-      year = date.getUTCFullYear(),
-      month = date.getUTCMonth() + 1,
-      day = date.getUTCDate();
-
-    if (month < 10) {
-      month = "0" + month;
-    }
-
-    if (day < 10) {
-      day = "0" + day;
-    }
-
-    return name + year + month + day;
+    return name + getSuffix();
   }
 
   function logEvent(table, params) {
