@@ -142,10 +142,6 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     return data;
   }
 
-  function getTable(name) {
-    return name + getSuffix();
-  }
-
   function logEvent(table, params) {
     getEventParams(params, function(json) {
       if (json !== null) {
@@ -158,7 +154,6 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     "getIds": getIds,
     "getInsertData": getInsertData,
     "getFileFormat": getFileFormat,
-    "getTable": getTable,
     "logEvent": logEvent
   };
 })(gadgets);
@@ -222,7 +217,7 @@ RiseVision.Common.Logger = (function(utils) {
       var xhr = new XMLHttpRequest(),
         insertData, url;
 
-      url = serviceUrl.replace("TABLE_ID", utils.getTable(tableName));
+      url = serviceUrl.replace("TABLE_ID", tableName);
       refreshDate = refreshData.refreshedAt || refreshDate;
       token = refreshData.token || token;
       insertData = utils.getInsertData(params);

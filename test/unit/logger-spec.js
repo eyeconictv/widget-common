@@ -69,14 +69,6 @@ describe("RiseVision.Common.LoggerUtils", function() {
 
   });
 
-  describe("getTable", function() {
-    it("should return the correct table name", function() {
-      var tableName = "test";
-
-      expect(utils.getTable(tableName)).to.equal(tableName + getDateSuffix());
-    });
-  });
-
   describe("getIds", function() {
     var rpcSpy;
 
