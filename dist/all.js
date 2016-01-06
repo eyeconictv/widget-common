@@ -954,16 +954,6 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     companyId = "",
     callback = null;
 
-  var BASE_INSERT_SCHEMA =
-  {
-    "kind": "bigquery#tableDataInsertAllRequest",
-    "skipInvalidRows": false,
-    "ignoreUnknownValues": false,
-    "rows": [{
-      "insertId": ""
-    }]
-  };
-
   /*
    *  Private Methods
    */
@@ -1014,6 +1004,24 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     }
   }
 
+  // Get suffix for BQ table name.
+  function getSuffix() {
+    var date = new Date(),
+      year = date.getUTCFullYear(),
+      month = date.getUTCMonth() + 1,
+      day = date.getUTCDate();
+
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    if (day < 10) {
+      day = "0" + day;
+    }
+
+    return year + month + day;
+  }
+
   /*
    *  Public Methods
    */
@@ -1059,30 +1067,22 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
   }
 
   function getInsertData(params) {
-    var data = JSON.parse(JSON.stringify(BASE_INSERT_SCHEMA));
+    var BASE_INSERT_SCHEMA = {
+      "kind": "bigquery#tableDataInsertAllRequest",
+      "skipInvalidRows": false,
+      "ignoreUnknownValues": false,
+      "templateSuffix": getSuffix(),
+      "rows": [{
+        "insertId": ""
+      }]
+    },
+    data = JSON.parse(JSON.stringify(BASE_INSERT_SCHEMA));
 
     data.rows[0].insertId = Math.random().toString(36).substr(2).toUpperCase();
     data.rows[0].json = JSON.parse(JSON.stringify(params));
     data.rows[0].json.ts = new Date().toISOString();
 
     return data;
-  }
-
-  function getTable(name) {
-    var date = new Date(),
-      year = date.getUTCFullYear(),
-      month = date.getUTCMonth() + 1,
-      day = date.getUTCDate();
-
-    if (month < 10) {
-      month = "0" + month;
-    }
-
-    if (day < 10) {
-      day = "0" + day;
-    }
-
-    return name + year + month + day;
   }
 
   function logEvent(table, params) {
@@ -1097,7 +1097,6 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     "getIds": getIds,
     "getInsertData": getInsertData,
     "getFileFormat": getFileFormat,
-    "getTable": getTable,
     "logEvent": logEvent
   };
 })(gadgets);
@@ -1161,7 +1160,7 @@ RiseVision.Common.Logger = (function(utils) {
       var xhr = new XMLHttpRequest(),
         insertData, url;
 
-      url = serviceUrl.replace("TABLE_ID", utils.getTable(tableName));
+      url = serviceUrl.replace("TABLE_ID", tableName);
       refreshDate = refreshData.refreshedAt || refreshDate;
       token = refreshData.token || token;
       insertData = utils.getInsertData(params);
