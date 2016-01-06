@@ -43,27 +43,13 @@ RiseVision.Common.RiseCache = (function () {
     r.send();
   }
 
-  function getFile(fileUrl, callback, nocachebuster) {
+  function getFile(fileUrl, callback) {
     if (!fileUrl || !callback || typeof callback !== "function") {
       return;
     }
 
     function fileRequest(isCacheRunning) {
-      var url, str, separator;
-
-      if (isCacheRunning) {
-        // configure url with cachebuster or not
-        url = (nocachebuster) ? BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl) :
-          BASE_CACHE_URL + "cb=" + new Date().getTime() + "?url=" + encodeURIComponent(fileUrl);
-      } else {
-        if (nocachebuster) {
-          url = fileUrl;
-        } else {
-          str = fileUrl.split("?");
-          separator = (str.length === 1) ? "?" : "&";
-          url = fileUrl + separator + "cb=" + new Date().getTime();
-        }
-      }
+      var url = (isCacheRunning) ? BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl) : fileUrl;
 
       makeRequest("HEAD", url);
     }
