@@ -152,12 +152,16 @@ describe("getFile - cache not running", function () {
     expect(spy.args[0][0].url).to.equal("http://www.test.com/test.jpg");
   });
 
-  it("should execute callback passing the xhr request and a correct URL", function() {
+  it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function() {
     var spy = sinon.spy();
 
     riseCache.getFile("http://www.test.com/test.jpg", spy);
     requests[1].respond(200);
-    expect(spy.calledWith({xhr: requests[1], url: "http://www.test.com/test.jpg"})).to.be.true;
+    expect(spy.calledWith({xhr: requests[1], url: "http://www.test.com/test.jpg?cb=0"})).to.be.true;
+
+    riseCache.getFile("http://www.test.com/test.jpg?test=123", spy);
+    requests[2].respond(200);
+    expect(spy.calledWith({xhr: requests[2], url: "http://www.test.com/test.jpg?test=123&cb=0"})).to.be.true;
   });
 });
 
@@ -199,7 +203,7 @@ describe("getFile - cache is running", function () {
     expect(spy.args[0][0].url).to.equal("http://localhost:9494/?url=" + urlEncoded);
   });
 
-  it("should execute callback passing the xhr request and a correct URL", function() {
+  it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function() {
     var spy = sinon.spy(),
       urlEncoded = encodeURIComponent("http://www.test.com/test.jpg");
 
@@ -208,7 +212,7 @@ describe("getFile - cache is running", function () {
     requests[1].respond(200);
 
     expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
-    expect(spy.args[0][0].url).to.equal("http://localhost:9494/?url=" + urlEncoded);
+    expect(spy.args[0][0].url).to.equal("http://localhost:9494/cb=0?url=" + urlEncoded);
   });
 });
 
