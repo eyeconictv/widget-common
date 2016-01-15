@@ -69,42 +69,6 @@ describe("RiseVision.Common.LoggerUtils", function() {
 
   });
 
-  describe("getIds", function() {
-    var rpcSpy;
-
-    beforeEach(function () {
-      rpcSpy = sinon.spy(gadgets.rpc, "call");
-    });
-
-    afterEach(function () {
-      gadgets.rpc.call.restore();
-    });
-
-    it("should make an RPC call and return Company ID and Display ID", function() {
-      utils.getIds(function(companyId, displayId) {
-        expect(companyId).to.equal('"companyId"');
-        expect(displayId).to.equal('"displayId"');
-        expect(rpcSpy).to.have.been.called.once;
-      });
-    });
-
-    it("should not make another RPC call but should still return Company ID and Display ID", function() {
-      utils.getIds(function(companyId, displayId) {
-        expect(companyId).to.equal('"companyId"');
-        expect(displayId).to.equal('"displayId"');
-        expect(rpcSpy).to.not.have.been.called;
-      });
-    });
-
-    it("should return undefined if no callback parameter is passed", function() {
-      expect(utils.getIds()).to.equal(undefined);
-    });
-
-    it("should return undefined if callback parameter is not a function", function() {
-      expect(utils.getIds("callback")).to.equal(undefined);
-    });
-  });
-
   describe("getFileFormat", function() {
     it("should return the file format from a file url", function() {
       var fileUrl = "http://www.test.com/file.webm";
@@ -151,6 +115,34 @@ describe("RiseVision.Common.LoggerUtils", function() {
     });
   });
 
+  describe("setIds", function() {
+    var logSpy,
+      tableName = "video_events";
+
+    beforeEach(function () {
+      logSpy = sinon.spy(RiseVision.Common.Logger, "log");
+    });
+
+    afterEach(function() {
+      RiseVision.Common.Logger.log.restore();
+    });
+
+    it("should set the company and display ids to be used in the params", function () {
+      utils.setIds("abc123", "def456");
+      utils.logEvent(tableName, {
+        "event": "load",
+        "event_details": "Widget loaded"
+      });
+
+      expect(logSpy).to.have.been.calledWith(tableName, {
+        "event": "load",
+        "event_details": "Widget loaded",
+        "company_id": "abc123",
+        "display_id": "def456"
+      });
+    });
+  });
+
   describe("logEvent", function() {
     var logSpy,
       tableName = "video_events";
@@ -173,11 +165,7 @@ describe("RiseVision.Common.LoggerUtils", function() {
         "display_id":'"displayId"'
       };
 
-      RiseVision.Common.LoggerUtils.logEvent(tableName, {
-        "event": "error",
-        "event_details": "storage error",
-        "file_url": "http://www.test.com/file.webm"
-      });
+      RiseVision.Common.LoggerUtils.logEvent(tableName, params);
 
       expect(logSpy).to.have.been.calledWith(tableName, params);
     });
@@ -191,10 +179,7 @@ describe("RiseVision.Common.LoggerUtils", function() {
         "display_id":'"displayId"'
       };
 
-      RiseVision.Common.LoggerUtils.logEvent(tableName, {
-        "event": "error",
-        "file_url": "http://www.test.com/file.webm"
-      });
+      RiseVision.Common.LoggerUtils.logEvent(tableName, params);
 
       expect(logSpy).to.have.been.calledWith(tableName, params);
     });
@@ -207,10 +192,7 @@ describe("RiseVision.Common.LoggerUtils", function() {
         "display_id":'"displayId"'
       };
 
-      RiseVision.Common.LoggerUtils.logEvent(tableName, {
-        "event": "error",
-        "event_details": "storage error"
-      });
+      RiseVision.Common.LoggerUtils.logEvent(tableName, params);
 
       expect(logSpy).to.have.been.calledWith(tableName, params);
     });
@@ -221,6 +203,7 @@ describe("RiseVision.Common.LoggerUtils", function() {
       expect(logSpy).not.to.have.been.called;
     });
   });
+
 });
 
 describe("RiseVision.Common.Logger", function () {
