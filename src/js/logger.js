@@ -3,39 +3,15 @@
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.LoggerUtils = (function(gadgets) {
+RiseVision.Common.LoggerUtils = (function() {
   "use strict";
 
-   var id = new gadgets.Prefs().getString("id"),
-    displayId = "",
-    companyId = "",
-    callback = null;
+   var displayId = "",
+    companyId = "";
 
   /*
    *  Private Methods
    */
-
-  /* Set the Company and Display IDs. */
-  function setIds(names, values) {
-    if (Array.isArray(names) && names.length > 0) {
-      if (Array.isArray(values) && values.length > 0) {
-        if (names[0] === "companyId") {
-          companyId = values[0];
-        }
-
-        if (names[1] === "displayId") {
-          if (values[1]) {
-            displayId = values[1];
-          }
-          else {
-            displayId = "preview";
-          }
-        }
-
-        callback(companyId, displayId);
-      }
-    }
-  }
 
   /* Retrieve parameters to pass to the event logger. */
   function getEventParams(params, cb) {
@@ -49,12 +25,10 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
         json.file_format = getFileFormat(json.file_url);
       }
 
-      getIds(function(companyId, displayId) {
-        json.company_id = companyId;
-        json.display_id = displayId;
+      json.company_id = companyId;
+      json.display_id = displayId;
 
-        cb(json);
-      });
+      cb(json);
     }
     else {
       cb(json);
@@ -82,25 +56,6 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
   /*
    *  Public Methods
    */
-  function getIds(cb) {
-    if (!cb || typeof cb !== "function") {
-      return;
-    }
-    else {
-      callback = cb;
-    }
-
-    if (companyId && displayId) {
-      callback(companyId, displayId);
-    }
-    else {
-      if (id && id !== "") {
-        gadgets.rpc.register("rsparam_set_" + id, setIds);
-        gadgets.rpc.call("", "rsparam_get", null, id, ["companyId", "displayId"]);
-      }
-    }
-  }
-
   function getFileFormat(url) {
     var hasParams = /[?#&]/,
       str;
@@ -150,13 +105,19 @@ RiseVision.Common.LoggerUtils = (function(gadgets) {
     });
   }
 
+  /* Set the Company and Display IDs. */
+  function setIds(company, display) {
+    companyId = company;
+    displayId = display;
+  }
+
   return {
-    "getIds": getIds,
     "getInsertData": getInsertData,
     "getFileFormat": getFileFormat,
-    "logEvent": logEvent
+    "logEvent": logEvent,
+    "setIds": setIds
   };
-})(gadgets);
+})();
 
 RiseVision.Common.Logger = (function(utils) {
   "use strict";
