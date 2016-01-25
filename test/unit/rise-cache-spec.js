@@ -200,7 +200,7 @@ describe("getFile - cache is running", function () {
     requests[1].respond(200);
 
     expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
-    expect(spy.args[0][0].url).to.equal("http://localhost:9494/?url=" + urlEncoded);
+    expect(spy.args[0][0].url).to.equal("//localhost:9494/?url=" + urlEncoded);
   });
 
   it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function() {
@@ -212,7 +212,7 @@ describe("getFile - cache is running", function () {
     requests[1].respond(200);
 
     expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
-    expect(spy.args[0][0].url).to.equal("http://localhost:9494/cb=0?url=" + urlEncoded);
+    expect(spy.args[0][0].url).to.equal("//localhost:9494/cb=0?url=" + urlEncoded);
   });
 });
 
