@@ -146,22 +146,19 @@ describe("getFile - cache not running", function () {
     var spy = sinon.spy();
 
     riseCache.getFile("http://www.test.com/test.jpg", spy, true);
-    requests[1].respond(200);
 
-    expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
     expect(spy.args[0][0].url).to.equal("http://www.test.com/test.jpg");
   });
 
   it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function() {
-    var spy = sinon.spy();
+    var spy1 = sinon.spy(),
+      spy2 = sinon.spy();
 
-    riseCache.getFile("http://www.test.com/test.jpg", spy);
-    requests[1].respond(200);
-    expect(spy.calledWith({xhr: requests[1], url: "http://www.test.com/test.jpg?cb=0"})).to.be.true;
+    riseCache.getFile("http://www.test.com/test.jpg", spy1);
+    expect(spy1.args[0][0].url).to.equal("http://www.test.com/test.jpg?cb=0");
 
-    riseCache.getFile("http://www.test.com/test.jpg?test=123", spy);
-    requests[2].respond(200);
-    expect(spy.calledWith({xhr: requests[2], url: "http://www.test.com/test.jpg?test=123&cb=0"})).to.be.true;
+    riseCache.getFile("http://www.test.com/test.jpg?test=123", spy2);
+    expect(spy2.args[0][0].url).to.equal("http://www.test.com/test.jpg?test=123&cb=0");
   });
 });
 
