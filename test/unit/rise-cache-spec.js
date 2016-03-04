@@ -263,3 +263,45 @@ describe("ping", function() {
   });
 
 });
+
+describe("isRiseCacheRunning", function() {
+  var riseCache = RiseVision.Common.RiseCache,
+    xhr, clock, requests;
+
+  before(function() {
+    xhr = sinon.useFakeXMLHttpRequest();
+    clock = sinon.useFakeTimers();
+
+    xhr.onCreate = function (xhr) {
+      requests.push(xhr);
+    };
+  });
+
+  it("should execute callback passing a value of false when Rise Cache is not running", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // force rise cache is not running
+    riseCache.ping(function(){});
+    requests[0].respond(400);
+
+    riseCache.isRiseCacheRunning(spy);
+
+    expect(spy.calledWith(false));
+  });
+
+  it("should execute callback passing a value of true when Rise Cache is running", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // force rise cache is running
+    riseCache.ping(function(){});
+    requests[0].respond(200);
+
+    riseCache.isRiseCacheRunning(spy);
+
+    expect(spy.calledWith(true));
+  });
+});
