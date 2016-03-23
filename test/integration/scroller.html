@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroller</title>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenLite.min.js"></script>
+
+  <script src="../../node_modules/widget-tester/mocks/gadget-mocks.js"></script>
+  <script src="../../components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../components/web-component-tester/browser.js"></script>
+  <script src="../../components/Canteen/build/canteen.min.js"></script>
+
+  <script src="../../test/data/scroller.js"></script>
+  <script src="../../src/js/common.js"></script>
+  <script src="../../src/js/scroller.js"></script>
+</head>
+<body>
+  <canvas id="scroller">
+    Canvas is not supported.
+  </canvas>
+
+  <script>
+    var json = null,
+      scroller = null,
+      secondary = null,
+      secondaryCtx = null,
+      scrollerElem = document.querySelector("#scroller"),
+      scrollerCtx = scrollerElem.getContext("2d"),
+      prefs = new gadgets.Prefs();
+
+    suite("Scroller", function() {
+      suiteSetup(function() {
+        scroller = new RiseVision.Common.Scroller(prefs);
+        scroller.init(items);
+
+        secondary = document.querySelector("#secondary");
+        secondaryCtx = secondary.getContext("2d");
+      });
+
+      suite("Scroller initialization", function() {
+        test("should set the width", function() {
+          assert.equal(scrollerElem.width, prefs.getInt("rsW"));
+        });
+
+        test("should set the height", function() {
+          assert.equal(scrollerElem.height, prefs.getInt("rsH"));
+        });
+
+        test("should set the xpos property", function() {
+          assert.equal(scrollerCtx.xpos, 0);
+        });
+      });
+
+      suite("Secondary canvas initialization", function() {
+        test("should create a secondary canvas", function() {
+          assert.isNotNull(secondary);
+        });
+
+        test("should set the width", function() {
+          // Width of secondary canvas should be at least double that of the scroller.
+          assert.isAtLeast(secondary.width, scrollerElem.width * 2);
+        });
+
+        test("should set the height", function() {
+          assert.equal(secondary.height, prefs.getInt("rsH"));
+        });
+
+        test("should hide the canvas", function() {
+          assert.equal(secondary.style.display, "none");
+        });
+      });
+
+      suite("Drawing", function() {
+        var json;
+
+        suiteSetup(function() {
+          json = JSON.parse(secondaryCtx.json());
+        });
+
+        test("should draw text using proper font styling", function() {
+          assert.equal(json[1].val, "bold italic 36px verdana,geneva,sans-serif");
+        });
+
+        test("should draw text using correct color", function() {
+          assert.equal(json[2].val, "#FF0000");
+        });
+
+        test("should vertically align text when drawing", function() {
+          assert.equal(json[3].method, "translate", "translate");
+          assert.equal(json[3].arguments[0], 0, "x-coordinate");
+          assert.equal(json[3].arguments[1], secondary.height / 2, "y-coordinate");
+        });
+
+        test("should strip HTML from drawn text", function() {
+          assert.equal(json[4].arguments[0], "Did Pluto have rivers and lakes? ");
+        });
+      });
+
+      suite("Playback", function() {
+        var json;
+
+        suiteSetup(function() {
+          scroller.play();
+
+          json = JSON.parse(scrollerCtx.json());
+        });
+
+        test("should clear scroller before redrawing", function(done) {
+          setTimeout(function() {
+            assert.equal(json[0].method, "clearRect", "clearRect");
+            assert.equal(json[0].arguments[0], 0, "x-coordinate");
+            assert.equal(json[0].arguments[1], 0, "y-coordinate");
+            assert.equal(json[0].arguments[2], scrollerElem.width, "width");
+            assert.equal(json[0].arguments[3], scrollerElem.height, "height");
+
+            done();
+          }, 100);
+        });
+
+        test("should copy text from secondary canvas to scroller", function() {
+          var item = null;
+
+          // Refresh JSON data.
+          json = JSON.parse(scrollerCtx.json());
+          json = json[json.length - 1];
+
+          assert.equal(json.method, "drawImage", "drawImage");
+          assert.isObject(json.arguments[0], "canvas");
+          assert.equal(Math.floor(json.arguments[1]), Math.floor(scrollerCtx.xpos), "x-coordinate");
+          assert.equal(json.arguments[2], 0, "y-coordinate");
+        });
+
+        test("should update xpos during playback", function() {
+          assert.isBelow(scrollerCtx.xpos, 0);
+        });
+
+        test("should pause playback", function(done) {
+          var xpos = scrollerCtx.xpos;
+
+          scroller.pause();
+
+          setTimeout(function() {
+            assert.equal(scrollerCtx.xpos, xpos);
+
+            done();
+          }, 100);
+        });
+
+        test("should fire done event after playback is complete", function(done) {
+          var response = false,
+            responseHandler;
+
+          // Resume playback.
+          scroller.play();
+
+          responseHandler = function() {
+            responded = true;
+
+            assert.isTrue(responded);
+            done();
+          };
+
+          this.timeout(15000);
+          scrollerElem.addEventListener("done", responseHandler);
+        });
+
+        test("should reset xpos once playback is complete", function() {
+          assert.equal(scrollerCtx.xpos, 0);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
