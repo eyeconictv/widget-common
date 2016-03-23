@@ -1,6 +1,6 @@
 {
   "name": "widget-common",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "homepage": "https://github.com/Rise-Vision/widget-common",
   "authors": [
     "Rise Vision Inc <support@risevision.com>"
@@ -21,6 +21,7 @@
     "web-component-tester": "^4.2.2"
   },
   "dependencies": {
-    "jquery": "1.11.0"
+    "jquery": "1.11.0",
+    "webfontloader": "^1.6.24"
   }
 }

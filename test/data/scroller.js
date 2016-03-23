@@ -16,5 +16,24 @@ var items = [
       "size": "36px",
       "underline": false
     }
+  },
+  {
+    "text": "March 22, 2016",
+    "fontClass": "timestamp_font-style",
+    "fontStyle": {
+      "align": "left",
+      "backcolor": "transparent",
+      "bold": false,
+      "customSize": "",
+      "font": {
+        "family": "BrushScriptStd",
+        "type": "custom",
+        "url": "https://mydomain.com/fonts/BrushScriptStd.otf"
+      },
+      "forecolor": "black",
+      "italic": false,
+      "size": "14px",
+      "underline": false
+    }
   }
 ];

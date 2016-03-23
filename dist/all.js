@@ -1386,7 +1386,7 @@ RiseVision.Common.RiseCache = (function () {
 
 })();
 
-/* global TweenLite, Linear */
+/* global WebFont, TweenLite, Linear */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
@@ -1403,11 +1403,62 @@ RiseVision.Common.Scroller = function (prefs) {
     _items = [],
     _xpos = 0,
     _originalXpos = 0,
+    _customFonts = [],
     _utils = RiseVision.Common.Utilities;
 
   /*
    *  Private Methods
    */
+
+  function getCustomFonts() {
+    for (var i = 0; i < _items.length; i++) {
+      if (_items[i].fontStyle.font.type && (_items[i].fontStyle.font.type === "custom")) {
+        _customFonts.push({
+          "family": _items[i].fontStyle.font.family,
+          "url": _items[i].fontStyle.font.url
+        });
+      }
+    }
+  }
+
+  function loadCustomFonts() {
+    var families = [],
+      urls = [];
+
+    for (var i = 0; i < _customFonts.length; i++) {
+      families.push(_customFonts[i].family);
+      urls.push(_customFonts[i].url);
+    }
+
+    WebFont.load({
+      custom: {
+        families: families,
+        urls: urls
+      },
+      active: function() {
+        onCustomFontsLoaded();
+      },
+      inactive: function() {
+        onCustomFontsLoaded();
+      },
+      timeout: 2000
+    });
+  }
+
+  function onCustomFontsLoaded() {
+    drawItems();
+    fillScroller();
+
+    // Width of the secondary canvas needs to equal the width of all of the text.
+    _secondary.width = _xpos;
+
+    // Setting the width again resets the canvas so it needs to be redrawn.
+    drawItems();
+    fillScroller();
+
+    TweenLite.ticker.addEventListener("tick", draw);
+  }
+
   function drawItems() {
     _xpos = 0;
 
@@ -1485,6 +1536,11 @@ RiseVision.Common.Scroller = function (prefs) {
     _secondaryCtx.restore();
   }
 
+  function draw() {
+    _scrollerCtx.clearRect(0, 0, _scroller.width, _scroller.height);
+    _scrollerCtx.drawImage(_secondary, _scrollerCtx.xpos, 0);
+  }
+
   function fillScroller() {
     var width = 0,
       index = 0;
@@ -1504,11 +1560,6 @@ RiseVision.Common.Scroller = function (prefs) {
 
   function getDelay() {
     return _originalXpos / _scroller.width * 10;
-  }
-
-  function draw() {
-    _scrollerCtx.clearRect(0, 0, _scroller.width, _scroller.height);
-    _scrollerCtx.drawImage(_secondary, _scrollerCtx.xpos, 0);
   }
 
   // Reset xpos once a cycle has completed.
@@ -1546,17 +1597,10 @@ RiseVision.Common.Scroller = function (prefs) {
     _scrollerCtx = initCanvas(_scroller);
 
     createSecondaryCanvas();
-    drawItems();
-    fillScroller();
 
-    // Width of the secondary canvas needs to equal the width of all of the text.
-    _secondary.width = _xpos;
-
-    // Setting the width again resets the canvas so it needs to be redrawn.
-    drawItems();
-    fillScroller();
-
-    TweenLite.ticker.addEventListener("tick", draw);
+    // Fonts need to be loaded before drawing to the canvas.
+    getCustomFonts();
+    loadCustomFonts();
   }
 
   function play() {
