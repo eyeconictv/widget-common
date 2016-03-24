@@ -6,15 +6,15 @@
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenLite.min.js"></script>
 
-  <script src="../../node_modules/widget-tester/mocks/gadget-mocks.js"></script>
-  <script src="../../node_modules/widget-tester/mocks/web-font-loader-mock.js"></script>
-  <script src="../../components/webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="../../components/web-component-tester/browser.js"></script>
-  <script src="../../components/Canteen/build/canteen.min.js"></script>
+  <script src="/node_modules/widget-tester/mocks/gadget-mocks.js"></script>
+  <script src="/node_modules/widget-tester/mocks/web-font-loader-mock.js"></script>
+  <script src="/components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/components/web-component-tester/browser.js"></script>
+  <script src="/components/Canteen/build/canteen.min.js"></script>
 
-  <script src="../../test/data/scroller.js"></script>
-  <script src="../../src/js/common.js"></script>
-  <script src="../../src/js/scroller.js"></script>
+  <script src="/test/data/scroller/scroller.js"></script>
+  <script src="/src/js/common.js"></script>
+  <script src="/src/js/scroller.js"></script>
 </head>
 <body>
   <canvas id="scroller">
@@ -31,8 +31,18 @@
       prefs = new gadgets.Prefs();
 
     suite("Scroller", function() {
+      var responded = false;
+
       suiteSetup(function() {
+        var readyHandler;
+
         scroller = new RiseVision.Common.Scroller(prefs);
+
+        readyHandler = function() {
+          responded = true;
+        };
+
+        scrollerElem.addEventListener("ready", readyHandler);
         scroller.init(items);
 
         secondary = document.querySelector("#secondary");
@@ -50,6 +60,10 @@
 
         test("should set the xpos property", function() {
           assert.equal(scrollerCtx.xpos, 0);
+        });
+
+        test("should fire ready event", function() {
+          assert.isTrue(responded);
         });
       });
 
@@ -81,10 +95,6 @@
 
         test("should draw text using proper font styling", function() {
           assert.equal(json[1].val, "bold italic 36px verdana,geneva,sans-serif");
-        });
-
-        test("should draw text using custom font", function() {
-          assert.equal(json[8].val, "14px BrushScriptStd");
         });
 
         test("should draw text using correct color", function() {
@@ -153,13 +163,12 @@
         });
 
         test("should fire done event after playback is complete", function(done) {
-          var response = false,
-            responseHandler;
+          responded = false;
 
           // Resume playback.
           scroller.play();
 
-          responseHandler = function() {
+          var responseHandler = function() {
             responded = true;
 
             assert.isTrue(responded);
