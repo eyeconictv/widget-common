@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroller</title>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenLite.min.js"></script>
+
+  <script src="/node_modules/widget-tester/mocks/gadget-mocks.js"></script>
+  <script src="/node_modules/widget-tester/mocks/web-font-loader-mock.js"></script>
+  <script src="/components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="/components/web-component-tester/browser.js"></script>
+  <script src="/components/Canteen/build/canteen.min.js"></script>
+
+  <script src="/test/data/scroller/google-font.js"></script>
+  <script src="/src/js/common.js"></script>
+  <script src="/src/js/scroller.js"></script>
+</head>
+<body>
+  <canvas id="scroller">
+    Canvas is not supported.
+  </canvas>
+
+  <script>
+    var json = null,
+      scroller = null,
+      secondary = null,
+      secondaryCtx = null,
+      responded = false,
+      scrollerElem = document.querySelector("#scroller"),
+      prefs = new gadgets.Prefs();
+
+    suite("Scroller", function() {
+      suiteSetup(function() {
+        var readyHandler;
+
+        scroller = new RiseVision.Common.Scroller(prefs);
+
+        readyHandler = function() {
+          responded = true;
+        };
+
+        scrollerElem.addEventListener("ready", readyHandler);
+        scroller.init(items);
+
+        secondary = document.querySelector("#secondary");
+        secondaryCtx = secondary.getContext("2d");
+        json = JSON.parse(secondaryCtx.json());
+      });
+
+      test("should fire the ready event", function() {
+        assert.isTrue(responded);
+      });
+
+      test("should draw text using Google font", function() {
+        assert.equal(json[1].val, "14px 'Aclonica',sans-serif");
+      });
+    });
+  </script>
+</body>
+</html>
