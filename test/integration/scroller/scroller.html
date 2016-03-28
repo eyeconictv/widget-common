@@ -36,10 +36,11 @@
       suiteSetup(function() {
         var readyHandler;
 
-        scroller = new RiseVision.Common.Scroller(prefs);
+        scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "medium" } });
 
         readyHandler = function() {
           responded = true;
+          scrollerElem.removeEventListener("ready", readyHandler);
         };
 
         scrollerElem.addEventListener("ready", readyHandler);
@@ -172,6 +173,7 @@
             responded = true;
 
             assert.isTrue(responded);
+            scrollerElem.removeEventListener("done", responseHandler);
             done();
           };
 
@@ -183,6 +185,64 @@
           assert.equal(scrollerCtx.xpos, 0);
         });
       });
+
+      suite("Speed", function() {
+        var responseHandler;
+
+        setup(function() {
+          responseHandler = function() {
+            responded = true;
+            scrollerElem.removeEventListener("done", responseHandler);
+          };
+        });
+
+        test("should play scroller at slow speed", function(done) {
+          responded = false;
+          scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "slow" } });
+
+          scroller.init(items);
+          scroller.play();
+          scrollerElem.addEventListener("done", responseHandler);
+
+          // Scrolling should finish in about 6.6 seconds.
+          setTimeout(function() {
+            assert.isTrue(responded);
+            done();
+          }, 7000);
+        });
+
+        test("should play scroller at medium speed", function(done) {
+          responded = false;
+          scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "medium" } });
+
+          scroller.init(items);
+          scroller.play();
+          scrollerElem.addEventListener("done", responseHandler);
+
+          // Scrolling should finish in about 4.4 seconds.
+          setTimeout(function() {
+            assert.isTrue(responded);
+            done();
+          }, 5000);
+        });
+
+        test("should play scroller at fast speed", function(done) {
+          responded = false;
+          scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "fast" } });
+
+          scroller.init(items);
+          scroller.play();
+          scrollerElem.addEventListener("done", responseHandler);
+
+          // Scrolling should finish in about 3.3 seconds.
+          setTimeout(function() {
+            assert.isTrue(responded);
+            done();
+          }, 4000);
+        });
+
+      });
+
     });
   </script>
 </body>

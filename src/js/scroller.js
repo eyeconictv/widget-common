@@ -3,7 +3,7 @@
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.Scroller = function (prefs) {
+RiseVision.Common.Scroller = function (prefs, params) {
 
   "use strict";
 
@@ -213,8 +213,27 @@ RiseVision.Common.Scroller = function (prefs) {
     }
   }
 
+  /* Get the scroll speed. */
   function getDelay() {
-    return _originalXpos / _scroller.width * 10;
+    var factor;
+
+    if (params.transition && params.transition.speed) {
+      switch (params.transition.speed) {
+        case "slow":
+          factor = 100;
+          break;
+        case "medium":
+          factor = 150;
+          break;
+        case "fast":
+          factor = 200;
+          break;
+        default:
+          factor = 150;
+      }
+    }
+
+    return _originalXpos / factor;
   }
 
   /* Scroller has completed a cycle. */
