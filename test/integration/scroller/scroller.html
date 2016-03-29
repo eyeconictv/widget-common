@@ -27,8 +27,7 @@
       secondary = null,
       secondaryCtx = null,
       scrollerElem = document.querySelector("#scroller"),
-      scrollerCtx = scrollerElem.getContext("2d"),
-      prefs = new gadgets.Prefs();
+      scrollerCtx = scrollerElem.getContext("2d");
 
     suite("Scroller", function() {
       var responded = false;
@@ -36,7 +35,13 @@
       suiteSetup(function() {
         var readyHandler;
 
-        scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "medium" } });
+        scroller = new RiseVision.Common.Scroller({
+          "width": 600,
+          "height": 100,
+          "transition": {
+            "speed": "medium"
+          }
+        });
 
         readyHandler = function() {
           responded = true;
@@ -52,11 +57,11 @@
 
       suite("Scroller initialization", function() {
         test("should set the width", function() {
-          assert.equal(scrollerElem.width, prefs.getInt("rsW"));
+          assert.equal(scrollerElem.width, 600);
         });
 
         test("should set the height", function() {
-          assert.equal(scrollerElem.height, prefs.getInt("rsH"));
+          assert.equal(scrollerElem.height, 100);
         });
 
         test("should set the xpos property", function() {
@@ -79,7 +84,7 @@
         });
 
         test("should set the height", function() {
-          assert.equal(secondary.height, prefs.getInt("rsH"));
+          assert.equal(secondary.height, 100);
         });
 
         test("should hide the canvas", function() {
@@ -198,7 +203,13 @@
 
         test("should play scroller at slow speed", function(done) {
           responded = false;
-          scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "slow" } });
+          scroller = new RiseVision.Common.Scroller({
+            "width": 1920,
+            "height": 1080,
+            "transition": {
+              "speed": "slow"
+            }
+          });
 
           scroller.init(items);
           scroller.play();
@@ -213,7 +224,13 @@
 
         test("should play scroller at medium speed", function(done) {
           responded = false;
-          scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "medium" } });
+          scroller = new RiseVision.Common.Scroller({
+            "width": 1920,
+            "height": 1080,
+            "transition": {
+              "speed": "medium"
+            }
+          });
 
           scroller.init(items);
           scroller.play();
@@ -228,7 +245,13 @@
 
         test("should play scroller at fast speed", function(done) {
           responded = false;
-          scroller = new RiseVision.Common.Scroller(prefs, { "transition": { "speed": "fast" } });
+          scroller = new RiseVision.Common.Scroller({
+            "width": 1920,
+            "height": 1080,
+            "transition": {
+              "speed": "fast"
+            }
+          });
 
           scroller.init(items);
           scroller.play();

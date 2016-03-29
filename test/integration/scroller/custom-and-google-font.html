@@ -27,14 +27,19 @@
       secondary = null,
       secondaryCtx = null,
       responded = false,
-      scrollerElem = document.querySelector("#scroller"),
-      prefs = new gadgets.Prefs();
+      scrollerElem = document.querySelector("#scroller");
 
     suite("Scroller", function() {
       suiteSetup(function() {
         var readyHandler;
 
-        scroller = new RiseVision.Common.Scroller(prefs);
+        scroller = new RiseVision.Common.Scroller({
+          "width": 600,
+          "height": 100,
+          "transition": {
+            "speed": "medium"
+          }
+        });
 
         readyHandler = function() {
           responded = true;

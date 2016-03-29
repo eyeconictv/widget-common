@@ -1391,7 +1391,7 @@ RiseVision.Common.RiseCache = (function () {
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.Scroller = function (prefs, params) {
+RiseVision.Common.Scroller = function (params) {
 
   "use strict";
 
@@ -1644,8 +1644,8 @@ RiseVision.Common.Scroller = function (prefs, params) {
   function initCanvas(canvas) {
     var context = canvas.getContext("2d");
 
-    canvas.width = prefs.getInt("rsW");
-    canvas.height = prefs.getInt("rsH");
+    canvas.width = params.width;
+    canvas.height = params.height;
     context.xpos = 0;
 
     return context;
