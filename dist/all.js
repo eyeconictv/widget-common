@@ -1519,7 +1519,7 @@ RiseVision.Common.Scroller = function (params) {
       fontStyle;
 
     if (item) {
-      textObj.text = _utils.unescapeHTML(item.text) + " ";
+      textObj.text = _utils.unescapeHTML(item.text);
 
       if (item.fontStyle) {
         fontStyle = item.fontStyle;
@@ -1578,7 +1578,7 @@ RiseVision.Common.Scroller = function (params) {
     _secondaryCtx.translate(0, _secondary.height / 2);
     _secondaryCtx.fillText(textObj.text, _xpos, 0);
 
-    _xpos += _secondaryCtx.measureText(textObj.text).width;
+    _xpos += _secondaryCtx.measureText(textObj.text).width + 10;
 
     _secondaryCtx.restore();
   }
