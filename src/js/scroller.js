@@ -99,6 +99,14 @@ RiseVision.Common.Scroller = function (params) {
 
   /* Handler for when custom and Google fonts have been loaded. */
   function onFontsLoaded() {
+    initSecondaryCanvas();
+
+    TweenLite.ticker.addEventListener("tick", draw);
+    _scroller.dispatchEvent(new CustomEvent("ready", { "bubbles": true }));
+  }
+
+  /* Initialize the secondary canvas from which text will be copied to the scroller. */
+  function initSecondaryCanvas() {
     drawItems();
     fillScroller();
 
@@ -108,10 +116,6 @@ RiseVision.Common.Scroller = function (params) {
     // Setting the width again resets the canvas so it needs to be redrawn.
     drawItems();
     fillScroller();
-
-    TweenLite.ticker.addEventListener("tick", draw);
-
-    _scroller.dispatchEvent(new CustomEvent("ready", { "bubbles": true }));
   }
 
   function drawItems() {
@@ -277,6 +281,12 @@ RiseVision.Common.Scroller = function (params) {
     loadFonts();
   }
 
+  function refresh(items) {
+    _items = items;
+
+    initSecondaryCanvas();
+  }
+
   function play() {
     if (!_tween) {
       _tween = TweenLite.to(_scrollerCtx, getDelay(), { xpos: -_originalXpos, ease: Linear.easeNone, onComplete: onComplete });
@@ -292,6 +302,7 @@ RiseVision.Common.Scroller = function (params) {
   return {
     init: init,
     play: play,
-    pause: pause
+    pause: pause,
+    refresh: refresh
   };
 };

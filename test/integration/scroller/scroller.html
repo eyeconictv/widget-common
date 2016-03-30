@@ -93,8 +93,6 @@
       });
 
       suite("Drawing", function() {
-        var json;
-
         suiteSetup(function() {
           json = JSON.parse(secondaryCtx.json());
         });
@@ -119,12 +117,14 @@
       });
 
       suite("Playback", function() {
-        var json;
-
         suiteSetup(function() {
           scroller.play();
 
           json = JSON.parse(scrollerCtx.json());
+        });
+
+        suiteTeardown(function() {
+          document.body.removeChild(document.getElementById("secondary"));
         });
 
         test("should clear scroller before redrawing", function(done) {
@@ -218,6 +218,8 @@
           // Scrolling should finish in about 6.6 seconds.
           setTimeout(function() {
             assert.isTrue(responded);
+            document.body.removeChild(document.getElementById("secondary"));
+
             done();
           }, 7000);
         });
@@ -239,6 +241,8 @@
           // Scrolling should finish in about 4.4 seconds.
           setTimeout(function() {
             assert.isTrue(responded);
+            document.body.removeChild(document.getElementById("secondary"));
+
             done();
           }, 5000);
         });
@@ -264,6 +268,39 @@
           }, 4000);
         });
 
+      });
+
+      suite("Refreshing", function() {
+        test("should refresh scroller with new data", function() {
+          var data = [{
+            "text": "What's your chance of an earthquake in 2016?",
+            "fontStyle": {
+              "align": "left",
+              "backcolor": "transparent",
+              "bold": true,
+              "customSize": "",
+              "font": {
+                "family": "verdana,geneva,sans-serif",
+                "type": "standard",
+                "url": ""
+              },
+              "forecolor": "#FF0000",
+              "italic": true,
+              "size": "36px",
+              "underline": false
+            }
+          }];
+
+          secondary = document.querySelector("#secondary");
+          secondaryCtx = secondary.getContext("2d");
+
+          secondaryCtx.clear();
+          scroller.refresh(data);
+
+          json = JSON.parse(secondaryCtx.json());
+
+          assert.equal(json[4].arguments[0], "What's your chance of an earthquake in 2016? ");
+        });
       });
 
     });
