@@ -1684,7 +1684,9 @@ RiseVision.Common.Scroller = function (params) {
   }
 
   function pause() {
-    _tween.pause();
+    if (_tween) {
+      _tween.pause();
+    }
   }
 
   return {
