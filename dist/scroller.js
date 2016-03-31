@@ -30,7 +30,8 @@ RiseVision.Common.Scroller = function (params) {
 
     // Google fonts
     for (var i = 0; i < _items.length; i++) {
-      if (_items[i].fontStyle.font.type && (_items[i].fontStyle.font.type === "google")) {
+      if (_items[i].fontStyle && _items[i].fontStyle.font.type &&
+        (_items[i].fontStyle.font.type === "google")) {
         // Remove fallback font.
         families = _items[i].fontStyle.font.family.split(",");
 
@@ -40,7 +41,8 @@ RiseVision.Common.Scroller = function (params) {
 
     // Custom Fonts
     for (i = 0; i < _items.length; i++) {
-      if (_items[i].fontStyle.font.type && (_items[i].fontStyle.font.type === "custom")) {
+      if (_items[i].fontStyle && _items[i].fontStyle.font.type &&
+        (_items[i].fontStyle.font.type === "custom")) {
         customFamilies.push(_items[i].fontStyle.font.family);
         customUrls.push(_items[i].fontStyle.font.url);
       }
@@ -122,8 +124,32 @@ RiseVision.Common.Scroller = function (params) {
     _xpos = 0;
 
     for (var i = 0; i < _items.length; i++) {
-      drawItem(_items[i]);
+      if (_items[i].separator) {
+        drawSeparator(_items[i]);
+      }
+      else {
+        drawItem(_items[i]);
+      }
     }
+  }
+
+  /* Draw a separator between items. */
+  function drawSeparator(item) {
+    var y = _secondary.height / 2,
+      radius = item.size / 2;
+
+    _secondaryCtx.save();
+
+    _secondaryCtx.fillStyle = item.color;
+
+    // Draw a circle.
+    _secondaryCtx.beginPath();
+    _secondaryCtx.arc(_xpos + radius, y, radius, 0, 2 * Math.PI);
+    _secondaryCtx.fill();
+
+    _xpos += item.size + 10;
+
+    _secondaryCtx.restore();
   }
 
   function drawItem(item) {
@@ -185,6 +211,7 @@ RiseVision.Common.Scroller = function (params) {
     // Set the text formatting.
     _secondaryCtx.font = font;
     _secondaryCtx.fillStyle = textObj.foreColor;
+    _secondaryCtx.textBaseline = "middle";
 
     // Draw the text onto the canvas.
     _secondaryCtx.translate(0, _secondary.height / 2);
@@ -209,7 +236,12 @@ RiseVision.Common.Scroller = function (params) {
     // Ensure there's enough text to fill the scroller.
     if (_items.length > 0) {
       while (width < _scroller.width) {
-        drawItem(_items[index]);
+        if (_items[index].separator) {
+          drawSeparator(_items[index]);
+        }
+        else {
+          drawItem(_items[index]);
+        }
 
         width = _xpos - _originalXpos;
         index = (index === _items.length - 1) ? 0 : index + 1;
