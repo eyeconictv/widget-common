@@ -16,5 +16,10 @@ var items = [
       "size": "36px",
       "underline": false
     }
+  },
+  {
+    "separator": true,
+    "size": 5,
+    "color": "rgb(0,0,0)"
   }
 ];

@@ -105,14 +105,31 @@
           assert.equal(json[2].val, "#FF0000");
         });
 
+        test("should set text baseline", function() {
+          assert.equal(json[3].val, "middle");
+        });
+
         test("should vertically align text when drawing", function() {
-          assert.equal(json[3].method, "translate", "translate");
-          assert.equal(json[3].arguments[0], 0, "x-coordinate");
-          assert.equal(json[3].arguments[1], secondary.height / 2, "y-coordinate");
+          assert.equal(json[4].method, "translate", "translate");
+          assert.equal(json[4].arguments[0], 0, "x-coordinate");
+          assert.equal(json[4].arguments[1], secondary.height / 2, "y-coordinate");
         });
 
         test("should strip HTML from drawn text", function() {
-          assert.equal(json[4].arguments[0], "Did Pluto have rivers and lakes?");
+          assert.equal(json[5].arguments[0], "Did Pluto have rivers and lakes?");
+        });
+
+        test("should draw separator using correct color", function() {
+          assert.equal(json[9].val, "rgb(0,0,0)");
+        });
+
+        test("should draw separator", function() {
+          assert.equal(json[11].method, "arc", "method");
+          assert.equal(json[11].arguments[0], 566.703, "x");
+          assert.equal(json[11].arguments[1], secondary.height / 2, "y");
+          assert.equal(json[11].arguments[2], items[1].size / 2, "radius");
+          assert.equal(json[11].arguments[3], 0, "start angle");
+          assert.equal(json[11].arguments[4], Math.round(2 * Math.PI * 1000) / 1000, "end angle");
         });
       });
 
@@ -299,7 +316,7 @@
 
           json = JSON.parse(secondaryCtx.json());
 
-          assert.equal(json[4].arguments[0], "What's your chance of an earthquake in 2016?");
+          assert.equal(json[5].arguments[0], "What's your chance of an earthquake in 2016?");
         });
       });
 
