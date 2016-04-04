@@ -1,4 +1,4 @@
-/* global config */
+/* global WIDGET_COMMON_CONFIG */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
@@ -249,7 +249,7 @@ RiseVision.Common.Utilities = (function() {
     for (var i = 0; i < vars.length; i++) {
       pair = vars[i].split("=");
 
-      if (pair[0] == param) {
+      if (pair[0] == param) { // jshint ignore:line
         return decodeURIComponent(pair[1]);
       }
     }
@@ -294,6 +294,7 @@ RiseVision.Common.Utilities = (function() {
   };
 })();
 
+/* exported WIDGET_COMMON_CONFIG */
 var WIDGET_COMMON_CONFIG = {
   AUTH_PATH_URL: "v1/widget/auth",
   LOGGER_CLIENT_ID: "1088527147109-6q1o2vtihn34292pjt4ckhmhck0rk0o7.apps.googleusercontent.com",
@@ -302,6 +303,9 @@ var WIDGET_COMMON_CONFIG = {
   STORAGE_ENV: "prod",
   STORE_URL: "https://store-dot-rvaserver2.appspot.com/"
 };
+/* global RiseVision */
+/* exported CollectionTimes */
+
 /*
  * Singleton object to handle retrieving collection times for a historical instrument.
  */
@@ -315,7 +319,7 @@ var CollectionTimes = (function() {
       var updateInterval = 60000, viz = new RiseVision.Common.Visualization(), options;
 
       //Start a timer in case there is a problem loading the data (i.e. Internet has been disconnected).
-      collectionTimesTimer = setTimeout(function() {
+      var collectionTimesTimer = setTimeout(function() {
         loadCollectionTimes(instrument, callback);
       }, updateInterval);
 
@@ -465,10 +469,10 @@ RiseVision.Common.Financial.Helper.prototype.getInstruments = function(isLoading
           var startTime = collectionTimes[j].startTime, endTime = collectionTimes[j].endTime, daysOfWeek = collectionTimes[j].daysOfWeek;
 
           //Check if the instrument should be requested again based on its collection data.
-          $.each(daysOfWeek, function(j, day) {
+          $.each(daysOfWeek, function(j, day) { // jshint ignore:line
             //Check collection day.
             // TODO: Use strict type comparison (===)
-            if (day == dayOfWeek) {
+            if (day == dayOfWeek) { // jshint ignore:line
               //Check collection time.
               if (new Date().between(startTime, endTime)) {
                 instruments.push(self.instruments[i]);
@@ -485,6 +489,8 @@ RiseVision.Common.Financial.Helper.prototype.getInstruments = function(isLoading
   }
 };
 
+/* global CollectionTimes */
+
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 RiseVision.Common.Financial = RiseVision.Common.Financial || {};
@@ -493,8 +499,6 @@ RiseVision.Common.Financial.Historical = {};
 RiseVision.Common.Financial.Historical.CollectionTimes = {};
 
 RiseVision.Common.Financial.Historical = function(displayID, instrument, duration) {
-  var self = this;
-
   if (displayID) {
     this.displayID = displayID;
   }
@@ -614,8 +618,6 @@ RiseVision.Common.Financial = RiseVision.Common.Financial || {};
 RiseVision.Common.Financial.RealTime = {};
 
 RiseVision.Common.Financial.RealTime = function(displayID, instruments, store_auth) {
-  var self = this;
-
   this.instruments = instruments;
   this.isLoading = true;
   this.conditions = {};
@@ -638,7 +640,7 @@ RiseVision.Common.Financial.RealTime = function(displayID, instruments, store_au
   };
 
   this._saveCollectionTimes = function() {
-    var numRows, timeZoneOffset, startTime, endTime;
+    var numRows;
 
     numRows = this.data.getNumberOfRows();
 
@@ -661,6 +663,8 @@ RiseVision.Common.Financial.RealTime = function(displayID, instruments, store_au
   };
 
   this._saveCollectionTime = function(row) {
+    var timeZoneOffset, startTime, endTime;
+
     if (this.data.getValue(row, 0) !== "INVALID_SYMBOL") {
       // If the data is stale, then force collection times to be saved again later.
       if (this.data.getValue(row, 0) === "...") {
@@ -688,7 +692,7 @@ RiseVision.Common.Financial.RealTime.prototype.setInstruments = function(instrum
   //Trim any whitespace from instruments.
   instruments = instruments.split(",");
 
-  $.each(instruments, function(index, value) {
+  $.each(instruments, function(index) {
     instruments[index] = $.trim(instruments[index]);
   });
 
@@ -718,12 +722,9 @@ RiseVision.Common.Financial.RealTime.prototype.getData = function(fields, loadLo
   $.each(fields, function(index, field) {
     duplicateFound = false;
 
-    //Do nothing as instrument is already being requested.
-    if (field === "instrument") {
-    }
-    else {
+    if (field !== "instrument") {
       //Visualization API doesn't allow requesting the same field more than once.
-      $.each(self.dataFields, function(i, dataField) {
+      $.each(self.dataFields, function(i) {
         if (i === field) {
           duplicateFound = true;
           return false;
@@ -868,9 +869,9 @@ RiseVision.Common.Financial.RealTime.prototype.onLogoLoaded = function(toLoad) {
 
 /* Conditions */
 RiseVision.Common.Financial.RealTime.prototype.checkSigns = function(field) {
-  var row = 0, signs = [], current, sign;
+  var row = 0, numRows = 0, signs = [], current, sign;
 
-  for ( row = 0, numRows = this.data.getNumberOfRows(); row < numRows; row++) {
+  for (row = 0, numRows = this.data.getNumberOfRows(); row < numRows; row++) {
     current = this.data.getValue(row, this.dataFields[field]);
 
     if (isNaN(current)) {
@@ -897,14 +898,14 @@ RiseVision.Common.Financial.RealTime.prototype.checkSigns = function(field) {
  Return 0 if both values are equal.
  Return -1 if current value is less than the previous value. */
 RiseVision.Common.Financial.RealTime.prototype.compare = function(field) {
-  var self = this, current = 0, previous = 0, result = [], matchFound = false;
+  var self = this, row = 0, numRows = 0, current = 0, previous = 0, result = [], matchFound = false;
 
   if (this.conditions[field]) {
     for ( row = 0, numRows = this.data.getNumberOfRows(); row < numRows; row++) {
       current = this.data.getValue(row, this.dataFields[field]);
       matchFound = false;
 
-      $.each(this.conditions[field], function(index, value) {
+      $.each(this.conditions[field], function(index, value) { // jshint ignore:line
         //Instrument is used to ensure that the rows that are being compared are for the same stock.
         //In chains, rows may be added or deleted.
         if (value.instrument === self.data.getValue(row, 0)) {
@@ -923,7 +924,7 @@ RiseVision.Common.Financial.RealTime.prototype.compare = function(field) {
           //The data type of a column can still be a number even if there is string data in it.
           //To be sure, let's check that the values we are comparing are numbers.
           if (!isNaN(current) && !isNaN(previous)) {
-            if (current != previous) {
+            if (current != previous) {  // jshint ignore:line
               if (current > previous) {
                 result.push(1);
               }
@@ -974,7 +975,7 @@ RiseVision.Common.Financial.RealTime.prototype.saveBeforeValue = function(field,
   }
 };
 
-/* global gadgets */
+/* global WIDGET_COMMON_CONFIG */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
@@ -1730,6 +1731,7 @@ RiseVision.Common.Scroller = function (params) {
 };
 
 // Implements http://www.risevision.com/help/developers/store-authorization/
+/* global WIDGET_COMMON_CONFIG */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
@@ -1780,8 +1782,7 @@ RiseVision.Common.Store.Auth = function() {
     });
   };
 
-  this.onSuccess = function(data, textStatus) {
-    var self = this;
+  this.onSuccess = function(data) {
     if (data && data.authorized) {
       this.authorized = true;
 
@@ -1840,6 +1841,8 @@ RiseVision.Common.Store.Auth = function() {
     }
   }
 };
+
+/* global google */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
