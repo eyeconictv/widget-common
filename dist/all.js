@@ -122,6 +122,8 @@ RiseVision.Common.Background = function (data) {
   };
 };
 
+/* global WebFont */
+
 var RiseVision = RiseVision || {};
 
 RiseVision.Common = RiseVision.Common || {};
@@ -129,13 +131,13 @@ RiseVision.Common = RiseVision.Common || {};
 RiseVision.Common.Utilities = (function() {
 
   function getFontCssStyle(className, fontObj) {
-    var family = "font-family:" + fontObj.font.family + "; ";
+    var family = "font-family: " + fontObj.font.family + "; ";
     var color = "color: " + (fontObj.color ? fontObj.color : fontObj.forecolor) + "; ";
     var size = "font-size: " + (fontObj.size.indexOf("px") === -1 ? fontObj.size + "px; " : fontObj.size + "; ");
     var weight = "font-weight: " + (fontObj.bold ? "bold" : "normal") + "; ";
     var italic = "font-style: " + (fontObj.italic ? "italic" : "normal") + "; ";
     var underline = "text-decoration: " + (fontObj.underline ? "underline" : "none") + "; ";
-    var highlight = "background-color: " + (fontObj.highlightColor ? fontObj.highlightColor : fontObj.backcolor) + "; ";
+    var highlight = "background-color: " + (fontObj.highlightColor ? fontObj.highlightColor : fontObj.backcolor) + ";";
 
     return "." + className + " {" + family + color + size + weight + italic + underline + highlight + "}";
   }
@@ -177,58 +179,130 @@ RiseVision.Common.Utilities = (function() {
    *           object   contentDoc    Document object into which to inject styles
    *                                  and load fonts (optional).
    */
-  function loadFonts(settings, contentDoc) {
+  function loadFonts(settings, cb) {
+    var families = null,
+      googleFamilies = [],
+      customFamilies = [],
+      customUrls = [],
+      googleFontsLoaded = false,
+      customFontsLoaded = false;
+
+    function callback() {
+      if (cb && typeof cb === "function") {
+        cb();
+      }
+    }
+
+    function onGoogleFontsLoaded() {
+      googleFontsLoaded = true;
+
+      if (customFamilies.length > 0) {
+        if (customFontsLoaded) {
+          callback();
+        }
+      }
+      else {
+        callback();
+      }
+    }
+
+    function onCustomFontsLoaded() {
+      customFontsLoaded = true;
+
+      if (googleFamilies.length > 0) {
+        if (googleFontsLoaded) {
+          callback();
+        }
+      }
+      else {
+        callback();
+      }
+    }
+
+    if (!settings || settings.length === 0) {
+      callback();
+      return;
+    }
+
+    // Check for custom css class names and add rules if so
     settings.forEach(function(item) {
-      if (item.class && item.fontSetting) {
-        addCSSRules([ getFontCssStyle(item.class, item.fontSetting) ]);
+      if (item.class && item.fontStyle) {
+        addCSSRules([ getFontCssStyle(item.class, item.fontStyle) ]);
+      }
+    });
+
+    // Google fonts
+    for (var i = 0; i < settings.length; i++) {
+      if (settings[i].fontStyle && settings[i].fontStyle.font.type &&
+        (settings[i].fontStyle.font.type === "google")) {
+        // Remove fallback font.
+        families = settings[i].fontStyle.font.family.split(",");
+
+        googleFamilies.push(families[0]);
+      }
+    }
+
+    // Custom fonts
+    for (i = 0; i < settings.length; i++) {
+      if (settings[i].fontStyle && settings[i].fontStyle.font.type &&
+        (settings[i].fontStyle.font.type === "custom")) {
+        customFamilies.push(settings[i].fontStyle.font.family);
+        customUrls.push(settings[i].fontStyle.font.url);
+      }
+    }
+
+    if (googleFamilies.length === 0 && customFamilies.length === 0) {
+      callback();
+    }
+    else {
+      // Load the fonts
+      if (googleFamilies.length > 0) {
+        loadGoogleFonts(googleFamilies, onGoogleFontsLoaded);
       }
 
-      if (item.fontSetting.font.type) {
-        if (item.fontSetting.font.type === "custom" && item.fontSetting.font.family &&
-          item.fontSetting.font.url) {
-          loadCustomFont(item.fontSetting.font.family, item.fontSetting.font.url,
-            contentDoc);
-        }
-        else if (item.fontSetting.font.type === "google" && item.fontSetting.font.family) {
-          loadGoogleFont(item.fontSetting.font.family, contentDoc);
-        }
+      if (customFamilies.length > 0) {
+        loadCustomFonts(customFamilies, customUrls, onCustomFontsLoaded);
       }
+    }
+  }
+
+  function loadCustomFonts(families, urls, cb) {
+    WebFont.load({
+      custom: {
+        families: families,
+        urls: urls
+      },
+      active: function() {
+        if (cb && typeof cb === "function") {
+          cb();
+        }
+      },
+      inactive: function() {
+        if (cb && typeof cb === "function") {
+          cb();
+        }
+      },
+      timeout: 2000
     });
   }
 
-  function loadCustomFont(family, url, contentDoc) {
-    var sheet = null;
-    var rule = "font-family: " + family + "; " + "src: url('" + url + "');";
-
-    contentDoc = contentDoc || document;
-
-    sheet = contentDoc.styleSheets[0];
-
-    if (sheet !== null) {
-      sheet.addRule("@font-face", rule);
-    }
-  }
-
-  function loadGoogleFont(family, contentDoc) {
-    var stylesheet = document.createElement("link"),
-      familyVal;
-
-    contentDoc = contentDoc || document;
-
-    stylesheet.setAttribute("rel", "stylesheet");
-    stylesheet.setAttribute("type", "text/css");
-
-    // split to account for family value containing a fallback (eg. Aladin,sans-serif)
-    familyVal = family.split(",")[0];
-
-    // strip possible single quotes
-    familyVal = familyVal.replace(/'/g, "");
-
-    stylesheet.setAttribute("href", "https://fonts.googleapis.com/css?family=" + familyVal);
-
-    if (stylesheet !== null) {
-      contentDoc.getElementsByTagName("head")[0].appendChild(stylesheet);
-    }
+  function loadGoogleFonts(families, cb) {
+    WebFont.load({
+      google: {
+        families: families
+      },
+      active: function() {
+        if (cb && typeof cb === "function") {
+          cb();
+        }
+      },
+      inactive: function() {
+        if (cb && typeof cb === "function") {
+          cb();
+        }
+      },
+      timeout: 2000
+    });
   }
 
   function preloadImages(urls) {
@@ -286,8 +360,8 @@ RiseVision.Common.Utilities = (function() {
     getFontCssStyle:  getFontCssStyle,
     addCSSRules:      addCSSRules,
     loadFonts:        loadFonts,
-    loadCustomFont:   loadCustomFont,
-    loadGoogleFont:   loadGoogleFont,
+    loadCustomFonts:   loadCustomFonts,
+    loadGoogleFonts:   loadGoogleFonts,
     preloadImages:    preloadImages,
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
     unescapeHTML: unescapeHTML
@@ -1387,7 +1461,7 @@ RiseVision.Common.RiseCache = (function () {
 
 })();
 
-/* global WebFont, TweenLite, Linear */
+/* global TweenLite, Linear */
 
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
@@ -1409,84 +1483,6 @@ RiseVision.Common.Scroller = function (params) {
   /*
    *  Private Methods
    */
-
-  /* Load custom and Google fonts. */
-  function loadFonts() {
-    var families = null,
-      googleFamilies = [],
-      customFamilies = [],
-      customUrls = [];
-
-    // Google fonts
-    for (var i = 0; i < _items.length; i++) {
-      if (_items[i].fontStyle && _items[i].fontStyle.font.type &&
-        (_items[i].fontStyle.font.type === "google")) {
-        // Remove fallback font.
-        families = _items[i].fontStyle.font.family.split(",");
-
-        googleFamilies.push(families[0]);
-      }
-    }
-
-    // Custom Fonts
-    for (i = 0; i < _items.length; i++) {
-      if (_items[i].fontStyle && _items[i].fontStyle.font.type &&
-        (_items[i].fontStyle.font.type === "custom")) {
-        customFamilies.push(_items[i].fontStyle.font.family);
-        customUrls.push(_items[i].fontStyle.font.url);
-      }
-    }
-
-    if (customFamilies.length > 0) {
-      loadCustomFonts(customFamilies, customUrls, function() {
-        if (googleFamilies.length > 0) {
-          loadGoogleFonts(googleFamilies, onFontsLoaded);
-        }
-        else {
-          onFontsLoaded();
-        }
-      });
-    }
-    else if (googleFamilies.length > 0) {
-      loadGoogleFonts(googleFamilies, onFontsLoaded);
-    }
-    else {
-      onFontsLoaded();
-    }
-  }
-
-  /* Load custom fonts. */
-  function loadCustomFonts(families, urls, cb) {
-    WebFont.load({
-      custom: {
-        families: families,
-        urls: urls
-      },
-      active: function() {
-        cb();
-      },
-      inactive: function() {
-        cb();
-      },
-      timeout: 2000
-    });
-  }
-
-  /* Load Google fonts. */
-  function loadGoogleFonts(families, cb) {
-    WebFont.load({
-      google: {
-        families: families
-      },
-      active: function() {
-        cb();
-      },
-      inactive: function() {
-        cb();
-      },
-      timeout: 2000
-    });
-  }
 
   /* Handler for when custom and Google fonts have been loaded. */
   function onFontsLoaded() {
@@ -1699,7 +1695,8 @@ RiseVision.Common.Scroller = function (params) {
     createSecondaryCanvas();
 
     // Fonts need to be loaded before drawing to the canvas.
-    loadFonts();
+    _utils.loadFonts(items, onFontsLoaded);
+
   }
 
   function refresh(items) {

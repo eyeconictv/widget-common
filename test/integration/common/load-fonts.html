@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Custom Utils</title>
+
+  <script src="../../../node_modules/widget-tester/mocks/web-font-loader-mock.js"></script>
+  <script src="../../../components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../components/web-component-tester/browser.js"></script>
+  <script src="../../../components/jquery/dist/jquery.min.js"></script>
+
+  <script src="../../../test/data/common/fonts.js"></script>
+  <script src="../../../src/js/common.js"></script>
+</head>
+<body>
+<div id="container">
+</div>
+
+<script>
+  var utils = RiseVision.Common.Utilities;
+
+  suite("Common Utils - Load Fonts", function() {
+
+    suite("Only Standard Fonts", function () {
+      var spy = sinon.spy();
+
+      suiteSetup(function() {
+        $("#container").append(getSampleParagraphs([standardFont1.class, standardFont2.class]));
+
+        utils.loadFonts([standardFont1, standardFont2], spy);
+      });
+
+      suiteTeardown(function () {
+        $("#container").empty();
+      });
+
+      test("should apply the css rules correctly", function () {
+        var p1 = "p." + standardFont1.class,
+          p2 = "p." + standardFont2.class;
+        assert.equal($(p1).css("fontFamily"), "verdana, geneva, sans-serif");
+        assert.equal($(p1).css("color"), "rgb(255, 204, 0)");
+        assert.equal($(p1).css("fontSize"), "18px");
+        assert.equal($(p1).css("fontWeight"), "bold");
+        assert.equal($(p1).css("fontStyle"), "italic");
+        assert.equal($(p1).css("textDecoration"), "underline");
+        assert.equal($(p1).css("backgroundColor"), "rgb(238, 238, 238)");
+
+        assert.equal($(p2).css("fontFamily"), "Arial, 'Helvetica Neue', Helvetica, sans-serif");
+        assert.equal($(p2).css("color"), "rgb(0, 0, 0)");
+        assert.equal($(p2).css("fontSize"), "14px");
+        assert.equal($(p2).css("fontWeight"), "400");
+        assert.equal($(p2).css("fontStyle"), "normal");
+        assert.equal($(p2).css("textDecoration"), "none");
+        assert.equal($(p2).css("backgroundColor"), "rgba(0, 0, 0, 0)");
+      });
+
+      test("should execute the callback", function() {
+        assert(spy.calledOnce);
+      });
+    });
+
+    suite("Only Google Fonts", function () {
+      var spy = sinon.spy();
+
+      suiteSetup(function() {
+        $("#container").append(getSampleParagraphs([googleFont.class]));
+
+        utils.loadFonts([googleFont], spy);
+      });
+
+      suiteTeardown(function () {
+        $("#container").empty();
+      });
+
+      test("should apply the google font-family correctly", function () {
+        assert.equal($("p.googleFont").css("fontFamily"), "Aclonica, sans-serif");
+      });
+
+      test("should execute the callback", function() {
+        assert(spy.calledOnce);
+      });
+
+    });
+
+    suite("Only Custom Fonts", function () {
+      var spy = sinon.spy();
+
+      suiteSetup(function() {
+        $("#container").append(getSampleParagraphs([customFont.class]));
+
+        utils.loadFonts([customFont], spy);
+      });
+
+      suiteTeardown(function () {
+        $("#container").empty();
+      });
+
+      test("should apply the custom font-family correctly", function () {
+        assert.equal($("p.customFont").css("fontFamily"), "BrushScriptStd");
+      });
+
+      test("should execute the callback", function() {
+        assert(spy.calledOnce);
+      });
+    });
+
+    suite("All Types of Fonts", function () {
+      var spy = sinon.spy();
+
+      suiteSetup(function() {
+        $("#container").append(getSampleParagraphs([standardFont1.class, googleFont.class, customFont.class]));
+
+        utils.loadFonts([standardFont1, googleFont, customFont], spy);
+      });
+
+      suiteTeardown(function () {
+        $("#container").empty();
+      });
+
+      test("should apply the standard font-family correctly", function () {
+        assert.equal($("p.standardFont1").css("fontFamily"), "verdana, geneva, sans-serif");
+      });
+
+      test("should apply the google font-family correctly", function () {
+        assert.equal($("p.googleFont").css("fontFamily"), "Aclonica, sans-serif");
+      });
+
+      test("should apply the custom font-family correctly", function () {
+        assert.equal($("p.customFont").css("fontFamily"), "BrushScriptStd");
+      });
+
+      test("should execute the callback", function() {
+        assert(spy.calledOnce);
+      });
+    });
+
+  });
+</script>
+</body>
+</html>

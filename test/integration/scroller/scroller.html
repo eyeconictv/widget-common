@@ -6,15 +6,15 @@
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenLite.min.js"></script>
 
-  <script src="/node_modules/widget-tester/mocks/gadget-mocks.js"></script>
-  <script src="/node_modules/widget-tester/mocks/web-font-loader-mock.js"></script>
-  <script src="/components/webcomponentsjs/webcomponents-lite.js"></script>
-  <script src="/components/web-component-tester/browser.js"></script>
-  <script src="/components/Canteen/build/canteen.min.js"></script>
+  <script src="../../../node_modules/widget-tester/mocks/gadget-mocks.js"></script>
+  <script src="../../../node_modules/widget-tester/mocks/web-font-loader-mock.js"></script>
+  <script src="../../../components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../components/web-component-tester/browser.js"></script>
+  <script src="../../../components/Canteen/build/canteen.min.js"></script>
 
-  <script src="/test/data/scroller/scroller.js"></script>
-  <script src="/src/js/common.js"></script>
-  <script src="/src/js/scroller.js"></script>
+  <script src="../../../test/data/scroller/scroller.js"></script>
+  <script src="../../../src/js/common.js"></script>
+  <script src="../../../src/js/scroller.js"></script>
 </head>
 <body>
   <canvas id="scroller">
@@ -125,7 +125,6 @@
 
         test("should draw separator", function() {
           assert.equal(json[11].method, "arc", "method");
-          assert.equal(json[11].arguments[0], 566.703, "x");
           assert.equal(json[11].arguments[1], secondary.height / 2, "y");
           assert.equal(json[11].arguments[2], items[1].size / 2, "radius");
           assert.equal(json[11].arguments[3], 0, "start angle");
