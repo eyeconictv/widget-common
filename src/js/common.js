@@ -7,7 +7,7 @@ RiseVision.Common = RiseVision.Common || {};
 RiseVision.Common.Utilities = (function() {
 
   function getFontCssStyle(className, fontObj) {
-    var family = "font-family: " + fontObj.font.family + "; ";
+    var family = "font-family: " + decodeURIComponent(fontObj.font.family).replace(/'/g, "") + "; ";
     var color = "color: " + (fontObj.color ? fontObj.color : fontObj.forecolor) + "; ";
     var size = "font-size: " + (fontObj.size.indexOf("px") === -1 ? fontObj.size + "px; " : fontObj.size + "; ");
     var weight = "font-weight: " + (fontObj.bold ? "bold" : "normal") + "; ";
@@ -59,9 +59,7 @@ RiseVision.Common.Utilities = (function() {
     var families = null,
       googleFamilies = [],
       customFamilies = [],
-      customUrls = [],
-      googleFontsLoaded = false,
-      customFontsLoaded = false;
+      customUrls = [];
 
     function callback() {
       if (cb && typeof cb === "function") {
@@ -70,29 +68,7 @@ RiseVision.Common.Utilities = (function() {
     }
 
     function onGoogleFontsLoaded() {
-      googleFontsLoaded = true;
-
-      if (customFamilies.length > 0) {
-        if (customFontsLoaded) {
-          callback();
-        }
-      }
-      else {
-        callback();
-      }
-    }
-
-    function onCustomFontsLoaded() {
-      customFontsLoaded = true;
-
-      if (googleFamilies.length > 0) {
-        if (googleFontsLoaded) {
-          callback();
-        }
-      }
-      else {
-        callback();
-      }
+      callback();
     }
 
     if (!settings || settings.length === 0) {
@@ -112,9 +88,12 @@ RiseVision.Common.Utilities = (function() {
       if (settings[i].fontStyle && settings[i].fontStyle.font.type &&
         (settings[i].fontStyle.font.type === "google")) {
         // Remove fallback font.
-        families = settings[i].fontStyle.font.family.split(",");
+        families = settings[i].fontStyle.font.family.split(",")[0];
 
-        googleFamilies.push(families[0]);
+        // strip possible single quotes
+        families = families.replace(/'/g, "");
+
+        googleFamilies.push(families);
       }
     }
 
@@ -122,8 +101,10 @@ RiseVision.Common.Utilities = (function() {
     for (i = 0; i < settings.length; i++) {
       if (settings[i].fontStyle && settings[i].fontStyle.font.type &&
         (settings[i].fontStyle.font.type === "custom")) {
-        customFamilies.push(settings[i].fontStyle.font.family);
-        customUrls.push(settings[i].fontStyle.font.url);
+        // decode value and strip single quotes
+        customFamilies.push(decodeURIComponent(settings[i].fontStyle.font.family).replace(/'/g, ""));
+        // strip single quotes
+        customUrls.push(settings[i].fontStyle.font.url.replace(/'/g, "\\'"));
       }
     }
 
@@ -132,34 +113,30 @@ RiseVision.Common.Utilities = (function() {
     }
     else {
       // Load the fonts
+      for (var j = 0; j < customFamilies.length; j += 1) {
+        loadCustomFont(customFamilies[j], customUrls[j]);
+      }
+
       if (googleFamilies.length > 0) {
         loadGoogleFonts(googleFamilies, onGoogleFontsLoaded);
       }
-
-      if (customFamilies.length > 0) {
-        loadCustomFonts(customFamilies, customUrls, onCustomFontsLoaded);
+      else {
+        callback();
       }
     }
   }
 
-  function loadCustomFonts(families, urls, cb) {
-    WebFont.load({
-      custom: {
-        families: families,
-        urls: urls
-      },
-      active: function() {
-        if (cb && typeof cb === "function") {
-          cb();
-        }
-      },
-      inactive: function() {
-        if (cb && typeof cb === "function") {
-          cb();
-        }
-      },
-      timeout: 2000
-    });
+  function loadCustomFont(family, url, contentDoc) {
+    var sheet = null;
+    var rule = "font-family: " + family + "; " + "src: url('" + url + "');";
+
+    contentDoc = contentDoc || document;
+
+    sheet = contentDoc.styleSheets[0];
+
+    if (sheet !== null) {
+      sheet.addRule("@font-face", rule);
+    }
   }
 
   function loadGoogleFonts(families, cb) {
@@ -236,7 +213,7 @@ RiseVision.Common.Utilities = (function() {
     getFontCssStyle:  getFontCssStyle,
     addCSSRules:      addCSSRules,
     loadFonts:        loadFonts,
-    loadCustomFonts:   loadCustomFonts,
+    loadCustomFont:   loadCustomFont,
     loadGoogleFonts:   loadGoogleFonts,
     preloadImages:    preloadImages,
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
