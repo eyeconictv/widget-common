@@ -57,9 +57,9 @@ var customFont = {
   "class": "customFont",
   "fontStyle": {
     "font": {
-      "family": "BrushScriptStd",
+      "family": "My%20Custom'%20Font",
       "type": "custom",
-      "url": "https://mydomain.com/fonts/BrushScriptStd.otf"
+      "url": "https://mydomain.com/fonts/My%20Custom'%20Font.ttf"
     },
     "size": "18px",
     "customSize": "",

@@ -85,6 +85,18 @@ describe("getFontCssStyle", function () {
 
   });
 
+  it("should decode and strip single quotes from family name", function () {
+    var value;
+
+    obj.fontStyle.font.family = "My%20Custom'%20Font";
+
+    value = utils.getFontCssStyle(className, obj.fontStyle);
+
+    expect(value).to.equal(".test {font-family: My Custom Font; color: black; font-size: 18px; font-weight: normal; font-style: normal; text-decoration: none; background-color: transparent;}");
+
+    obj.fontStyle.font.family = "verdana,geneva,sans-serif";
+  });
+
   it("should handle backwards compatible 'color' value", function () {
     var value;
 
