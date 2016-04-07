@@ -21,14 +21,6 @@ RiseVision.Common.Scroller = function (params) {
    *  Private Methods
    */
 
-  /* Handler for when custom and Google fonts have been loaded. */
-  function onFontsLoaded() {
-    initSecondaryCanvas();
-
-    TweenLite.ticker.addEventListener("tick", draw);
-    _scroller.dispatchEvent(new CustomEvent("ready", { "bubbles": true }));
-  }
-
   /* Initialize the secondary canvas from which text will be copied to the scroller. */
   function initSecondaryCanvas() {
     drawItems();
@@ -230,10 +222,10 @@ RiseVision.Common.Scroller = function (params) {
     _scrollerCtx = initCanvas(_scroller);
 
     createSecondaryCanvas();
+    initSecondaryCanvas();
 
-    // Fonts need to be loaded before drawing to the canvas.
-    _utils.loadFonts(items, onFontsLoaded);
-
+    TweenLite.ticker.addEventListener("tick", draw);
+    _scroller.dispatchEvent(new CustomEvent("ready", { "bubbles": true }));
   }
 
   function refresh(items) {
