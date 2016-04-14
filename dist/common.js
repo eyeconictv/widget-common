@@ -208,6 +208,25 @@ RiseVision.Common.Utilities = (function() {
     return div.textContent;
   }
 
+  function hasInternetConnection(filePath, callback) {
+    var xhr = new XMLHttpRequest();
+
+    if (!filePath || !callback || typeof callback !== "function") {
+      return;
+    }
+
+    xhr.open("HEAD", filePath + "?cb=" + new Date().getTime(), false);
+
+    try {
+      xhr.send();
+
+      callback((xhr.status >= 200 && xhr.status < 304));
+
+    } catch (e) {
+      callback(false);
+    }
+  }
+
   return {
     getQueryParameter: getQueryParameter,
     getFontCssStyle:  getFontCssStyle,
@@ -217,6 +236,7 @@ RiseVision.Common.Utilities = (function() {
     loadGoogleFonts:   loadGoogleFonts,
     preloadImages:    preloadImages,
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
-    unescapeHTML: unescapeHTML
+    unescapeHTML: unescapeHTML,
+    hasInternetConnection: hasInternetConnection
   };
 })();

@@ -169,3 +169,53 @@ describe("getFontCssStyle", function () {
     delete obj.fontStyle.highlightColor;
   });
 });
+
+describe("hasInternetConnection", function () {
+  var utils = RiseVision.Common.Utilities;
+
+  it("should return true if Internet connection exists", function () {
+    var xhr = sinon.useFakeXMLHttpRequest(),
+      requests = [],
+      spy;
+
+    xhr.onCreate = function (xhr) {
+      requests.push(xhr);
+    };
+
+    spy = sinon.spy();
+
+    // call the "hasInternetConnection" method
+    utils.hasInternetConnection("http://test.com/img.png", spy);
+
+    // check the request was added to the array
+    expect(requests.length).to.equal(1);
+
+    // force a successful server response
+    requests[0].respond(200);
+
+    expect(spy.calledWith(true));
+  });
+
+  it("should return false if Internet connection doesn't exist", function () {
+    var xhr = sinon.useFakeXMLHttpRequest(),
+      requests = [],
+      spy;
+
+    xhr.onCreate = function (xhr) {
+      requests.push(xhr);
+    };
+
+    spy = sinon.spy();
+
+    // call the "hasInternetConnection" method
+    utils.hasInternetConnection("http://test.com/img.png", spy);
+
+    // check the request was added to the array
+    expect(requests.length).to.equal(1);
+
+    // force a bad server response
+    requests[0].respond(404);
+
+    expect(spy.calledWith(false));
+  });
+});
