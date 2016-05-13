@@ -67,6 +67,23 @@ describe("RiseVision.Common.LoggerUtils", function() {
       expect(data.rows[0].json.event_details).to.equal(params.event_details);
     });
 
+    it("should not return an object containing version property", function() {
+      expect(data.rows[0].json.version).to.not.exist;
+    });
+
+    it("should return an object containing version property", function() {
+      var revisedParams = JSON.parse(JSON.stringify(params)),
+        revisedData;
+
+      revisedParams.version = "0.0.0";
+      
+      revisedData = utils.getInsertData(revisedParams);
+
+      expect(revisedData.rows[0].json.version).to.exist;
+      expect(revisedData.rows[0].json.version).to.be.a("string");
+      expect(revisedData.rows[0].json.version).to.equal(revisedParams.version);
+    });
+
   });
 
   describe("getFileFormat", function() {
@@ -142,6 +159,36 @@ describe("RiseVision.Common.LoggerUtils", function() {
       });
     });
   });
+  
+  describe("setVersion", function () {
+    var logSpy,
+      tableName = "video_events";
+
+    beforeEach(function () {
+      logSpy = sinon.spy(RiseVision.Common.Logger, "log");
+    });
+
+    afterEach(function() {
+      RiseVision.Common.Logger.log.restore();
+    });
+
+    it("should set the version to be used in the params", function () {
+      utils.setIds("abc123", "def456");
+      utils.setVersion("0.0.0");
+      utils.logEvent(tableName, {
+        "event": "load",
+        "event_details": "Widget loaded"
+      });
+
+      expect(logSpy).to.have.been.calledWith(tableName, {
+        "event": "load",
+        "event_details": "Widget loaded",
+        "company_id": "abc123",
+        "display_id": "def456",
+        "version": "0.0.0"
+      });
+    });
+  });
 
   describe("logEvent", function() {
     var logSpy,
@@ -162,7 +209,8 @@ describe("RiseVision.Common.LoggerUtils", function() {
         "file_url": "http://www.test.com/file.webm",
         "file_format": "webm",
         "company_id": '"companyId"',
-        "display_id":'"displayId"'
+        "display_id":'"displayId"',
+        "version": "0.0.0"
       };
 
       RiseVision.Common.LoggerUtils.logEvent(tableName, params);
@@ -176,7 +224,8 @@ describe("RiseVision.Common.LoggerUtils", function() {
         "file_url": "http://www.test.com/file.webm",
         "file_format": "webm",
         "company_id": '"companyId"',
-        "display_id":'"displayId"'
+        "display_id":'"displayId"',
+        "version": "0.0.0"
       };
 
       RiseVision.Common.LoggerUtils.logEvent(tableName, params);
@@ -189,7 +238,8 @@ describe("RiseVision.Common.LoggerUtils", function() {
         "event": "error",
         "event_details": "storage error",
         "company_id": '"companyId"',
-        "display_id":'"displayId"'
+        "display_id":'"displayId"',
+        "version": "0.0.0"
       };
 
       RiseVision.Common.LoggerUtils.logEvent(tableName, params);
@@ -201,6 +251,21 @@ describe("RiseVision.Common.LoggerUtils", function() {
       RiseVision.Common.LoggerUtils.logEvent(tableName, { "event_details": "storage error" });
 
       expect(logSpy).not.to.have.been.called;
+    });
+
+    it("should call spy with correct parameters when the version parameter is not set", function() {
+      var params = {
+        "event": "error",
+        "event_details": "storage error",
+        "file_url": "http://www.test.com/file.webm",
+        "file_format": "webm",
+        "company_id": '"companyId"',
+        "display_id":'"displayId"'
+      };
+
+      RiseVision.Common.LoggerUtils.logEvent(tableName, params);
+
+      expect(logSpy).to.have.been.calledWith(tableName, params);
     });
   });
 
