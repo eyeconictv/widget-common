@@ -1292,7 +1292,7 @@ RiseVision.Common.Message = function (mainContainer, messageContainer) {
       messageContainer.style.display = "none";
 
       // show main container
-      mainContainer.style.visibility = "visible";
+      mainContainer.style.display = "block";
 
       _active = false;
     }
@@ -1304,7 +1304,7 @@ RiseVision.Common.Message = function (mainContainer, messageContainer) {
 
     if (!_active) {
       // hide main container
-      mainContainer.style.visibility = "hidden";
+      mainContainer.style.display = "none";
 
       messageContainer.style.display = "block";
 
