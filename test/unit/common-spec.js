@@ -219,3 +219,37 @@ describe("hasInternetConnection", function () {
     expect(spy.calledWith(false));
   });
 });
+
+describe("isLegacy", function () {
+  var utils = RiseVision.Common.Utilities;
+
+  it("should return true if browser version is less than legacy version", function () {
+
+    window.navigator = {
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/24.0.2564.116 Safari/537.36"
+    };
+
+    expect(utils.isLegacy()).to.be.true;
+
+  });
+
+  it("should return true if browser version is equal legacy version", function () {
+
+    window.navigator = {
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/25.0.2564.116 Safari/537.36"
+    };
+
+    expect(utils.isLegacy()).to.be.true;
+
+  });
+
+  it("should return false if browser version is greater than legacy version", function () {
+    window.navigator = {
+      userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/26.0.2564.116 Safari/537.36"
+    };
+
+    expect(utils.isLegacy()).to.be.false;
+
+  });
+});
+
