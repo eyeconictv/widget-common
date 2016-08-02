@@ -138,15 +138,15 @@
   });
 
   // ***** Primary Tasks ***** //
-  gulp.task("bower-clean-install", ["clean-bower"], function(cb){
-    return bower().on("error", function(err) {
+  gulp.task("bower-update", function (cb) {
+    return bower({ cmd: "update"}).on("error", function(err) {
       console.log(err);
       cb();
     });
   });
 
   gulp.task("build", function (cb) {
-    runSequence(["clean"], ["config"], ["lint", "js-uglify", "css-minify", "assets"], cb);
+    runSequence(["clean", "config", "bower-update"], ["lint", "js-uglify", "css-minify", "assets"], cb);
   });
 
   gulp.task("test", function(cb) {
