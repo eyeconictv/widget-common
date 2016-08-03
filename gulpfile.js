@@ -101,17 +101,6 @@
       .pipe(gulp.dest("dist/assets"))
   });
 
-  // ***** e2e Testing ***** //
-  gulp.task("e2e:server-close", factory.testServerClose());
-
-  gulp.task("e2e:server", ["config"], factory.testServer());
-
-  gulp.task("e2e:run", factory.testE2E());
-
-  gulp.task("test:e2e", function(cb) {
-    runSequence(["e2e:server"], "e2e:run", "e2e:server-close", cb);
-  });
-
   // ****** Unit Testing ***** //
   gulp.task("test:unit", factory.testUnitAngular(
     {testFiles: [
@@ -150,7 +139,7 @@
   });
 
   gulp.task("test", function(cb) {
-    runSequence("test:unit", "test:e2e", "test:integration", cb)
+    runSequence("test:unit", "test:integration", cb)
   });
 
   gulp.task("default", [], function() {
