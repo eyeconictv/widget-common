@@ -45,7 +45,7 @@
         assert.equal($(p1).css("textDecoration"), "underline");
         assert.equal($(p1).css("backgroundColor"), "rgb(238, 238, 238)");
 
-        assert.equal($(p2).css("fontFamily"), "Arial, 'Helvetica Neue', Helvetica, sans-serif");
+        assert.equal($(p2).css("fontFamily"), "Arial, \"Helvetica Neue\", Helvetica, sans-serif");
         assert.equal($(p2).css("color"), "rgb(0, 0, 0)");
         assert.equal($(p2).css("fontSize"), "14px");
         assert.equal($(p2).css("fontWeight"), "400");
@@ -96,7 +96,7 @@
       });
 
       test("should apply the custom font-family correctly", function () {
-        assert.equal($("p.customFont").css("fontFamily"), "\'My Custom Font\'");
+        assert.equal($("p.customFont").css("fontFamily"), "\"My Custom Font\"");
       });
 
       test("should execute the callback", function() {
@@ -126,7 +126,7 @@
       });
 
       test("should apply the custom font-family correctly", function () {
-        assert.equal($("p.customFont").css("fontFamily"), "\'My Custom Font\'");
+        assert.equal($("p.customFont").css("fontFamily"), "\"My Custom Font\"");
       });
 
       test("should execute the callback", function() {
