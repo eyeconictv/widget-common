@@ -257,7 +257,7 @@ describe("ping", function() {
     expect(requests.length).to.equal(1);
 
     // force a bad server response
-    requests[0].respond(404);
+    requests[0].respond(0);
 
     expect(callback.calledWith(false, null)).to.be.true;
   });
@@ -301,6 +301,49 @@ describe("isRiseCacheRunning", function() {
     requests[0].respond(200);
 
     riseCache.isRiseCacheRunning(spy);
+
+    expect(spy.calledWith(true));
+  });
+});
+
+describe("isV2Running", function() {
+  var riseCache = RiseVision.Common.RiseCache,
+    xhr, clock, requests;
+
+  before(function() {
+    xhr = sinon.useFakeXMLHttpRequest();
+    clock = sinon.useFakeTimers();
+
+    xhr.onCreate = function (xhr) {
+      requests.push(xhr);
+    };
+  });
+
+  it("should execute callback passing a value of false when Rise Cache V2 is not running", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // force rise cache is not running
+    riseCache.ping(function(){});
+    requests[0].respond(200);
+
+    riseCache.isV2Running(spy);
+
+    expect(spy.calledWith(false));
+  });
+
+  it("should execute callback passing a value of true when Rise Cache V2 is running", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // force rise cache is running
+    riseCache.ping(function(){});
+    requests[0].respond(404);
+    requests[1].respond(200);
+
+    riseCache.isV2Running(spy);
 
     expect(spy.calledWith(true));
   });
