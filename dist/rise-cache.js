@@ -66,10 +66,12 @@ RiseVision.Common.RiseCache = (function () {
     function fileRequest() {
       var url = "";
 
-      if (_isV2Running) {
-        url = BASE_CACHE_URL + "files?url=" + encodeURIComponent(fileUrl);
-      } else if (_isCacheRunning) {
-        url = BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl);
+      if (_isCacheRunning) {
+        if (_isV2Running) {
+          url = BASE_CACHE_URL + "files?url=" + encodeURIComponent(fileUrl);
+        } else {
+          url = BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl);
+        }
       } else {
         url = fileUrl;
       }
@@ -84,7 +86,7 @@ RiseVision.Common.RiseCache = (function () {
           url: url
         };
 
-      if (_isCacheRunning || _isV2Running) {
+      if (_isCacheRunning) {
         xhr.open(method, url, true);
 
         xhr.addEventListener("loadend", function () {
