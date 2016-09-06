@@ -1288,26 +1288,20 @@ RiseVision.Common.RiseCache = (function () {
     r.send();
   }
 
-  function getFile(fileUrl, callback, nocachebuster) {
+  function getFile(fileUrl, callback) {
     if (!fileUrl || !callback || typeof callback !== "function") {
       return;
     }
 
     function fileRequest() {
-      var url, str, separator;
+      var url = "";
 
-      if (_isCacheRunning) {
-        // configure url with cachebuster or not
-        url = (nocachebuster) ? BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl) :
-        BASE_CACHE_URL + "cb=" + new Date().getTime() + "?url=" + encodeURIComponent(fileUrl);
+      if (_isV2Running) {
+        url = BASE_CACHE_URL + "files?url=" + encodeURIComponent(fileUrl);
+      } else if (_isCacheRunning) {
+        url = BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl);
       } else {
-        if (nocachebuster) {
-          url = fileUrl;
-        } else {
-          str = fileUrl.split("?");
-          separator = (str.length === 1) ? "?" : "&";
-          url = fileUrl + separator + "cb=" + new Date().getTime();
-        }
+        url = fileUrl;
       }
 
       makeRequest("HEAD", url);
@@ -1320,7 +1314,7 @@ RiseVision.Common.RiseCache = (function () {
           url: url
         };
 
-      if (_isCacheRunning) {
+      if (_isCacheRunning || _isV2Running) {
         xhr.open(method, url, true);
 
         xhr.addEventListener("loadend", function () {
