@@ -142,15 +142,23 @@ describe("getFile - cache not running", function () {
     clock.restore();
   });
 
-  it("should execute callback passing the xhr request and a correctly structured URL", function() {
+  it("should execute callback passing the xhr request and a correctly structured URL with no cachebuster", function() {
+    var spy = sinon.spy();
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy, true);
+
+    expect(spy.args[0][0].url).to.equal("http://www.test.com/test.jpg");
+  });
+
+  it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function() {
     var spy1 = sinon.spy(),
       spy2 = sinon.spy();
 
     riseCache.getFile("http://www.test.com/test.jpg", spy1);
-    expect(spy1.args[0][0].url).to.equal("http://www.test.com/test.jpg");
+    expect(spy1.args[0][0].url).to.equal("http://www.test.com/test.jpg?cb=0");
 
     riseCache.getFile("http://www.test.com/test.jpg?test=123", spy2);
-    expect(spy2.args[0][0].url).to.equal("http://www.test.com/test.jpg?test=123");
+    expect(spy2.args[0][0].url).to.equal("http://www.test.com/test.jpg?test=123&cb=0");
   });
 });
 
@@ -158,7 +166,7 @@ describe("getFile - Rise Cache v1 is running", function () {
   var riseCache = RiseVision.Common.RiseCache,
     xhr, clock, requests;
 
-  before(function() {
+  before(function () {
     xhr = sinon.useFakeXMLHttpRequest();
     clock = sinon.useFakeTimers();
 
@@ -167,20 +175,33 @@ describe("getFile - Rise Cache v1 is running", function () {
     };
   });
 
-  beforeEach(function() {
+  beforeEach(function () {
     requests = [];
 
     // force rise cache is running
-    riseCache.ping(function(){});
+    riseCache.ping(function () {
+    });
     requests[0].respond(200);
   });
 
-  after(function() {
+  after(function () {
     xhr.restore();
     clock.restore();
   });
 
-  it("should execute callback passing the xhr request and a correctly structured URL", function() {
+  it("should execute callback passing the xhr request and a correctly structured URL with no cachebuster", function () {
+    var spy = sinon.spy(),
+      urlEncoded = encodeURIComponent("http://www.test.com/test.jpg");
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy, true);
+
+    requests[1].respond(200);
+
+    expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
+    expect(spy.args[0][0].url).to.equal("//localhost:9494/?url=" + urlEncoded);
+  });
+
+  it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function () {
     var spy = sinon.spy(),
       urlEncoded = encodeURIComponent("http://www.test.com/test.jpg");
 
@@ -189,8 +210,9 @@ describe("getFile - Rise Cache v1 is running", function () {
     requests[1].respond(200);
 
     expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
-    expect(spy.args[0][0].url).to.equal("//localhost:9494/?url=" + urlEncoded);
+    expect(spy.args[0][0].url).to.equal("//localhost:9494/cb=0?url=" + urlEncoded);
   });
+
 });
 
 describe("getFile - Rise Cache v2 is running", function () {
