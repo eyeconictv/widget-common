@@ -1288,22 +1288,30 @@ RiseVision.Common.RiseCache = (function () {
     r.send();
   }
 
-  function getFile(fileUrl, callback) {
+  function getFile(fileUrl, callback, nocachebuster) {
     if (!fileUrl || !callback || typeof callback !== "function") {
       return;
     }
 
     function fileRequest() {
-      var url = "";
+      var url, str, separator;
 
       if (_isCacheRunning) {
         if (_isV2Running) {
           url = BASE_CACHE_URL + "files?url=" + encodeURIComponent(fileUrl);
         } else {
-          url = BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl);
+          // configure url with cachebuster or not
+          url = (nocachebuster) ? BASE_CACHE_URL + "?url=" + encodeURIComponent(fileUrl) :
+          BASE_CACHE_URL + "cb=" + new Date().getTime() + "?url=" + encodeURIComponent(fileUrl);
         }
       } else {
-        url = fileUrl;
+        if (nocachebuster) {
+          url = fileUrl;
+        } else {
+          str = fileUrl.split("?");
+          separator = (str.length === 1) ? "?" : "&";
+          url = fileUrl + separator + "cb=" + new Date().getTime();
+        }
       }
 
       makeRequest("HEAD", url);
