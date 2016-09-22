@@ -253,3 +253,44 @@ describe("isLegacy", function () {
   });
 });
 
+describe("addProtocol", function () {
+  var utils = RiseVision.Common.Utilities;
+
+  it("should return url with http:// when missing protocol", function () {
+
+    expect(utils.addProtocol("www.test.com")).to.equal("http://www.test.com");
+
+  });
+
+  it("should not modify url when url already contains http:// protocol", function () {
+
+    expect(utils.addProtocol("http://www.test.com")).to.equal("http://www.test.com");
+
+  });
+
+  it("should return url with https:// secure protocol when missing protocol and requiring secure", function () {
+
+    expect(utils.addProtocol("www.test.com", true)).to.equal("https://www.test.com");
+
+  });
+
+  it("should not modify url when url contains https:// secure protocol", function () {
+
+    expect(utils.addProtocol("https://www.test.com")).to.equal("https://www.test.com");
+
+  });
+
+  it("should not modify url when url contains ftp:// protocol", function () {
+
+    expect(utils.addProtocol("ftp://www.test.com")).to.equal("ftp://www.test.com");
+
+  });
+
+  it("should not modify url when url contains ftps:// secure protocol", function () {
+
+    expect(utils.addProtocol("ftps://www.test.com")).to.equal("ftps://www.test.com");
+
+  });
+
+});
+
