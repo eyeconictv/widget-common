@@ -378,3 +378,36 @@ describe("isV2Running", function() {
     expect(spy.calledWith(true));
   });
 });
+
+describe("getErrorMessage", function () {
+  it("returns error message for rise cache 502", function() {
+    var riseCache = RiseVision.Common.RiseCache,
+      value,
+      status = 502;
+
+    value = riseCache.getErrorMessage(status);
+
+    expect(value).to.equal("There was a problem retrieving the file.");
+  });
+
+  it("returns error message for rise cache 504", function() {
+    var riseCache = RiseVision.Common.RiseCache,
+      value,
+      status = 504;
+
+    value = riseCache.getErrorMessage(status);
+
+    expect(value).to.equal("Unable to download the file. The server is not responding.");
+  });
+
+  it("returns error message for rise cache 534", function() {
+    var riseCache = RiseVision.Common.RiseCache,
+      value,
+      status = 534;
+
+    value = riseCache.getErrorMessage(status);
+
+    expect(value).to.equal("The file does not exist or cannot be accessed.");
+  });
+
+});
