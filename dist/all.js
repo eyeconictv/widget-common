@@ -1371,6 +1371,25 @@ RiseVision.Common.RiseCache = (function () {
 
   }
 
+  function getErrorMessage(statusCode) {
+    var errorMessage = "";
+    switch (statusCode) {
+      case 502:
+        errorMessage = "There was a problem retrieving the file.";
+        break;
+      case 504:
+        errorMessage = "Unable to download file. The server is not responding.";
+        break;
+      case 534:
+        errorMessage = "The file does not exist or cannot be accessed.";
+        break;
+      default:
+        errorMessage = "";
+    }
+
+    return errorMessage;
+  }
+
   function isRiseCacheRunning(callback) {
     if (!callback || typeof callback !== "function") {
       return;
@@ -1403,6 +1422,7 @@ RiseVision.Common.RiseCache = (function () {
   }
 
   return {
+    getErrorMessage: getErrorMessage,
     getFile: getFile,
     isRiseCacheRunning: isRiseCacheRunning,
     isV2Running: isV2Running,
