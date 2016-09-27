@@ -139,6 +139,9 @@ RiseVision.Common.RiseCache = (function () {
       case 504:
         errorMessage = "Unable to download the file. The server is not responding.";
         break;
+      case 507:
+        errorMessage = "There is not enough disk space to save the file on Rise Cache.";
+        break;
       case 534:
         errorMessage = "The file does not exist or cannot be accessed.";
         break;

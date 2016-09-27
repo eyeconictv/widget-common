@@ -400,6 +400,16 @@ describe("getErrorMessage", function () {
     expect(value).to.equal("Unable to download the file. The server is not responding.");
   });
 
+  it("returns error message for rise cache 507", function() {
+    var riseCache = RiseVision.Common.RiseCache,
+      value,
+      status = 507;
+
+    value = riseCache.getErrorMessage(status);
+
+    expect(value).to.equal("There is not enough disk space to save the file on Rise Cache.");
+  });
+
   it("returns error message for rise cache 534", function() {
     var riseCache = RiseVision.Common.RiseCache,
       value,
