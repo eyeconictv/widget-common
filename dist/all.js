@@ -1010,7 +1010,7 @@ RiseVision.Common.LoggerUtils = (function() {
       day = "0" + day;
     }
 
-    return year + month + day;
+    return "" + year + month + day;
   }
 
   /*

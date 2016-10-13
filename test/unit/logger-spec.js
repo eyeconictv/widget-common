@@ -22,7 +22,7 @@ function getDateSuffix() {
     day = "0" + day;
   }
 
-  return year + month + day;
+  return "" + year + month + day;
 }
 
 describe("RiseVision.Common.LoggerUtils", function() {
