@@ -63,6 +63,8 @@ RiseVision.Common.RiseCache = (function () {
       return;
     }
 
+    var totalCacheRequests = 0;
+
     function fileRequest() {
       var url, str, separator;
 
@@ -99,8 +101,14 @@ RiseVision.Common.RiseCache = (function () {
 
         xhr.addEventListener("loadend", function () {
           var status = xhr.status || 0;
-
-          if (status >= 200 && status < 300) {
+          if (status === 202) {
+              totalCacheRequests++;
+              if (totalCacheRequests < 3) {
+                setTimeout(function(){ makeRequest(method, url); }, 3000);                  
+              } else {
+                  callback(request, new Error("File is downloading"));
+              }
+          } else if (status >= 200 && status < 300) {
             callback(request);
           } else {
             // Server may not support HEAD request. Fallback to a GET request.
