@@ -116,6 +116,65 @@ describe("getFile", function() {
   });
 });
 
+describe("getFile - with retry for 202", function () {
+  var riseCache = RiseVision.Common.RiseCache,
+    xhr, clock, requests;
+
+  before(function() {
+    xhr = sinon.useFakeXMLHttpRequest();
+    clock = sinon.useFakeTimers();
+
+    xhr.onCreate = function (xhr) {
+      requests.push(xhr);
+    };
+  });
+
+  beforeEach(function() {
+    requests = [];
+  });
+
+  after(function() {
+    xhr.restore();
+    clock.restore();
+  });
+
+  it("should try 3 times to get the file from RC while it is downloading it", function () {
+    var spy = sinon.spy();
+
+    // Ping request
+    riseCache.ping(function(){});
+    requests[0].respond(200);
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy);
+    requests[1].respond(202); // HEAD request
+    clock.tick(3000);
+    requests[2].respond(202); // HEAD request
+    clock.tick(3000);
+    requests[3].respond(200); // HEAD request
+
+    expect(spy.args[0][0].xhr).to.deep.equal(requests[3]);
+    expect(spy.args[0][1]).to.be.undefined;
+  });
+
+  it("should return a Downloading error if RC reponds with 202 for the 3 times to get the file", function () {
+    var spy = sinon.spy();
+
+    // Ping request
+    riseCache.ping(function(){});
+    requests[0].respond(200);
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy);
+    requests[1].respond(202); // HEAD request
+    clock.tick(3000);
+    requests[2].respond(202); // HEAD request
+    clock.tick(3000);
+    requests[3].respond(202); // HEAD request
+
+    expect(spy.args[0][0].xhr).to.deep.equal(requests[3]);
+    expect(spy.args[0][1].message).to.equal("File is downloading");
+  });
+});
+
 describe("getFile - cache not running", function () {
   var riseCache = RiseVision.Common.RiseCache,
     xhr, clock, requests;
