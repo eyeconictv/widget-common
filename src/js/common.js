@@ -159,13 +159,10 @@ RiseVision.Common.Utilities = (function() {
   }
 
   function loadScript( src ) {
-    var head = document.getElementsByTagName( "head" )[ 0 ],
-      script = document.createElement( "script" );
+    var script = document.createElement( "script" );
 
-    script.type = "text/javascript";
     script.src = src;
-
-    head.appendChild( script );
+    document.body.appendChild( script );
   }
 
   function preloadImages(urls) {
