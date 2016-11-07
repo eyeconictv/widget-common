@@ -158,6 +158,16 @@ RiseVision.Common.Utilities = (function() {
     });
   }
 
+  function loadScript( src ) {
+    var head = document.getElementsByTagName( "head" )[ 0 ],
+      script = document.createElement( "script" );
+
+    script.type = "text/javascript";
+    script.src = src;
+
+    head.appendChild( script );
+  }
+
   function preloadImages(urls) {
     var length = urls.length,
       images = [];
@@ -265,6 +275,7 @@ RiseVision.Common.Utilities = (function() {
     loadFonts:        loadFonts,
     loadCustomFont:   loadCustomFont,
     loadGoogleFonts:   loadGoogleFonts,
+    loadScript: loadScript,
     preloadImages:    preloadImages,
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
     unescapeHTML: unescapeHTML,
