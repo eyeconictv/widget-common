@@ -268,18 +268,18 @@ RiseVision.Common.Utilities = (function() {
   }
 
   return {
-    addProtocol: addProtocol,
-    getQueryParameter: getQueryParameter,
-    getFontCssStyle:  getFontCssStyle,
-    addCSSRules:      addCSSRules,
-    loadFonts:        loadFonts,
-    loadCustomFont:   loadCustomFont,
-    loadGoogleFonts:   loadGoogleFonts,
-    loadScript: loadScript,
-    preloadImages:    preloadImages,
+    addProtocol:              addProtocol,
+    getQueryParameter:        getQueryParameter,
+    getFontCssStyle:          getFontCssStyle,
+    addCSSRules:              addCSSRules,
+    loadFonts:                loadFonts,
+    loadCustomFont:           loadCustomFont,
+    loadGoogleFonts:          loadGoogleFonts,
+    loadScript:               loadScript,
+    preloadImages:            preloadImages,
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
-    unescapeHTML: unescapeHTML,
-    hasInternetConnection: hasInternetConnection,
-    isLegacy: isLegacy
+    unescapeHTML:             unescapeHTML,
+    hasInternetConnection:    hasInternetConnection,
+    isLegacy:                 isLegacy
   };
 })();
