@@ -158,6 +158,13 @@ RiseVision.Common.Utilities = (function() {
     });
   }
 
+  function loadScript( src ) {
+    var script = document.createElement( "script" );
+
+    script.src = src;
+    document.body.appendChild( script );
+  }
+
   function preloadImages(urls) {
     var length = urls.length,
       images = [];
@@ -258,18 +265,19 @@ RiseVision.Common.Utilities = (function() {
   }
 
   return {
-    addProtocol: addProtocol,
-    getQueryParameter: getQueryParameter,
-    getFontCssStyle:  getFontCssStyle,
-    addCSSRules:      addCSSRules,
-    loadFonts:        loadFonts,
-    loadCustomFont:   loadCustomFont,
-    loadGoogleFonts:   loadGoogleFonts,
-    preloadImages:    preloadImages,
+    addProtocol:              addProtocol,
+    getQueryParameter:        getQueryParameter,
+    getFontCssStyle:          getFontCssStyle,
+    addCSSRules:              addCSSRules,
+    loadFonts:                loadFonts,
+    loadCustomFont:           loadCustomFont,
+    loadGoogleFonts:          loadGoogleFonts,
+    loadScript:               loadScript,
+    preloadImages:            preloadImages,
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
-    unescapeHTML: unescapeHTML,
-    hasInternetConnection: hasInternetConnection,
-    isLegacy: isLegacy
+    unescapeHTML:             unescapeHTML,
+    hasInternetConnection:    hasInternetConnection,
+    isLegacy:                 isLegacy
   };
 })();
 

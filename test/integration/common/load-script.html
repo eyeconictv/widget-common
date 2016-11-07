@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RiseVision.Common.Utilities</title>
+
+  <script src="../../../node_modules/widget-tester/mocks/web-font-loader-mock.js"></script>
+  <script src="../../../components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../components/web-component-tester/browser.js"></script>
+  <script src="../../../components/jquery/dist/jquery.min.js"></script>
+
+  <script src="../../../src/js/common.js"></script>
+</head>
+<body>
+<div id="container">
+</div>
+
+<script>
+  var utils = RiseVision.Common.Utilities;
+
+  suite("RiseVision.Common.Utilities", function() {
+
+    suite( "loadScript", function() {
+
+      test( "should add script to body tag", function() {
+        utils.loadScript( "../../data/common/fonts.js" );
+
+        expect( document.querySelector('script[src="../../data/common/fonts.js"]') ).to.exist;
+      } );
+
+    } );
+
+  });
+</script>
+</body>
+</html>
