@@ -286,6 +286,10 @@ describe("getFile - Rise Cache v2 is running", function () {
     };
   });
 
+  afterEach(function() {
+    RiseVision.Common.RiseCache._isV2Running = false;
+  });
+
   it("should make a request to Rise Cache v2", function() {
     var spy = sinon.spy();
 
@@ -377,7 +381,7 @@ describe("isRiseCacheRunning", function() {
 
     riseCache.isRiseCacheRunning(spy);
 
-    expect(spy.calledWith(false));
+    expect(spy.calledWith(false)).to.be.true;
   });
 
   it("should execute callback passing a value of true when Rise Cache is running", function () {
@@ -391,7 +395,7 @@ describe("isRiseCacheRunning", function() {
 
     riseCache.isRiseCacheRunning(spy);
 
-    expect(spy.calledWith(true));
+    expect(spy.calledWith(true)).to.be.true;
   });
 });
 
@@ -406,6 +410,7 @@ describe("isV2Running", function() {
     xhr.onCreate = function (xhr) {
       requests.push(xhr);
     };
+    riseCache.reset();
   });
 
   it("should execute callback passing a value of false when Rise Cache V2 is not running", function () {
@@ -413,13 +418,14 @@ describe("isV2Running", function() {
 
     requests = [];
 
+
     // force rise cache is not running
     riseCache.ping(function(){});
     requests[0].respond(200);
 
     riseCache.isV2Running(spy);
 
-    expect(spy.calledWith(false));
+    expect(spy.calledWith(false)).to.be.true;
   });
 
   it("should execute callback passing a value of true when Rise Cache V2 is running", function () {
@@ -434,7 +440,88 @@ describe("isV2Running", function() {
 
     riseCache.isV2Running(spy);
 
-    expect(spy.calledWith(true));
+    expect(spy.calledWith(true)).to.be.true;
+  });
+});
+
+describe("isRCV2Player", function() {
+  var riseCache = RiseVision.Common.RiseCache,
+    xhr, clock, requests;
+
+  before(function() {
+    xhr = sinon.useFakeXMLHttpRequest();
+    clock = sinon.useFakeTimers();
+
+    xhr.onCreate = function (xhr) {
+      requests.push(xhr);
+    };
+    riseCache.reset();
+  });
+
+  afterEach(function () {
+    riseCache.reset();
+  });
+
+  it("should execute callback passing a value of false when it is not Rise Cache V2 player because RC V1 is running", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // force rise cache is not running
+    riseCache.ping(function(){});
+    requests[0].respond(200);
+
+    riseCache.isRCV2Player(spy);
+
+    expect(spy.calledWith(false)).to.be.true;
+  });
+
+  it("should execute callback passing a value of true when Rise Cache V1 and V2 is not running but it is a Rise Cache V2 Player", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    history.pushState({}, "", "?type=display&player=true&id=7DJ3WFU5G545&claimId=&sysInfo=os%3D64-bit%20Ubuntu%2014.04.4%20LTS%0A%26pn%3DRisePlayerElectron%26iv%3D2016.11.17.19.50%26jv%3D%26pv%3D2016.11.17.19.50%26ev%3D1.2.0%26ip%3D10.0.2.15");
+
+    // force rise cache is not running
+    riseCache.ping(function(){});
+    requests[0].respond(0);
+
+    riseCache.isRCV2Player(spy);
+
+    expect(spy.calledWith(true)).to.be.true;
+  });
+
+  it("should execute callback passing a value of false when Rise Cache V1 and V2 is not running and it is not a Rise Cache V2 Player", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    history.pushState({}, "", "?type=display&player=true&id=7DJ3WFU5G545&claimId=&sysInfo=os%3D64-bit%20Ubuntu%2014.04.4%20LTS%0A%26pn%3DRisePlayerElectron%26iv%3D2016.09.17.19.50%26jv%3D%26pv%3D2016.09.17.19.50%26ev%3D1.2.0%26ip%3D10.0.2.15");
+
+    // force rise cache is not running
+    riseCache.ping(function(){});
+    requests[0].respond(0);
+
+    riseCache.isRCV2Player(spy);
+
+    expect(spy.calledWith(false)).to.be.true;
+  });
+
+  it("should execute callback passing a value of false when Rise Cache V1 and V2 is not running and it is not a Rise Cache V2 Player and there is no sysInfo viewer url param", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    history.pushState({}, "", "?type=display&player=true&id=7DJ3WFU5G545&claimId=");
+
+    // force rise cache is not running
+    riseCache.ping(function(){});
+    requests[0].respond(0);
+
+    riseCache.isRCV2Player(spy);
+
+    expect(spy.calledWith(false)).to.be.true;
   });
 });
 

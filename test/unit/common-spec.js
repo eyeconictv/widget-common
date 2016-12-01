@@ -22,6 +22,50 @@ describe("getting query parameters", function() {
   });
 });
 
+describe("getting query parameters from query string", function() {
+  it("returns null if no query parameter found", function() {
+    var utils = RiseVision.Common.Utilities,
+      value;
+
+    value = utils.getQueryStringParameter("param", "?param2=abc123");
+
+    expect(value).to.equal("");
+  });
+
+  it("returns query parameter value", function() {
+    var utils = RiseVision.Common.Utilities,
+      value;
+
+    value = utils.getQueryParameter("param", "?param=abc123");
+
+    expect(value).to.equal("abc123");
+  });
+});
+
+describe("getting date object from player version string", function() {
+  it("returns undefined if no player version", function() {
+    var utils = RiseVision.Common.Utilities,
+      value;
+
+    value = utils.getDateObjectFromPlayerVersionString();
+
+    expect(value).to.be.undefined;
+  });
+
+  it("returns date object for a player version", function() {
+    var utils = RiseVision.Common.Utilities,
+      value;
+
+    value = utils.getDateObjectFromPlayerVersionString("2016.10.10.00.00");
+
+    expect(value.getDate()).to.equal(10);
+    expect(value.getMonth()).to.equal(9);
+    expect(value.getFullYear()).to.equal(2016);
+    expect(value.getHours()).to.equal(0);
+    expect(value.getMinutes()).to.equal(0);
+  });
+});
+
 describe("getRiseCacheErrorMessage", function () {
   it("returns error message for rise cache 404", function() {
     var utils = RiseVision.Common.Utilities,
