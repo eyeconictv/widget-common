@@ -175,9 +175,18 @@ RiseVision.Common.Utilities = (function() {
     }
   }
 
+  /**
+   * Get the current URI query param
+   */
   function getQueryParameter(param) {
-    var query = window.location.search.substring(1),
-      vars = query.split("&"),
+    return getQueryStringParameter(param, window.location.search.substring(1));
+  }
+
+  /**
+   * Get the query parameter from a query string
+   */
+  function getQueryStringParameter(param, query) {
+    var vars = query.split("&"),
       pair;
 
     for (var i = 0; i < vars.length; i++) {
@@ -189,6 +198,25 @@ RiseVision.Common.Utilities = (function() {
     }
 
     return "";
+  }
+
+  /**
+   * Get date object from player version string
+   */
+  function getDateObjectFromPlayerVersionString(playerVersion) {
+    var reggie = /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/;
+    var dateArray = reggie.exec(playerVersion);
+    if (dateArray) {
+      return new Date(
+        (+dateArray[1]),
+          (+dateArray[2])-1, // Careful, month starts at 0!
+        (+dateArray[3]),
+        (+dateArray[4]),
+        (+dateArray[5])
+      );
+    } else {
+      return;
+    }
   }
 
   function getRiseCacheErrorMessage(statusCode) {
@@ -267,6 +295,7 @@ RiseVision.Common.Utilities = (function() {
   return {
     addProtocol:              addProtocol,
     getQueryParameter:        getQueryParameter,
+    getQueryStringParameter:  getQueryStringParameter,
     getFontCssStyle:          getFontCssStyle,
     addCSSRules:              addCSSRules,
     loadFonts:                loadFonts,
@@ -277,7 +306,8 @@ RiseVision.Common.Utilities = (function() {
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
     unescapeHTML:             unescapeHTML,
     hasInternetConnection:    hasInternetConnection,
-    isLegacy:                 isLegacy
+    isLegacy:                 isLegacy,
+    getDateObjectFromPlayerVersionString: getDateObjectFromPlayerVersionString
   };
 })();
 
@@ -1257,7 +1287,8 @@ RiseVision.Common.RiseCache = (function () {
 
   var _pingReceived = false,
     _isCacheRunning = false,
-    _isV2Running = false;
+    _isV2Running = false,
+    _utils = RiseVision.Common.Utilities;
 
   function ping(callback) {
     var r = new XMLHttpRequest(),
@@ -1353,7 +1384,7 @@ RiseVision.Common.RiseCache = (function () {
           if (status === 202) {
               totalCacheRequests++;
               if (totalCacheRequests < 3) {
-                setTimeout(function(){ makeRequest(method, url); }, 3000);                  
+                setTimeout(function(){ makeRequest(method, url); }, 3000);
               } else {
                   callback(request, new Error("File is downloading"));
               }
@@ -1440,12 +1471,44 @@ RiseVision.Common.RiseCache = (function () {
     }
   }
 
+  function isRCV2Player(callback) {
+    if (!callback || typeof callback !== "function") {
+      return;
+    }
+
+    return isV2Running(function (isV2Running) {
+      if (isV2Running) {
+        callback(isV2Running);
+      } else {
+        callback(isV3PlayerVersionWithRCV2());
+      }
+    });
+  }
+
+  function isV3PlayerVersionWithRCV2() {
+    var RC_V2_FIRST_PLAYER_VERSION_DATE = _utils.getDateObjectFromPlayerVersionString("2016.10.10.00.00");
+
+    var sysInfoViewerParameter = _utils.getQueryParameter("sysInfo");
+    var playerVersionString = _utils.getQueryStringParameter("pv", sysInfoViewerParameter);
+    var playerVersionDate = _utils.getDateObjectFromPlayerVersionString(playerVersionString);
+
+    return playerVersionDate >= RC_V2_FIRST_PLAYER_VERSION_DATE;
+  }
+
+  function reset() {
+    _pingReceived = false;
+     _isCacheRunning = false;
+     _isV2Running = false;
+  }
+
   return {
     getErrorMessage: getErrorMessage,
     getFile: getFile,
     isRiseCacheRunning: isRiseCacheRunning,
     isV2Running: isV2Running,
-    ping: ping
+    isRCV2Player: isRCV2Player,
+    ping: ping,
+    reset: reset
   };
 
 })();

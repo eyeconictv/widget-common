@@ -175,9 +175,18 @@ RiseVision.Common.Utilities = (function() {
     }
   }
 
+  /**
+   * Get the current URI query param
+   */
   function getQueryParameter(param) {
-    var query = window.location.search.substring(1),
-      vars = query.split("&"),
+    return getQueryStringParameter(param, window.location.search.substring(1));
+  }
+
+  /**
+   * Get the query parameter from a query string
+   */
+  function getQueryStringParameter(param, query) {
+    var vars = query.split("&"),
       pair;
 
     for (var i = 0; i < vars.length; i++) {
@@ -189,6 +198,25 @@ RiseVision.Common.Utilities = (function() {
     }
 
     return "";
+  }
+
+  /**
+   * Get date object from player version string
+   */
+  function getDateObjectFromPlayerVersionString(playerVersion) {
+    var reggie = /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/;
+    var dateArray = reggie.exec(playerVersion);
+    if (dateArray) {
+      return new Date(
+        (+dateArray[1]),
+          (+dateArray[2])-1, // Careful, month starts at 0!
+        (+dateArray[3]),
+        (+dateArray[4]),
+        (+dateArray[5])
+      );
+    } else {
+      return;
+    }
   }
 
   function getRiseCacheErrorMessage(statusCode) {
@@ -267,6 +295,7 @@ RiseVision.Common.Utilities = (function() {
   return {
     addProtocol:              addProtocol,
     getQueryParameter:        getQueryParameter,
+    getQueryStringParameter:  getQueryStringParameter,
     getFontCssStyle:          getFontCssStyle,
     addCSSRules:              addCSSRules,
     loadFonts:                loadFonts,
@@ -277,6 +306,7 @@ RiseVision.Common.Utilities = (function() {
     getRiseCacheErrorMessage: getRiseCacheErrorMessage,
     unescapeHTML:             unescapeHTML,
     hasInternetConnection:    hasInternetConnection,
-    isLegacy:                 isLegacy
+    isLegacy:                 isLegacy,
+    getDateObjectFromPlayerVersionString: getDateObjectFromPlayerVersionString
   };
 })();
