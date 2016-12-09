@@ -1475,8 +1475,8 @@ RiseVision.Common.RiseCache = (function () {
     if (!callback || typeof callback !== "function") {
       return;
     }
-
-    return isV2Running(function (isV2Running) {
+    /* jshint validthis: true */
+    return this.isV2Running(function (isV2Running) {
       if (isV2Running) {
         callback(isV2Running);
       } else {
