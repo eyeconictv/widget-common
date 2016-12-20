@@ -1489,10 +1489,18 @@ RiseVision.Common.RiseCache = (function () {
     var RC_V2_FIRST_PLAYER_VERSION_DATE = _utils.getDateObjectFromPlayerVersionString("2016.10.10.00.00");
 
     var sysInfoViewerParameter = _utils.getQueryParameter("sysInfo");
-    var playerVersionString = _utils.getQueryStringParameter("pv", sysInfoViewerParameter);
-    var playerVersionDate = _utils.getDateObjectFromPlayerVersionString(playerVersionString);
-
-    return playerVersionDate >= RC_V2_FIRST_PLAYER_VERSION_DATE;
+    if (!sysInfoViewerParameter) {
+      // when the widget is loaded into an iframe the search has a parameter called parent which represents the parent url
+      var parentParameter = _utils.getQueryParameter("parent");
+      sysInfoViewerParameter = _utils.getQueryStringParameter("sysInfo", parentParameter);
+    }
+    if (sysInfoViewerParameter) {
+      var playerVersionString = _utils.getQueryStringParameter("pv", sysInfoViewerParameter);
+      var playerVersionDate = _utils.getDateObjectFromPlayerVersionString(playerVersionString);
+      return playerVersionDate >= RC_V2_FIRST_PLAYER_VERSION_DATE;
+    } else {
+      return false;
+    }
   }
 
   function reset() {

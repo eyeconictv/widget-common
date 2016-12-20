@@ -492,6 +492,22 @@ describe("isRCV2Player", function() {
     expect(spy.calledWith(true)).to.be.true;
   });
 
+  it("should execute callback passing a value of true when Rise Cache V1 and V2 is not running but it is a Rise Cache V2 Player. Running on a Iframe", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    history.pushState({}, "", "?up_id=sc0_pre0_ph0_0w&parent=http%3A%2F%2Frvashow2.appspot.com%2FViewer.html%3Ftype%3Ddisplay%26player%3Dtrue%26id%3D7DJ3WFU5G545%26claimId%3D%26sysInfo%3Dos%253D64-bit%2520Ubuntu%252014.04.4%2520LTS%250A%2526pn%253DRisePlayerElectron%2526iv%253D2016.11.17.19.50%2526jv%253D%2526pv%253D2016.11.17.19.50%2526ev%253D1.2.0%2526ip%253D10.0.2.15&up_rsW=596&up_rsH=326&up_rsT=197&up_rsL=503");
+
+    // force rise cache is not running
+    riseCache.ping(function(){});
+    requests[0].respond(0);
+
+    riseCache.isRCV2Player(spy);
+
+    expect(spy.calledWith(true)).to.be.true;
+  });
+
   it("should execute callback passing a value of false when Rise Cache V1 and V2 is not running and it is not a Rise Cache V2 Player", function () {
     var spy = sinon.spy();
 
