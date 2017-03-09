@@ -42,7 +42,7 @@
         assert.equal($(p1).css("fontSize"), "18px");
         assert.equal($(p1).css("fontWeight"), "bold");
         assert.equal($(p1).css("fontStyle"), "italic");
-        assert.equal($(p1).css("textDecoration"), "underline");
+        assert.include($(p1).css("textDecoration"), "underline");
         assert.equal($(p1).css("backgroundColor"), "rgb(238, 238, 238)");
 
         assert.equal($(p2).css("fontFamily"), "Arial, \"Helvetica Neue\", Helvetica, sans-serif");
@@ -50,7 +50,7 @@
         assert.equal($(p2).css("fontSize"), "14px");
         assert.equal($(p2).css("fontWeight"), "400");
         assert.equal($(p2).css("fontStyle"), "normal");
-        assert.equal($(p2).css("textDecoration"), "none");
+        assert.include($(p2).css("textDecoration"), "none");
         assert.equal($(p2).css("backgroundColor"), "rgba(0, 0, 0, 0)");
       });
 
