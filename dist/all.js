@@ -1283,7 +1283,7 @@ RiseVision.Common = RiseVision.Common || {};
 RiseVision.Common.RiseCache = (function () {
   "use strict";
 
-  var BASE_CACHE_URL = "//localhost:9494/";
+  var BASE_CACHE_URL = "http://localhost:9494/";
 
   var _pingReceived = false,
     _isCacheRunning = false,
