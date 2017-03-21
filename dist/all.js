@@ -1149,8 +1149,12 @@ RiseVision.Common.Logger = (function(utils) {
 
     xhr.open("POST", REFRESH_URL, true);
     xhr.onloadend = function() {
-      var resp = JSON.parse(xhr.response);
-
+      var resp = {};
+      try {
+        resp = JSON.parse(xhr.response);
+      } catch(e) {
+        console.warn("Can't refresh logger token - ", e.message);
+      }
       cb({ token: resp.access_token, refreshedAt: new Date() });
     };
 
@@ -1207,6 +1211,7 @@ RiseVision.Common.Logger = (function(utils) {
     "log": log
   };
 })(RiseVision.Common.LoggerUtils);
+
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
