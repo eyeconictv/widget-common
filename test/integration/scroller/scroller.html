@@ -319,6 +319,70 @@
         });
       });
 
+      suite("Oversized error", function() {
+        test("should fire an scroller-oversized-canvas error", function(done) {
+          var data = [{
+            "text": "What's your chance of an earthquake in 2016? " +
+              "What's your chance of an earthquake in 2016? " +
+              "What's your chance of an earthquake in 2016? " +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?" +
+              "What's your chance of an earthquake in 2016?",
+            "fontStyle": {
+              "align": "left",
+              "backcolor": "transparent",
+              "bold": true,
+              "customSize": "",
+              "font": {
+                "family": "verdana,geneva,sans-serif",
+                "type": "standard",
+                "url": ""
+              },
+              "forecolor": "#FF0000",
+              "italic": true,
+              "size": "36px",
+              "underline": false
+            }
+          }];
+
+          secondary = document.querySelector("#secondary");
+          secondaryCtx = secondary.getContext("2d");
+
+          secondaryCtx.clear();
+
+          listener = function( response ) {
+
+            scrollerElem.removeEventListener( "scroller-oversized-canvas", listener );
+            done();
+          };
+
+          scrollerElem.addEventListener( "scroller-oversized-canvas", listener );
+
+          scroller.refresh(data);
+
+        });
+      });
+
     });
   </script>
 </body>
