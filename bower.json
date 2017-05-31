@@ -17,7 +17,7 @@
   ],
   "devDependencies": {
     "Canteen": "https://github.com/platfora/Canteen.git",
-    "web-component-tester": "*"
+    "web-component-tester": "5.0.0"
   },
   "dependencies": {
     "jquery": "1.11.0",
