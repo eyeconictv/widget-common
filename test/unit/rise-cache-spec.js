@@ -257,7 +257,7 @@ describe("getFile - Rise Cache v1 is running", function () {
     requests[1].respond(200);
 
     expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
-    expect(spy.args[0][0].url).to.equal("http://localhost:9494/?url=" + urlEncoded);
+    expect(spy.args[0][0].url).to.equal("https://localhost:9494/?url=" + urlEncoded);
   });
 
   it("should execute callback passing the xhr request and a correctly structured URL with cachebuster", function () {
@@ -269,7 +269,7 @@ describe("getFile - Rise Cache v1 is running", function () {
     requests[1].respond(200);
 
     expect(spy.args[0][0].xhr).to.deep.equal(requests[1]);
-    expect(spy.args[0][0].url).to.equal("http://localhost:9494/cb=0?url=" + urlEncoded);
+    expect(spy.args[0][0].url).to.equal("https://localhost:9494/cb=0?url=" + urlEncoded);
   });
 
 });
@@ -302,7 +302,7 @@ describe("getFile - Rise Cache v2 is running", function () {
 
     riseCache.getFile("http://www.test.com/test.jpg", spy);
 
-    expect(requests[2].url).to.equal("http://localhost:9494/files?url=http%3A%2F%2Fwww.test.com%2Ftest.jpg");
+    expect(requests[2].url).to.equal("https://localhost:9494/files?url=http%3A%2F%2Fwww.test.com%2Ftest.jpg");
   });
 });
 
