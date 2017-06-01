@@ -118,7 +118,7 @@ describe("RiseVision.Common.LoggerUtils", function() {
     });
 
     it("should correctly return file format when a Rise Cache url is provided", function() {
-      var fileUrl = "http://localhost:9494/?url=https%3A%2F%2Fstorage.googleapis.com%2Frisemedialibrary-b428b4e8-c8b9-41d5-8a10-b4193c789443%2FWidgets%252FVideo%2520-%2520Issue%252038%252FWildlife.webmsd.webm";
+      var fileUrl = "https://localhost:9494/?url=https%3A%2F%2Fstorage.googleapis.com%2Frisemedialibrary-b428b4e8-c8b9-41d5-8a10-b4193c789443%2FWidgets%252FVideo%2520-%2520Issue%252038%252FWildlife.webmsd.webm";
 
       expect(utils.getFileFormat(fileUrl)).to.equal("webm");
     });
