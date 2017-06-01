@@ -190,10 +190,11 @@ describe("getFile - cache not running", function () {
 
   beforeEach(function() {
     requests = [];
-
+    riseCache.reset();
     // force rise cache is not running
     riseCache.ping(function(){});
     requests[0].respond(400);
+    requests[1].respond(400);
   });
 
   after(function() {
@@ -228,6 +229,7 @@ describe("getFile - Rise Cache v1 is running", function () {
   before(function () {
     xhr = sinon.useFakeXMLHttpRequest();
     clock = sinon.useFakeTimers();
+    riseCache.reset();
 
     xhr.onCreate = function (xhr) {
       requests.push(xhr);
@@ -351,6 +353,8 @@ describe("ping", function() {
 
     // force a bad server response
     requests[0].respond(0);
+    requests[1].respond(0);
+
 
     expect(callback.calledWith(false, null)).to.be.true;
   });
@@ -486,6 +490,7 @@ describe("isRCV2Player", function() {
     // force rise cache is not running
     riseCache.ping(function(){});
     requests[0].respond(0);
+    requests[1].respond(0);
 
     riseCache.isRCV2Player(spy);
 
@@ -502,6 +507,7 @@ describe("isRCV2Player", function() {
     // force rise cache is not running
     riseCache.ping(function(){});
     requests[0].respond(0);
+    requests[1].respond(0);
 
     riseCache.isRCV2Player(spy);
 
@@ -514,10 +520,13 @@ describe("isRCV2Player", function() {
     requests = [];
 
     history.pushState({}, "", "?type=display&player=true&id=7DJ3WFU5G545&claimId=&sysInfo=os%3D64-bit%20Ubuntu%2014.04.4%20LTS%0A%26pn%3DRisePlayerElectron%26iv%3D2016.09.17.19.50%26jv%3D%26pv%3D2016.09.17.19.50%26ev%3D1.2.0%26ip%3D10.0.2.15");
+    console.log("RODRIGO")
 
     // force rise cache is not running
     riseCache.ping(function(){});
     requests[0].respond(0);
+    requests[1].respond(0);
+
 
     riseCache.isRCV2Player(spy);
 
@@ -534,6 +543,7 @@ describe("isRCV2Player", function() {
     // force rise cache is not running
     riseCache.ping(function(){});
     requests[0].respond(0);
+    requests[1].respond(0);
 
     riseCache.isRCV2Player(spy);
 
