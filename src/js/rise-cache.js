@@ -57,6 +57,7 @@ RiseVision.Common.RiseCache = (function () {
               console.debug("Rise Cache is not running");
               _isV2Running = false;
               _isCacheRunning = false;
+              BASE_CACHE_URL = "http://localhost:9494/";
 
               callback(false, null);
             }
@@ -241,6 +242,7 @@ RiseVision.Common.RiseCache = (function () {
      _isCacheRunning = false;
      _isV2Running = false;
      _isHttp = true;
+    BASE_CACHE_URL = "http://localhost:9494/";
   }
 
   return {
