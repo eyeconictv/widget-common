@@ -292,20 +292,38 @@ describe("getFile - Rise Cache v2 is running", function () {
     RiseVision.Common.RiseCache._isV2Running = false;
   });
 
-  it("should make a request to Rise Cache v2", function() {
+  it("should make a request to Rise Cache v2 over https port", function() {
     var spy = sinon.spy();
 
     requests = [];
 
     // Ping requests
     riseCache.ping(function(){});
-    requests[0].respond(0);
+    requests[0].respond(404);
     requests[1].respond(200);
 
     riseCache.getFile("http://www.test.com/test.jpg", spy);
 
-    expect(requests[2].url).to.equal("https://localhost:9494/files?url=http%3A%2F%2Fwww.test.com%2Ftest.jpg");
+    expect(requests[2].url).to.equal("https://localhost:9495/files?url=http%3A%2F%2Fwww.test.com%2Ftest.jpg");
   });
+
+  it("should make a request to Rise Cache v2 over http port", function() {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // Ping requests
+    riseCache.ping(function(){});
+    requests[0].respond(404);
+    requests[1].respond(0);
+    requests[2].respond(200);
+
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy);
+
+    expect(requests[3].url).to.equal("http://localhost:9494/files?url=http%3A%2F%2Fwww.test.com%2Ftest.jpg");
+  });
+
 });
 
 describe("ping", function() {
@@ -433,7 +451,7 @@ describe("isV2Running", function() {
     expect(spy.calledWith(false)).to.be.true;
   });
 
-  it("should execute callback passing a value of true when Rise Cache V2 is running", function () {
+  it("should execute callback passing a value of true when Rise Cache V2 is running over https port", function () {
     var spy = sinon.spy();
 
     requests = [];
@@ -442,6 +460,22 @@ describe("isV2Running", function() {
     riseCache.ping(function(){});
     requests[0].respond(404);
     requests[1].respond(200);
+
+    riseCache.isV2Running(spy);
+
+    expect(spy.calledWith(true)).to.be.true;
+  });
+
+  it("should execute callback passing a value of true when Rise Cache V2 is running over http port", function () {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // force rise cache is running
+    riseCache.ping(function(){});
+    requests[0].respond(404);
+    requests[1].respond(0);
+    requests[2].respond(200);
 
     riseCache.isV2Running(spy);
 
@@ -521,7 +555,6 @@ describe("isRCV2Player", function() {
     requests = [];
 
     history.pushState({}, "", "?type=display&player=true&id=7DJ3WFU5G545&claimId=&sysInfo=os%3D64-bit%20Ubuntu%2014.04.4%20LTS%0A%26pn%3DRisePlayerElectron%26iv%3D2016.09.17.19.50%26jv%3D%26pv%3D2016.09.17.19.50%26ev%3D1.2.0%26ip%3D10.0.2.15");
-    console.log("RODRIGO")
 
     // force rise cache is not running
     riseCache.ping(function(){});

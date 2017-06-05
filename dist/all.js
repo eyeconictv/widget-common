@@ -1293,7 +1293,7 @@ RiseVision.Common.RiseCache = (function () {
   var _pingReceived = false,
     _isCacheRunning = false,
     _isV2Running = false,
-    _isHttp = true,
+    _isHttps = true,
     _utils = RiseVision.Common.Utilities;
 
   function ping(callback) {
@@ -1326,14 +1326,16 @@ RiseVision.Common.RiseCache = (function () {
             // Rise Cache V2 is running
             _isV2Running = true;
 
+            BASE_CACHE_URL = "https://localhost:9495/";
+
             // call ping again so correct ping URL is used for Rise Cache V2
             return self.ping(callback);
           } else {
 
-            if ( _isHttp ) {
+            if ( _isHttps ) {
               _isV2Running = true;
-              _isHttp = false;
-              BASE_CACHE_URL = "https://localhost:9494/";
+              _isHttps = false;
+              BASE_CACHE_URL = "http://localhost:9494/";
 
               // call ping again so correct ping URL is used for Rise Cache V2 HTTPs
               return self.ping(callback);
@@ -1341,7 +1343,6 @@ RiseVision.Common.RiseCache = (function () {
               console.debug("Rise Cache is not running");
               _isV2Running = false;
               _isCacheRunning = false;
-              BASE_CACHE_URL = "http://localhost:9494/";
 
               callback(false, null);
             }
@@ -1525,7 +1526,7 @@ RiseVision.Common.RiseCache = (function () {
     _pingReceived = false;
      _isCacheRunning = false;
      _isV2Running = false;
-     _isHttp = true;
+     _isHttps = true;
     BASE_CACHE_URL = "http://localhost:9494/";
   }
 
