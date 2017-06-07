@@ -110,6 +110,18 @@ RiseVision.Common.LoggerUtils = (function() {
     });
   }
 
+  function logEventToPlayer(table, params) {
+    try {
+      top.postToPlayer( {
+        message: "widget-log",
+        table: table,
+        params: JSON.stringify(params)
+      } );
+    } catch (err) {
+      console.log("widget-common.logEventToPlayer", err);
+    }
+  }
+
   /* Set the Company and Display IDs. */
   function setIds(company, display) {
     companyId = company;
@@ -124,6 +136,7 @@ RiseVision.Common.LoggerUtils = (function() {
     "getInsertData": getInsertData,
     "getFileFormat": getFileFormat,
     "logEvent": logEvent,
+    "logEventToPlayer": logEventToPlayer,
     "setIds": setIds,
     "setVersion": setVersion
   };
@@ -179,6 +192,11 @@ RiseVision.Common.Logger = (function(utils) {
     if (!tableName || !params || (params.hasOwnProperty("event") && !params.event) ||
       (params.hasOwnProperty("event") && isThrottled(params.event))) {
       return;
+    }
+
+    if (top.postToPlayer && top.enableWidgetLogging) {
+      // send log data to player instead of BQ
+      return utils.logEventToPlayer(tableName, params);
     }
 
     throttle = true;

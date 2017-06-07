@@ -269,6 +269,39 @@ describe("RiseVision.Common.LoggerUtils", function() {
     });
   });
 
+  describe("logEventToPlayer", function() {
+    var tableName = "video_events";
+
+    beforeEach(function () {
+      top.postToPlayer = function(obj){};
+      top.enableWidgetLogging = true;
+    });
+
+    it("should call postToPlayer on top window with correct parameters", function() {
+      var params = {
+        "event": "error",
+        "event_details": "storage error",
+        "file_url": "http://www.test.com/file.webm",
+        "file_format": "webm",
+        "company_id": '"companyId"',
+        "display_id":'"displayId"',
+        "version": "0.0.0"
+      },
+        postStub = sinon.stub(top, "postToPlayer");
+
+      RiseVision.Common.LoggerUtils.logEventToPlayer(tableName, params);
+
+      expect(postStub).to.have.been.calledWith({
+        message: "widget-log",
+        table: tableName,
+        params: JSON.stringify(params)
+      });
+
+      top.postToPlayer.restore();
+    });
+
+  });
+
 });
 
 describe("RiseVision.Common.Logger", function () {
@@ -292,6 +325,9 @@ describe("RiseVision.Common.Logger", function () {
     });
 
     beforeEach(function() {
+      top.postToPlayer = undefined;
+      top.enableWidgetLogging = false;
+
       requests = [];
 
       clock.tick(interval);
@@ -395,6 +431,23 @@ describe("RiseVision.Common.Logger", function () {
       });
 
       expect(requests.length).to.equal(2);  // Refresh token request + insert request
+    });
+
+    it("should call utils 'logEventtoPlayer' when enableWidgetLogging exists", function() {
+      var logPlayerStub = sinon.stub(RiseVision.Common.LoggerUtils, "logEventToPlayer");
+
+      requests = [];
+
+      clock.tick(interval);
+      top.postToPlayer = function(){};
+      top.enableWidgetLogging = true;
+
+      logger.log(tableName, params);
+
+      expect(logPlayerStub).to.have.been.calledWith(tableName, params);
+      expect(requests.length).to.equal(0);
+
+      RiseVision.Common.LoggerUtils.logEventToPlayer.restore();
     });
   });
 });
