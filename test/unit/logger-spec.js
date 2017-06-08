@@ -294,7 +294,8 @@ describe("RiseVision.Common.LoggerUtils", function() {
       expect(postStub).to.have.been.calledWith({
         message: "widget-log",
         table: tableName,
-        params: JSON.stringify(params)
+        params: JSON.stringify(params),
+        suffix: getDateSuffix()
       });
 
       top.postToPlayer.restore();

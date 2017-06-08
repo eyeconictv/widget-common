@@ -115,7 +115,8 @@ RiseVision.Common.LoggerUtils = (function() {
       top.postToPlayer( {
         message: "widget-log",
         table: table,
-        params: JSON.stringify(params)
+        params: JSON.stringify(params),
+        suffix: getSuffix()
       } );
     } catch (err) {
       console.log("widget-common.logEventToPlayer", err);
