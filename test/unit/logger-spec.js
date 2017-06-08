@@ -403,6 +403,29 @@ describe("RiseVision.Common.Logger", function () {
       expect(requests.length).to.equal(0);
     });
 
+    it("should not make a request if the params display_id value is invalid", function() {
+      var testParams = JSON.parse(JSON.stringify(params));
+
+      requests = [];
+      clock.tick(interval);
+
+      testParams.display_id = "";
+      logger.log("video_events", testParams);
+      expect(requests.length).to.equal(0);
+
+      testParams.display_id = "preview";
+      logger.log("video_events", testParams);
+      expect(requests.length).to.equal(0);
+
+      testParams.display_id = "displayId";
+      logger.log("video_events", testParams);
+      expect(requests.length).to.equal(0);
+
+      testParams.display_id = "display_id";
+      logger.log("video_events", testParams);
+      expect(requests.length).to.equal(0);
+    });
+
     it("should not log the same event multiple times if the time between calls is less than 1 second", function() {
       requests = [];
 

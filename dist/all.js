@@ -1187,6 +1187,12 @@ RiseVision.Common.Logger = (function(utils) {
       return;
     }
 
+    // don't log if display id is invalid or preview/local
+    if (!params.display_id || params.display_id === "preview" || params.display_id === "display_id" ||
+      params.display_id === "displayId") {
+      return;
+    }
+
     if (top.postToPlayer && top.enableWidgetLogging) {
       // send log data to player instead of BQ
       return utils.logEventToPlayer(tableName, params);
