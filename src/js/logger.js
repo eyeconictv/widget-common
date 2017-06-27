@@ -201,9 +201,13 @@ RiseVision.Common.Logger = (function(utils) {
       return;
     }
 
-    if (top.postToPlayer && top.enableWidgetLogging) {
-      // send log data to player instead of BQ
-      return utils.logEventToPlayer(tableName, params);
+    try {
+      if ( top.postToPlayer && top.enableWidgetLogging ) {
+        // send log data to player instead of BQ
+        return utils.logEventToPlayer( tableName, params );
+      }
+    } catch ( e ) {
+      console.log( "widget-common: logger", e );
     }
 
     throttle = true;
