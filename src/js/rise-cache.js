@@ -39,9 +39,14 @@ RiseVision.Common.RiseCache = (function () {
           if(r.status === 200) {
             _isCacheRunning = true;
 
-            var responseObject = (r.responseText)? JSON.parse(r.responseText) :"";
-            if(responseObject) {
-              _RC_VERSION = responseObject.version;
+            try {
+              var responseObject = (r.responseText) ? JSON.parse(r.responseText) : "";
+              if (responseObject) {
+                _RC_VERSION = responseObject.version;
+              }
+            }
+            catch(e) {
+              console.log(e);
             }
 
             callback(true, r.responseText);
