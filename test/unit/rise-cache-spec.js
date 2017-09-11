@@ -324,6 +324,22 @@ describe("getFile - Rise Cache v2 is running", function () {
     expect(requests[3].url).to.equal("http://localhost:9494/files?url=http%3A%2F%2Fwww.test.com%2Ftest.jpg");
   });
 
+
+  it("should make a request to Rise Cache v2 1.7.4 and not encode the URL", function() {
+    var spy = sinon.spy();
+
+    requests = [];
+
+    // Ping requests
+    riseCache.ping(function(){});
+    requests[0].respond(404);
+    requests[1].respond(200, { "Content-Type": "application/json" }, "{\"name\":\"rise-cache-v2\",\"version\":\"1.7.4\"}");
+
+
+    riseCache.getFile("http://www.test.com/test.jpg", spy);
+
+    expect(requests[2].url).to.equal("https://localhost:9495/files?url=http://www.test.com/test.jpg");
+  });
 });
 
 describe("ping", function() {
