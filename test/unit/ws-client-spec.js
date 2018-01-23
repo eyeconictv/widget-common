@@ -6,7 +6,8 @@ describe("RiseVision.Common.WSClient", function() {
     top.RiseVision = {};
     top.RiseVision.LocalMessaging = {
       write: function(message) {},
-      receiveMessages: function(handler) {}
+      receiveMessages: function(handler) {},
+      canConnect: function() {return true;}
     };
   });
 
@@ -56,6 +57,12 @@ describe("RiseVision.Common.WSClient", function() {
       top.RiseVision.LocalMessaging.receiveMessages.restore();
     });
 
+  });
+
+  describe("canConnect", function() {
+    it("should return true", function() {
+      expect(RiseVision.Common.WSClient.canConnect()).to.be.true;
+    });
   });
 
 });
