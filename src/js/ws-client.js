@@ -9,8 +9,8 @@ RiseVision.Common.WSClient = (function() {
 
   function canConnect() {
     try {
-      if (top.RiseVision.LocalMessaging) {
-        return top.RiseVision.LocalMessaging.canConnect();
+      if (top.RiseVision.Viewer.LocalMessaging) {
+        return top.RiseVision.Viewer.LocalMessaging.canConnect();
       }
     } catch (err) {
       console.log( "widget-common: ws-client", err );
@@ -25,8 +25,8 @@ RiseVision.Common.WSClient = (function() {
     if (!handler || typeof handler !== "function") {return;}
 
     try {
-      if (top.RiseVision.LocalMessaging) {
-        top.RiseVision.LocalMessaging.receiveMessages(handler);
+      if (top.RiseVision.Viewer.LocalMessaging) {
+        top.RiseVision.Viewer.LocalMessaging.receiveMessages(handler);
       }
     } catch (err) {
       console.log( "widget-common: ws-client", err );
@@ -35,8 +35,8 @@ RiseVision.Common.WSClient = (function() {
 
   function safeWrite(message) {
     try {
-      if (top.RiseVision.LocalMessaging) {
-        top.RiseVision.LocalMessaging.write(message);
+      if (top.RiseVision.Viewer.LocalMessaging) {
+        top.RiseVision.Viewer.LocalMessaging.write(message);
       }
     } catch (err) {
       console.log( "widget-common: ws-client", err );
