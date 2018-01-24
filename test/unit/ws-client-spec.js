@@ -4,7 +4,8 @@ describe("RiseVision.Common.WSClient", function() {
 
   beforeEach(function () {
     top.RiseVision = {};
-    top.RiseVision.LocalMessaging = {
+    top.RiseVision.Viewer = {};
+    top.RiseVision.Viewer.LocalMessaging = {
       write: function(message) {},
       receiveMessages: function(handler) {},
       canConnect: function() {return true;}
@@ -13,7 +14,7 @@ describe("RiseVision.Common.WSClient", function() {
 
   describe("broadcastMessage", function() {
     it("should call RiseVision.LocalMessaging.write() on top window with message", function() {
-      var writeSpy = sinon.spy(top.RiseVision.LocalMessaging, "write");
+      var writeSpy = sinon.spy(top.RiseVision.Viewer.LocalMessaging, "write");
 
       RiseVision.Common.WSClient.broadcastMessage({
         "topic": "WATCH",
@@ -25,14 +26,14 @@ describe("RiseVision.Common.WSClient", function() {
         "filePath": "test-file.jpg"
       });
 
-      top.RiseVision.LocalMessaging.write.restore();
+      top.RiseVision.Viewer.LocalMessaging.write.restore();
     });
 
   });
 
   describe("getModuleClientList", function() {
     it("should call RiseVision.LocalMessaging.write() on top window with correct message topic", function() {
-      var writeSpy = sinon.spy(top.RiseVision.LocalMessaging, "write");
+      var writeSpy = sinon.spy(top.RiseVision.Viewer.LocalMessaging, "write");
 
       RiseVision.Common.WSClient.getModuleClientList();
 
@@ -40,21 +41,21 @@ describe("RiseVision.Common.WSClient", function() {
         "topic": "client-list-request"
       });
 
-      top.RiseVision.LocalMessaging.write.restore();
+      top.RiseVision.Viewer.LocalMessaging.write.restore();
     });
 
   });
 
   describe("receiveMessages", function() {
     it("should call RiseVision.LocalMessaging.receiveMessages() with handler function", function() {
-      var receiveSpy = sinon.spy(top.RiseVision.LocalMessaging, "receiveMessages");
+      var receiveSpy = sinon.spy(top.RiseVision.Viewer.LocalMessaging, "receiveMessages");
       var handlerSpy = sinon.spy();
 
       RiseVision.Common.WSClient.receiveMessages(handlerSpy);
 
       expect(receiveSpy).to.have.been.calledWith(handlerSpy);
 
-      top.RiseVision.LocalMessaging.receiveMessages.restore();
+      top.RiseVision.Viewer.LocalMessaging.receiveMessages.restore();
     });
 
   });
