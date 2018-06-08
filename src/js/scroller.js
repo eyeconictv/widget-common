@@ -238,7 +238,6 @@ RiseVision.Common.Scroller = function (params) {
   function refresh(items) {
     _items = items;
 
-    _scrollerCtx.clear();
     setupItemsLength();
   }
 
@@ -248,7 +247,6 @@ RiseVision.Common.Scroller = function (params) {
     }
 
     _tween.play();
-    _scrollerCtx.clear();
   }
 
   function pause() {

@@ -118,11 +118,11 @@
           setTimeout(function() {
             json = JSON.parse(scrollerCtx.json());
 
-            assert.equal(json[0].method, "clearRect", "clearRect");
-            assert.equal(json[0].arguments[0], 0, "x-coordinate");
-            assert.equal(json[0].arguments[1], 0, "y-coordinate");
-            assert.equal(json[0].arguments[2], scrollerElem.width, "width");
-            assert.equal(json[0].arguments[3], scrollerElem.height, "height");
+            assert.equal(json[14].method, "clearRect", "clearRect");
+            assert.equal(json[14].arguments[0], 0, "x-coordinate");
+            assert.equal(json[14].arguments[1], 0, "y-coordinate");
+            assert.equal(json[14].arguments[2], scrollerElem.width, "width");
+            assert.equal(json[14].arguments[3], scrollerElem.height, "height");
 
             done();
           }, 100);
@@ -164,6 +164,36 @@
 
         test("should reset xpos once playback is complete", function() {
           assert.equal(scrollerCtx.xpos, 0);
+        });
+      });
+
+      suite("Refreshing", function() {
+        test("should refresh scroller with new data", function() {
+          var data = [{
+            "text": "What's your chance of an earthquake in 2016?",
+            "fontStyle": {
+              "align": "left",
+              "backcolor": "transparent",
+              "bold": true,
+              "customSize": "",
+              "font": {
+                "family": "verdana,geneva,sans-serif",
+                "type": "standard",
+                "url": ""
+              },
+              "forecolor": "#FF0000",
+              "italic": true,
+              "size": "36px",
+              "underline": false
+            }
+          }];
+
+          scroller.refresh(data);
+
+          json = JSON.parse(scrollerCtx.json());
+          var position = Object.keys(json).length - 8 + 5;
+
+          assert.equal(json[position].arguments[0], "What's your chance of an earthquake in 2016?");
         });
       });
 
@@ -244,35 +274,6 @@
           }, 4000);
         });
 
-      });
-
-      suite("Refreshing", function() {
-        test("should refresh scroller with new data", function() {
-          var data = [{
-            "text": "What's your chance of an earthquake in 2016?",
-            "fontStyle": {
-              "align": "left",
-              "backcolor": "transparent",
-              "bold": true,
-              "customSize": "",
-              "font": {
-                "family": "verdana,geneva,sans-serif",
-                "type": "standard",
-                "url": ""
-              },
-              "forecolor": "#FF0000",
-              "italic": true,
-              "size": "36px",
-              "underline": false
-            }
-          }];
-
-          scroller.refresh(data);
-
-          json = JSON.parse(scrollerCtx.json());
-
-          assert.equal(json[5].arguments[0], "What's your chance of an earthquake in 2016?");
-        });
       });
 
     });
