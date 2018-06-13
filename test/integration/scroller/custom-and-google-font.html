@@ -48,9 +48,8 @@
         scrollerElem.addEventListener("ready", readyHandler);
         scroller.init(items);
 
-        secondary = document.querySelector("#secondary");
-        secondaryCtx = secondary.getContext("2d");
-        json = JSON.parse(secondaryCtx.json());
+        scrollerCtx = scrollerElem.getContext("2d");
+        json = JSON.parse(scrollerCtx.json());
       });
 
       test("should fire the ready event", function() {
