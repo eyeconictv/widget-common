@@ -22,7 +22,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - src/components
+            - components
 
   test:
     working_directory: ~/Rise-Vision/widget-common
