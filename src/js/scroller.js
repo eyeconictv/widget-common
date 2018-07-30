@@ -15,6 +15,7 @@ RiseVision.Common.Scroller = function (params) {
     _items = [],
     _xpos = 0,
     _originalXpos = 0,
+    _oversizedCanvas = false,
     _utils = RiseVision.Common.Utilities,
     MAX_CANVAS_SIZE = 32767;
 
@@ -28,11 +29,12 @@ RiseVision.Common.Scroller = function (params) {
     fillScroller();
 
     if (_xpos > MAX_CANVAS_SIZE) {
+      _oversizedCanvas = true;
+      _secondary.width = MAX_CANVAS_SIZE;
       throwOversizedCanvesError();
+    } else {
+      _secondary.width = _xpos;
     }
-
-    // Width of the secondary canvas needs to equal the width of all of the text.
-    _secondary.width = _xpos;
 
     // Setting the width again resets the canvas so it needs to be redrawn.
     drawItems();
@@ -76,7 +78,7 @@ RiseVision.Common.Scroller = function (params) {
     _secondaryCtx.restore();
   }
 
-  function drawItem(item) {
+  function drawItem(item, isEllipsis) {
     var textObj = {},
       fontStyle;
 
@@ -105,9 +107,17 @@ RiseVision.Common.Scroller = function (params) {
         if (fontStyle.italic) {
           textObj.italic = fontStyle.italic;
         }
+
+        if (fontStyle.backcolor && isEllipsis) {
+          textObj.backcolor = fontStyle.backcolor;
+        }
       }
 
-      drawText(textObj);
+      if (isEllipsis) {
+        drawEllipsis(textObj);
+      } else {
+        drawText(textObj);
+      }
     }
   }
 
@@ -146,6 +156,50 @@ RiseVision.Common.Scroller = function (params) {
     _secondaryCtx.restore();
   }
 
+  function drawEllipsis(ellipsisObj) {
+    var font = "",
+      ellipsisWidth,
+      rectHeight;
+
+    _secondaryCtx.save();
+
+    if (ellipsisObj.bold) {
+      font = "bold ";
+    }
+
+    if (ellipsisObj.italic) {
+      font += "italic ";
+    }
+
+    if (ellipsisObj.size) {
+      font += ellipsisObj.size + " ";
+    }
+
+    if (ellipsisObj.font) {
+      font += ellipsisObj.font;
+    }
+
+    // Set the text formatting.
+    _secondaryCtx.font = font;
+    _secondaryCtx.textBaseline = "middle";
+
+    ellipsisWidth = _secondaryCtx.measureText("  ...  ").width;
+    rectHeight = ellipsisObj.size ? ((ellipsisObj.size.indexOf("px") > 0) ? parseInt(ellipsisObj.size.slice(0, ellipsisObj.size.indexOf("px")), 10) : ellipsisObj.size) : 10;
+
+    _secondaryCtx.translate(0, _secondary.height / 2);
+
+    // Default background rect color to white if set to "transparent" so it forces to overlay text
+    _secondaryCtx.fillStyle = ellipsisObj.backcolor === "transparent" ? "#FFF" : ellipsisObj.backcolor;
+    // Draw the background rect onto the canvas so it overlays the text
+    _secondaryCtx.fillRect(MAX_CANVAS_SIZE - ellipsisWidth, -(rectHeight/2), ellipsisWidth, rectHeight);
+
+    // Draw the ellipsis text onto the canvas overlaying background rect
+    _secondaryCtx.fillStyle = ellipsisObj.foreColor;
+    _secondaryCtx.fillText("  ...  ", MAX_CANVAS_SIZE - ellipsisWidth, 0);
+
+    _secondaryCtx.restore();
+  }
+
   function draw() {
     _scrollerCtx.clearRect(0, 0, _scroller.width, _scroller.height);
     _scrollerCtx.drawImage(_secondary, _scrollerCtx.xpos, 0);
@@ -169,6 +223,10 @@ RiseVision.Common.Scroller = function (params) {
 
         width = _xpos - _originalXpos;
         index = (index === _items.length - 1) ? 0 : index + 1;
+      }
+
+      if (_oversizedCanvas) {
+        drawItem(_items[index], true);
       }
     }
   }
@@ -240,6 +298,7 @@ RiseVision.Common.Scroller = function (params) {
 
   function refresh(items) {
     _items = items;
+    _oversizedCanvas = false;
 
     initSecondaryCanvas();
   }
