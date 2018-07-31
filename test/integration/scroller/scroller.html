@@ -319,68 +319,100 @@
         });
       });
 
-      suite("Oversized error", function() {
-        test("should fire an scroller-oversized-canvas error", function(done) {
-          var data = [{
-            "text": "What's your chance of an earthquake in 2016? " +
-              "What's your chance of an earthquake in 2016? " +
-              "What's your chance of an earthquake in 2016? " +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?" +
-              "What's your chance of an earthquake in 2016?",
-            "fontStyle": {
-              "align": "left",
-              "backcolor": "transparent",
-              "bold": true,
-              "customSize": "",
-              "font": {
-                "family": "verdana,geneva,sans-serif",
-                "type": "standard",
-                "url": ""
-              },
-              "forecolor": "#FF0000",
-              "italic": true,
-              "size": "36px",
-              "underline": false
-            }
-          }];
+      suite("Oversized", function() {
+        var data = [{
+          "text": "What's your chance of an earthquake in 2016? " +
+          "What's your chance of an earthquake in 2016? " +
+          "What's your chance of an earthquake in 2016? " +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?" +
+          "What's your chance of an earthquake in 2016?",
+          "fontStyle": {
+            "align": "left",
+            "backcolor": "transparent",
+            "bold": true,
+            "customSize": "",
+            "font": {
+              "family": "verdana,geneva,sans-serif",
+              "type": "standard",
+              "url": ""
+            },
+            "forecolor": "#FF0000",
+            "italic": true,
+            "size": "36px",
+            "underline": false
+          }
+        }];
 
-          secondary = document.querySelector("#secondary");
-          secondaryCtx = secondary.getContext("2d");
-
-          secondaryCtx.clear();
-
-          listener = function( response ) {
-
+        test("should fire an oversized canvas event", function(done) {
+          listener = function() {
             scrollerElem.removeEventListener( "scroller-oversized-canvas", listener );
             done();
           };
 
+          secondary = document.querySelector("#secondary");
+          secondaryCtx = secondary.getContext("2d");
+          secondaryCtx.clear();
+
           scrollerElem.addEventListener( "scroller-oversized-canvas", listener );
-
           scroller.refresh(data);
-
         });
+
+        test("should set the width to be the max size allowed", function() {
+          assert.equal(secondary.width, 32767);
+        });
+
+        test("should draw rect using correct default color", function() {
+          json = JSON.parse(secondaryCtx.json());
+          assert.equal(json[37].val, "#FFF");
+        });
+
+        test("should draw rect to overlay ending text", function() {
+          assert.equal(json[38].method, "fillRect", "method");
+        });
+
+        test("should draw ellipsis text using proper font styling", function() {
+          assert.equal(json[33].val, "bold italic 36px verdana,geneva,sans-serif");
+        });
+
+        test("should draw ellipsis text using correct color", function() {
+          assert.equal(json[39].val, "#FF0000");
+        });
+
+        test("should set ellipsis text baseline", function() {
+          assert.equal(json[34].val, "middle");
+        });
+
+        test("should vertically align ellipsis text when drawing", function() {
+          assert.equal(json[36].method, "translate", "translate");
+          assert.equal(json[36].arguments[0], 0, "x-coordinate");
+          assert.equal(json[36].arguments[1], secondary.height / 2, "y-coordinate");
+        });
+
+        test("should draw ellipsis test using correct color", function() {
+          assert.equal(json[39].val, "#FF0000");
+        });
+
       });
 
     });
