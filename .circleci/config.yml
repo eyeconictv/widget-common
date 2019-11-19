@@ -3,14 +3,12 @@ version: 2
 jobs:
   setup:
     working_directory: ~/Rise-Vision/widget-common
-    shell: /bin/bash
     docker: &DOCKERIMAGE
       - image: jenkinsrise/cci-v2-transitional-widgets:0.0.4
     steps:
       - checkout
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: node -v
       - run: npm install
       - run: bower install
       - save_cache:
@@ -24,7 +22,6 @@ jobs:
 
   test:
     working_directory: ~/Rise-Vision/widget-common
-    shell: /bin/bash
     docker: *DOCKERIMAGE
     steps:
       - checkout
@@ -37,7 +34,6 @@ jobs:
 
   build:
     working_directory: ~/Rise-Vision/widget-common
-    shell: /bin/bash
     docker: *DOCKERIMAGE
     steps:
       - checkout
