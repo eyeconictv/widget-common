@@ -3,13 +3,14 @@ version: 2
 jobs:
   setup:
     working_directory: ~/Rise-Vision/widget-common
+    shell: /bin/bash --login
     docker: &DOCKERIMAGE
       - image: jenkinsrise/cci-v2-transitional-widgets:0.0.4
     steps:
       - checkout
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: /usr/local/nvm install 7.3.0 && /usr/local/nvm alias default 7.3.0
+      - run: node -v
       - run: npm install
       - run: bower install
       - save_cache:
@@ -31,11 +32,7 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
-      - run: command -v nvm
-      - run: /usr/local/nvm install 7.3.0 && /usr/local/nvm alias default 7.3.0
       - run: node -v
-      - run: gulp -v
       - run: NODE_ENV=prod npm run test
 
   build:
@@ -48,7 +45,6 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: /usr/local/nvm install 7.3.0 && /usr/local/nvm alias default 7.3.0
       - run: |
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             NODE_ENV=prod npm run build
