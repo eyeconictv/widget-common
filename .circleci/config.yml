@@ -10,7 +10,7 @@ jobs:
       - checkout
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: node -v
+      - run: ls -a $HOME | grep .nvm
       - run: nvm install 7.3.0 && nvm alias default 7.3.0
       - run: node -v
       - run: npm install
