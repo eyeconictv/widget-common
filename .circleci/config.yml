@@ -30,7 +30,8 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: ls -l
+      - run: node -v
+      - run: gulp -v
       - run: NODE_ENV=prod npm run test
 
   build:
