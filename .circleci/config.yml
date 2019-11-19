@@ -8,11 +8,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: node-cache-v3{{ checksum "package.json" }}
+          key: node-cache-v4{{ checksum "package.json" }}
       - run: npm install
       - run: bower install
       - save_cache:
-          key: node-cache-v3{{ checksum "package.json" }}
+          key: node-cache-v4{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - persist_to_workspace:
@@ -29,7 +29,7 @@ jobs:
       - attach_workspace:
           at: .
       - restore_cache:
-          key: node-cache-v3{{ checksum "package.json" }}
+          key: node-cache-v4{{ checksum "package.json" }}
       - run: NODE_ENV=prod npm run test
 
   build:
@@ -41,7 +41,7 @@ jobs:
       - attach_workspace:
           at: .
       - restore_cache:
-          key: node-cache-v3{{ checksum "package.json" }}
+          key: node-cache-v4{{ checksum "package.json" }}
       - run: |
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             NODE_ENV=prod npm run build
