@@ -13,7 +13,9 @@ jobs:
       - run: echo $HOME
       - run: cat $HOME/.bashrc
       - run: |
-          . $HOME/.bashrc
+          export NVM_DIR="/usr/local/nvm"
+          ls -ld $NVM_DIR
+          . "$NVM_DIR/nvm.sh"
           nvm install 7.3.0 && nvm alias default 7.3.0
           node -v
       - run: node -v
