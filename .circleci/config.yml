@@ -3,21 +3,13 @@ version: 2
 jobs:
   setup:
     working_directory: ~/Rise-Vision/widget-common
-    shell: /bin/bash --login
+    shell: /bin/bash
     docker: &DOCKERIMAGE
       - image: jenkinsrise/cci-v2-transitional-widgets:0.0.4
     steps:
       - checkout
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: echo $HOME
-      - run: cat $HOME/.bashrc
-      - run: |
-          export NVM_DIR="/usr/local/nvm"
-          ls -ld $NVM_DIR
-          . "$NVM_DIR/nvm.sh"
-          nvm install 7.3.0 && nvm alias default 7.3.0
-          node -v
       - run: node -v
       - run: npm install
       - run: bower install
@@ -32,7 +24,7 @@ jobs:
 
   test:
     working_directory: ~/Rise-Vision/widget-common
-    shell: /bin/bash --login
+    shell: /bin/bash
     docker: *DOCKERIMAGE
     steps:
       - checkout
@@ -40,13 +32,12 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: nvm install 7.3.0 && nvm alias default 7.3.0
       - run: node -v
       - run: NODE_ENV=prod npm run test
 
   build:
     working_directory: ~/Rise-Vision/widget-common
-    shell: /bin/bash --login
+    shell: /bin/bash
     docker: *DOCKERIMAGE
     steps:
       - checkout
@@ -54,7 +45,6 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: nvm install 7.3.0 && nvm alias default 7.3.0
       - run: |
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             NODE_ENV=prod npm run build
