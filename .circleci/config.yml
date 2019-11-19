@@ -29,7 +29,6 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: node -v
       - run: NODE_ENV=prod npm run test
 
   build:
