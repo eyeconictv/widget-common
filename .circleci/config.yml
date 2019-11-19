@@ -9,6 +9,7 @@ jobs:
       - checkout
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
+      - run: nvm install 7.3.0 && nvm alias default 7.3.0
       - run: npm install
       - run: bower install
       - save_cache:
@@ -30,6 +31,7 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
+      - run: nvm install 7.3.0 && nvm alias default 7.3.0
       - run: node -v
       - run: gulp -v
       - run: NODE_ENV=prod npm run test
@@ -44,6 +46,7 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
+      - run: nvm install 7.3.0 && nvm alias default 7.3.0
       - run: |
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             NODE_ENV=prod npm run build
