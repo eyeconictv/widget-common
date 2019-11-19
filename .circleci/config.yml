@@ -9,7 +9,7 @@ jobs:
       - checkout
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: nvm install 7.3.0 && nvm alias default 7.3.0
+      - run: /usr/local/nvm install 7.3.0 && /usr/local/nvm alias default 7.3.0
       - run: npm install
       - run: bower install
       - save_cache:
@@ -33,7 +33,7 @@ jobs:
           key: node-cache-{{ checksum "package.json" }}
       - run: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
       - run: command -v nvm
-      - run: nvm install 7.3.0 && nvm alias default 7.3.0
+      - run: /usr/local/nvm install 7.3.0 && /usr/local/nvm alias default 7.3.0
       - run: node -v
       - run: gulp -v
       - run: NODE_ENV=prod npm run test
@@ -48,7 +48,7 @@ jobs:
           at: .
       - restore_cache:
           key: node-cache-{{ checksum "package.json" }}
-      - run: nvm install 7.3.0 && nvm alias default 7.3.0
+      - run: /usr/local/nvm install 7.3.0 && /usr/local/nvm alias default 7.3.0
       - run: |
           if [ "${CIRCLE_BRANCH}" == "master" ]; then
             NODE_ENV=prod npm run build
