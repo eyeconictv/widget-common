@@ -1,6 +1,6 @@
 {
   "name": "widget-common",
-  "version": "3.9.2",
+  "version": "3.9.3",
   "homepage": "https://github.com/Rise-Vision/widget-common",
   "authors": [
     "Rise Vision Inc <support@risevision.com>"
@@ -20,6 +20,7 @@
     "web-component-tester": "5.0.0"
   },
   "dependencies": {
+    "compare-versions": "3.5.1",
     "jquery": "1.11.0",
     "webfontloader": "^1.6.24"
   }

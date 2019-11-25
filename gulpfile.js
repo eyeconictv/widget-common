@@ -105,6 +105,7 @@
   gulp.task("test:unit", factory.testUnitAngular(
     {testFiles: [
       "components/jquery/dist/jquery.min.js",
+      "components/compare-versions/index.js",
       "test/date.js",
       "test/data/financial.js",
       "node_modules/widget-tester/mocks/gadget-mocks.js",

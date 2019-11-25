@@ -1410,7 +1410,7 @@ RiseVision.Common.RiseCache = (function () {
 
       if (_isCacheRunning) {
         if (_isV2Running) {
-          if ( _compareVersionNumbers( _RC_VERSION, _RC_VERSION_WITH_ENCODE ) > 0 ) {
+          if ( _RC_VERSION && window.compareVersions( _RC_VERSION, _RC_VERSION_WITH_ENCODE ) > 0 ) {
             url = BASE_CACHE_URL + "files?url=" + fileUrl;
           } else {
             url = BASE_CACHE_URL + "files?url=" + encodeURIComponent(fileUrl);
@@ -1431,49 +1431,6 @@ RiseVision.Common.RiseCache = (function () {
       }
 
       makeRequest("HEAD", url);
-    }
-
-    function _compareVersionNumbers( v1, v2 ) {
-      var v1parts = v1.split( "." ),
-        v2parts = v2.split( "." ),
-        i = 0;
-
-      function isPositiveInteger( x ) {
-        return /^\d+$/.test( x );
-      }
-
-      // First, validate both numbers are true version numbers
-      function validateParts( parts ) {
-        for ( i = 0; i < parts.length; i++ ) {
-          if ( !isPositiveInteger( parts[ i ] ) ) {
-            return false;
-          }
-        }
-        return true;
-      }
-      if ( !validateParts( v1parts ) || !validateParts( v2parts ) ) {
-        return NaN;
-      }
-
-      for ( i = 0; i < v1parts.length; ++i ) {
-        if ( v2parts.length === i ) {
-          return 1;
-        }
-
-        if ( v1parts[ i ] === v2parts[ i ] ) {
-          continue;
-        }
-        if ( v1parts[ i ] > v2parts[ i ] ) {
-          return 1;
-        }
-        return -1;
-      }
-
-      if ( v1parts.length !== v2parts.length ) {
-        return -1;
-      }
-
-      return 0;
     }
 
     function makeRequest(method, url) {
