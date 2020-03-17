@@ -1587,6 +1587,427 @@ RiseVision.Common.RiseCache = (function () {
 
 })();
 
+/* global $ */
+
+var RiseVision = RiseVision || {};
+RiseVision.Common = RiseVision.Common || {};
+
+RiseVision.Common.RiseData = function (params) {
+
+  "use strict";
+
+  var _riseCache = RiseVision.Common.RiseCache,
+    _initialized = false,
+    _isCacheRunning = false,
+    _currentKey = null,
+    _callback = null,
+    _key = null,
+    _baseCacheUrl = "https://localhost:9495",
+    _keys = [];
+
+  /*
+   *  Private Methods
+   */
+
+  function _dateReviver( key, value ) {
+    var a;
+
+    if ( typeof value === "string" ) {
+      a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec( value );
+      if ( a ) {
+        return new Date( Date.UTC( +a[ 1 ], +a[ 2 ] - 1, +a[ 3 ], +a[ 4 ],
+          +a[ 5 ], +a[ 6 ] ) );
+      }
+    }
+    return value;
+  }
+
+  function _isSessionStorage() {
+    return params.storageType === "session";
+  }
+
+  function _isLocalStorage() {
+    return params.storageType === "local";
+  }
+
+  function _getCachedDataFromStorage( key, cb ) {
+    var data = null;
+
+    if ( _isLocalStorage() ) {
+      try {
+        data = JSON.parse( localStorage.getItem( key ), _dateReviver );
+      } catch ( e ) {
+        console.warn( e ); // eslint-disable-line no-console
+      }
+    } else if ( _isSessionStorage() ) {
+      try {
+        data = JSON.parse( sessionStorage.getItem( key ), _dateReviver );
+      } catch ( e ) {
+        console.warn( e ); // eslint-disable-line no-console
+      }
+    }
+
+    cb( data );
+  }
+
+  function _getCacheUrl( key, method ) {
+    var url = _baseCacheUrl + "/" + params.endpoint;
+
+    if ( method === "DELETE" || method === "GET" ) {
+      url += "/" + key;
+    }
+
+    return url;
+  }
+
+  function _handleRiseCacheResponse( data ) {
+    if ( _callback && typeof _callback === "function" ) {
+
+      if ( data !== null && typeof data === "object" ) {
+        data = JSON.stringify( data );
+      }
+
+      data = JSON.parse( data, _dateReviver );
+
+      _callback( data );
+    }
+
+    // reset callback value
+    _callback = null;
+  }
+
+  function _handleRiseCacheError() {
+    if ( _callback && typeof _callback === "function" ) {
+      // fallback to get data from local storage
+      _getCachedDataFromStorage( _key, _callback );
+    }
+  }
+
+  function _getDataFromRiseCache( url ) {
+    $.getJSON(url)
+      .done(function( json ) {
+        _handleRiseCacheResponse( json );
+      })
+      .fail(function() {
+        _handleRiseCacheError();
+      });
+  }
+
+  function _postDataToRiseCache( url, body ) {
+    $.post(url, body)
+      .done(function() {
+        _handleRiseCacheResponse();
+        _keys.push( _currentKey );
+      });
+  }
+
+  function _get( key, cb ) {
+    var url = _getCacheUrl( key, "GET" );
+
+    _currentKey = key;
+    _callback = cb;
+    _key = key;
+
+    _getDataFromRiseCache( url );
+  }
+
+  function _save( key, data ) {
+    var url = _getCacheUrl( key, "POST" ),
+      body = JSON.stringify( { key: key, value: data } );
+
+    _currentKey = key;
+
+    _postDataToRiseCache( url, body );
+  }
+
+  /*
+   *  Public Methods
+   */
+
+  function deleteItem() {
+    // TODO: this is not required by Spreadsheet Widget. Implement in future only if required.
+  }
+
+  function getItem( key, cb ) {
+    if ( _initialized && key && cb && typeof cb === "function" ) {
+      if ( !_isCacheRunning ) {
+
+        _getCachedDataFromStorage( key, cb );
+
+      } else {
+        if ( params.endpoint ) {
+          _get( key, cb );
+        } else {
+          _getCachedDataFromStorage( key, cb );
+        }
+      }
+    }
+  }
+
+  function init(cb) {
+    if (!cb || typeof cb !== "function") {
+      return;
+    }
+
+    _riseCache.isRiseCacheRunning(function(isRiseCacheRunning) {
+      _isCacheRunning = isRiseCacheRunning;
+      _initialized = true;
+
+      cb();
+    });
+  }
+
+  function saveItem( key, data ) {
+    if ( _initialized && key && data ) {
+      if ( _isCacheRunning ) {
+        if ( params.endpoint ) {
+          _save( key, data );
+        }
+      }
+
+      if ( _isLocalStorage() ) {
+        try {
+          localStorage.setItem( key, JSON.stringify( data ) );
+        } catch ( e ) {
+          console.warn( e ); // eslint-disable-line no-console
+        }
+      } else if ( _isSessionStorage() ) {
+        try {
+          sessionStorage.setItem( key, JSON.stringify( data ) );
+        } catch ( e ) {
+          console.warn( e ); // eslint-disable-line no-console
+        }
+      }
+    }
+  }
+
+  return {
+    deleteItem: deleteItem,
+    getItem: getItem,
+    init: init,
+    saveItem: saveItem
+  };
+};
+
+/* global moment */
+
+var RiseVision = RiseVision || {};
+RiseVision.Common = RiseVision.Common || {};
+
+RiseVision.Common.RiseGoogleSheet = function (params, callback) {
+
+  "use strict";
+
+  var API_BASE_URL = "https://sheets.googleapis.com/v4/spreadsheets/",
+    DATAKEY_BASE_NAME = "risesheet";
+
+  var _riseData = new RiseVision.Common.RiseData( {endpoint: "spreadsheets", storageType: "local"} ),
+    _riseDataInitialized = false,
+    _requestPending = false,
+    _refreshPending = false,
+    _initialGo = true;
+
+  /*
+   *  Private Methods
+   */
+
+  function _getQueryParams() {
+    var queryParams = {};
+
+    // required to obtain public data
+    queryParams.key = params.apikey;
+
+    queryParams.majorDimension = params.dimension;
+
+    queryParams.valueRenderOption = params.render;
+
+    return queryParams;
+  }
+
+  function _getRange() {
+    return ( params.range === "" ) ? "" : "!" + params.range;
+  }
+
+  function _getUrl() {
+    return API_BASE_URL + params.key + "/values/" + encodeURIComponent( params.sheet ) + _getRange();
+  }
+
+  function _getTotalCols( results ) {
+    var totalCols = 0;
+
+    // Iterate over all rows to find the one with the most columns.
+    results.forEach( function( element ) {
+      if ( element.length > totalCols ) {
+        totalCols = element.length;
+      }
+    } );
+
+    return totalCols;
+  }
+
+  function _addMissingData( results ) {
+    var count = 0,
+      totalCols = _getTotalCols( results ),
+      i;
+
+    // Append cells to rows that have an incorrect number of columns.
+    results.forEach( function( element ) {
+      if ( element.length < totalCols ) {
+        count = totalCols - element.length;
+
+        for ( i = 0; i < count; i++ ) {
+          element.push( "" );
+        }
+      }
+    } );
+  }
+
+  function _prepareResponse( data ) {
+    var response = {};
+    /*
+     Provide an empty array if values property missing in response object. This can occur if any range
+     values (minColumn, maxColumn, minRow, maxRow) are out of scope of the data entered in worksheet
+     */
+
+    response.results = ( data.values ) ? data.values : [];
+
+    // Workaround for this issue - https://goo.gl/rsazDP.
+    _addMissingData( response.results );
+
+    return response;
+  }
+
+  function _startTimer() {
+    var refreshVal = parseInt( params.refresh, 10 );
+
+    if ( !isNaN( refreshVal ) && refreshVal !== 0 ) {
+      setTimeout( function () {
+        _refreshPending = true;
+        go();
+      }, refreshVal * 60000 );
+    }
+  }
+
+  function _handleSheetError( xhr ) {
+    var detail = {
+      status: xhr.status
+    };
+
+    _riseData.getItem( _getDataKey(), function( cachedData ) {
+      detail = ( cachedData ) ? Object.assign( detail, cachedData.data ) : detail;
+
+      callback( "error", detail );
+    } );
+
+    _requestPending = false;
+    _startTimer();
+  }
+
+  function _handleSheetResponse( data ) {
+    var responseData,
+      cacheObj = {};
+
+    if ( data ) {
+      responseData = _prepareResponse( data );
+
+      cacheObj.data = responseData;
+      cacheObj.timestamp = moment().format();
+
+      _riseData.saveItem( _getDataKey(), cacheObj );
+
+      callback( "response", responseData );
+    }
+
+    _requestPending = false;
+    _startTimer();
+  }
+
+  function _makeRequest() {
+    var url = _getUrl(),
+      params = _getQueryParams();
+
+    // set flag to prevent further requests in case go() function is called before prior request responds
+    _requestPending = true;
+
+    $.getJSON(url, params)
+      .done(function( json ) {
+        _handleSheetResponse( json );
+      })
+      .fail(function( xhr ) {
+        _handleSheetError( xhr );
+      });
+  }
+
+  function _getDataKey() {
+    return DATAKEY_BASE_NAME + "_" + params.key + "_" + encodeURIComponent( params.sheet.replace( /\s+/g, "_" ) ) +
+      ( params.range === "" ? "" : "_" + params.range );
+  }
+
+  function _process( cachedData ) {
+    var refreshVal = parseInt( params.refresh, 10 ),
+      then,
+      now,
+      diff;
+
+    if ( _refreshPending || !cachedData ) {
+      // refresh timer completed or there is no cached data available, make the request
+      _refreshPending = false;
+      _makeRequest();
+    } else {
+      if ( _initialGo ) {
+        _initialGo = false;
+
+        // first time component is executing go()
+
+        if ( !isNaN( refreshVal ) && refreshVal !== 0 ) {
+          then = moment( cachedData.timestamp );
+          now = moment();
+          diff = now.diff( then, "minutes" );
+
+          // compare refresh value to amount of time that has passed since last timestamp in cached data
+
+          if ( diff >= refreshVal ) {
+            // more time has gone by than the assigned refresh value, make the request
+            _makeRequest();
+            return;
+          } else {
+            // start a refresh timer with the remaining refresh time left as the interval
+            setTimeout( function () {
+              _makeRequest();
+            }, ( refreshVal - diff ) * 60000 );
+          }
+        }
+      }
+
+      // provide cached data for the response
+      callback( "response", cachedData.data );
+    }
+  }
+
+  /*
+   *  Public Methods
+   */
+  function go() {
+    // key, apikey, and sheet are required, don't make request if any are missing or if a previous request is pending
+    if ( !params.key || !params.apikey || params.sheet === "" || _requestPending ) {
+      return;
+    }
+
+    if ( !_riseDataInitialized ) {
+      _riseData.init(function() {
+        _riseDataInitialized = true;
+        _riseData.getItem( _getDataKey(), function( cachedData ) {
+          _process( cachedData );
+        } );
+      });
+    }
+  }
+
+  return {
+    go: go
+  };
+};
+
 /* global TweenLite, Linear */
 
 var RiseVision = RiseVision || {};
