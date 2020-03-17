@@ -1789,8 +1789,6 @@ RiseVision.Common.RiseData = function (params) {
   };
 };
 
-/* global moment */
-
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
@@ -1911,7 +1909,7 @@ RiseVision.Common.RiseGoogleSheet = function (params, callback) {
       responseData = _prepareResponse( data );
 
       cacheObj.data = responseData;
-      cacheObj.timestamp = moment().format();
+      cacheObj.timestamp = Date.now();
 
       _riseData.saveItem( _getDataKey(), cacheObj );
 
@@ -1960,9 +1958,10 @@ RiseVision.Common.RiseGoogleSheet = function (params, callback) {
         // first time component is executing go()
 
         if ( !isNaN( refreshVal ) && refreshVal !== 0 ) {
-          then = moment( cachedData.timestamp );
-          now = moment();
-          diff = now.diff( then, "minutes" );
+          then = cachedData.timestamp;
+          now = Date.now();
+
+          diff = Math.ceil((now - then) / 1000 / 60 );
 
           // compare refresh value to amount of time that has passed since last timestamp in cached data
 
