@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rise Data Tests</title>
+
+  <link rel="stylesheet" href="/src/css/message.css">
+
+  <script src="../../../components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../components/web-component-tester/browser.js"></script>
+  <script src="../../../components/jquery/dist/jquery.js"></script>
+
+  <script src="../../../test/data/rise-google-sheet/sheet.js"></script>
+  <script src="../../../src/js/rise-cache.js"></script>
+  <script src="../../../src/js/rise-data.js"></script>
+  <script src="../../../src/js/rise-google-sheet.js"></script>
+</head>
+<body>
+
+<script>
+
+  suite("Rise Google Sheet", function() {
+    var riseData, server, sheetDataClone,
+      riseDataInitObj,
+      sheetsInitObj;
+
+    suiteSetup(function(){
+      riseDataInitObj = {
+        endpoint: "spreadsheets",
+        storageType: "local"
+      };
+
+      sheetsInitObj = {
+        key: "abc123",
+        sheet: "Sheet1",
+        refresh: 60,
+        range: "",
+        apikey: "def456"
+      };
+
+      sinon.stub(RiseVision.Common.RiseCache, "isRiseCacheRunning", function(cb) {
+        cb(true);
+      });
+
+      sheetDataClone = JSON.parse(JSON.stringify(sheetData));
+      sheetDataClone.values.splice(-1,1);
+
+      server = sinon.fakeServer.create();
+
+      riseData = new RiseVision.Common.RiseData(riseDataInitObj, RiseVision.Common.RiseCache);
+    });
+
+    /*setup( function() {
+      localStorage.removeItem( "risesheet_" + sheetsInitObj.key + "_" + sheetsInitObj.sheet );
+    } );*/
+
+    suiteTeardown(function(){
+      server.restore();
+      RiseVision.Common.RiseCache.isRiseCacheRunning.restore();
+    });
+
+    suite( "request data", function() {
+      var riseGoogleSheet, callback;
+
+      suiteSetup( function() {
+        sinon.stub( riseData, "getItem", function( key, cb ) {
+          cb( null );
+        } );
+      } );
+
+      suiteTeardown( function() {
+        riseData.getItem.restore();
+      } );
+
+      setup(function () {
+        callback = sinon.spy();
+        riseGoogleSheet = new RiseVision.Common.RiseGoogleSheet(sheetsInitObj, riseData, callback);
+      });
+
+      test( "should return an Array of cell objects when server/API request responds successfully", function( done ) {
+        server.respondWith( [ 200, {}, JSON.stringify( sheetDataClone ) ] );
+        riseGoogleSheet.go();
+        server.respond();
+
+        setTimeout(function () {
+          assert.equal( callback.args[0][0], "response" );
+          assert.property( callback.args[0][1], "results" );
+          assert.isArray( callback.args[0][1].results );
+          assert.deepEqual( callback.args[0][1].results, sheetDataClone.values );
+
+          done();
+        }, 200);
+      } );
+
+      test( "should return data with columns appended to data", function( done ) {
+        var data =
+          {
+            "majorDimension": "ROWS",
+            "range": "Sheet1!A1:F999",
+            "values": [
+              [ "Apple" ],
+              [ "Milk", "Drink", "3.99" ],
+              [ "Crackers", "Snack" ]
+            ]
+          };
+
+        server.respondWith( [ 200, {}, JSON.stringify( data ) ] );
+        riseGoogleSheet.go();
+        server.respond();
+
+        setTimeout(function () {
+          assert.deepEqual( callback.args[0][1].results, [
+            [ "Apple", "", "" ],
+            [ "Milk", "Drink", "3.99" ],
+            [ "Crackers", "Snack", "" ]
+          ] );
+
+          done();
+        }, 200);
+      } );
+
+      test( "should return error when server/API request responds unsuccessful", function( done ) {
+        server.respondWith( [ 400, {}, "" ] );
+        riseGoogleSheet.go();
+        server.respond();
+
+        setTimeout(function () {
+          assert.equal( callback.args[0][0], "error" );
+          assert.property( callback.args[0][1], "status" );
+          assert.property( callback.args[0][1], "statusText" );
+          assert.equal( callback.args[0][1].status, 400 );
+          assert.isString( callback.args[0][1].statusText );
+
+          done();
+        }, 200);
+      } );
+
+    } );
+
+    suite( "offline cached data", function() {
+      var riseGoogleSheet, callback;
+
+      suiteSetup( function() {
+        sinon.stub( riseData, "getItem", function( key, cb ) {
+          return cb( { data: { results: sheetDataClone.values }, timestamp: "" } );
+        } );
+      } );
+
+      suiteTeardown( function() {
+        riseData.getItem.restore();
+      } );
+
+      setup(function () {
+        callback = sinon.spy();
+        riseGoogleSheet = new RiseVision.Common.RiseGoogleSheet(sheetsInitObj, riseData, callback);
+      });
+
+      test( "should return cached Array of values when making offline request", function( done ) {
+        // data will get cached
+        server.respondWith( [ 200, {}, JSON.stringify( sheetDataClone ) ] );
+        riseGoogleSheet.go();
+        server.respond();
+
+        server.respondWith( [ 0, {}, "" ] );
+        riseGoogleSheet.go();
+        server.respond();
+
+        setTimeout(function () {
+          assert.deepEqual( callback.args[0][1].results, sheetDataClone.values );
+
+          done();
+        }, 1000);
+      } );
+    } );
+
+  });
+</script>
+</body>
+</html>

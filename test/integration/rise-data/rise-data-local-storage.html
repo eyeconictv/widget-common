@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rise Data Tests</title>
+
+  <link rel="stylesheet" href="/src/css/message.css">
+
+  <script src="../../../components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../components/web-component-tester/browser.js"></script>
+  <script src="../../../components/jquery/dist/jquery.js"></script>
+
+  <script src="../../../node_modules/widget-tester/mocks/localStorage-mock.js"></script>
+
+  <script src="../../../test/data/rise-google-sheet/sheet.js"></script>
+  <script src="../../../src/js/rise-cache.js"></script>
+  <script src="../../../src/js/rise-data.js"></script>
+</head>
+<body>
+
+<script>
+
+  suite("Rise Data", function() {
+    var riseData,
+      initObj;
+
+    suiteSetup(function(){
+      initObj = {
+        endpoint: "spreadsheets",
+        storageType: "local"
+      };
+
+      sinon.stub(RiseVision.Common.RiseCache, "isRiseCacheRunning", function(cb) {
+        cb(false);
+      });
+
+      riseData = new RiseVision.Common.RiseData(initObj, RiseVision.Common.RiseCache);
+    });
+
+    suiteTeardown(function(){
+      RiseVision.Common.RiseCache.isRiseCacheRunning.restore();
+    });
+
+    suite("init", function () {
+
+      test("should execute provided callback", function (done) {
+        var cb = sinon.spy();
+
+        riseData.init(cb);
+
+        setTimeout(function () {
+          assert.isTrue(cb.called);
+          done();
+        }, 200);
+
+      });
+
+    });
+
+    suite("getItem", function () {
+
+      teardown( function() {
+        localStorage.removeItem( sheetKey );
+      } );
+
+      test( "should not execute callback without key param", function(done) {
+        var cb = sinon.spy();
+
+        riseData.init(function(){
+          riseData.getItem( false, cb );
+
+          setTimeout(function(){
+            assert.isFalse( cb.called );
+            done();
+          }, 200);
+        });
+      } );
+
+      test("should execute provided callback and be given cached data", function (done) {
+        var cb = sinon.spy();
+
+        localStorage.setItem( sheetKey, JSON.stringify( { data: { results: sheetData.values }, timestamp: "" } ) );
+
+        riseData.init(function(){
+          riseData.getItem( sheetKey, cb );
+
+          setTimeout(function(){
+            assert.isTrue(cb.calledWith( { data: { results: sheetData.values }, timestamp: "" } ));
+            done();
+          }, 200);
+        });
+      });
+
+      test("should execute provided callback and not be given cached data when not available", function (done) {
+        var cb = sinon.spy();
+
+        riseData.init(function(){
+          riseData.getItem( sheetKey, cb );
+
+          setTimeout(function(){
+            assert.isTrue( cb.calledWith( null ) );
+            done();
+          }, 200);
+        });
+      });
+
+      test( "should return date object when a date string is saved", function(done) {
+        var cb = sinon.spy();
+
+        localStorage.setItem( sheetKey, JSON.stringify( { data: { results: sheetData.date }, timestamp: "" } ) );
+
+        riseData.init(function(){
+          riseData.getItem( sheetKey, cb );
+
+          setTimeout(function(){
+            assert.isTrue( cb.calledWith( { data: { results: sheetData.date }, timestamp: "" } ) );
+            done();
+          }, 200);
+        });
+
+      } );
+
+    });
+
+    suite("saveItem", function () {
+
+      teardown( function() {
+        window.localStorageError = false;
+        localStorage.removeItem( sheetKey );
+      } );
+
+      test( "should ensure data passed in localStorage.setItem() is stringified", function(done) {
+        var value;
+
+        riseData.init(function(){
+          riseData.saveItem( sheetKey, { results: sheetData.values } );
+
+          setTimeout(function(){
+            value = localStorage.getItem( sheetKey );
+
+            assert.isString( value );
+
+            done();
+          }, 200);
+        });
+      } );
+
+    });
+
+  });
+</script>
+</body>
+</html>
