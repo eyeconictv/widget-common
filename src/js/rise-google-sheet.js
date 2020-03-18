@@ -1,15 +1,14 @@
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.RiseGoogleSheet = function (params, callback) {
+RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
 
   "use strict";
 
   var API_BASE_URL = "https://sheets.googleapis.com/v4/spreadsheets/",
     DATAKEY_BASE_NAME = "risesheet";
 
-  var _riseData = new RiseVision.Common.RiseData( {endpoint: "spreadsheets", storageType: "local"} ),
-    _riseDataInitialized = false,
+  var _riseDataInitialized = false,
     _requestPending = false,
     _refreshPending = false,
     _initialGo = true;
@@ -97,10 +96,11 @@ RiseVision.Common.RiseGoogleSheet = function (params, callback) {
 
   function _handleSheetError( xhr ) {
     var detail = {
-      status: xhr.status
+      status: xhr.status,
+      statusText: xhr.statusText
     };
 
-    _riseData.getItem( _getDataKey(), function( cachedData ) {
+    riseData.getItem( _getDataKey(), function( cachedData ) {
       detail = ( cachedData ) ? Object.assign( detail, cachedData.data ) : detail;
 
       callback( "error", detail );
@@ -120,7 +120,7 @@ RiseVision.Common.RiseGoogleSheet = function (params, callback) {
       cacheObj.data = responseData;
       cacheObj.timestamp = Date.now();
 
-      _riseData.saveItem( _getDataKey(), cacheObj );
+      riseData.saveItem( _getDataKey(), cacheObj );
 
       callback( "response", responseData );
     }
@@ -202,9 +202,9 @@ RiseVision.Common.RiseGoogleSheet = function (params, callback) {
     }
 
     if ( !_riseDataInitialized ) {
-      _riseData.init(function() {
+      riseData.init(function() {
         _riseDataInitialized = true;
-        _riseData.getItem( _getDataKey(), function( cachedData ) {
+        riseData.getItem( _getDataKey(), function( cachedData ) {
           _process( cachedData );
         } );
       });

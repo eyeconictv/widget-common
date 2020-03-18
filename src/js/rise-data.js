@@ -3,12 +3,11 @@
 var RiseVision = RiseVision || {};
 RiseVision.Common = RiseVision.Common || {};
 
-RiseVision.Common.RiseData = function (params) {
+RiseVision.Common.RiseData = function (params, riseCache) {
 
   "use strict";
 
-  var _riseCache = RiseVision.Common.RiseCache,
-    _initialized = false,
+  var _initialized = false,
     _isCacheRunning = false,
     _currentKey = null,
     _callback = null,
@@ -160,7 +159,7 @@ RiseVision.Common.RiseData = function (params) {
       return;
     }
 
-    _riseCache.isRiseCacheRunning(function(isRiseCacheRunning) {
+    riseCache.isRiseCacheRunning(function(isRiseCacheRunning) {
       _isCacheRunning = isRiseCacheRunning;
       _initialized = true;
 
