@@ -104,9 +104,15 @@ RiseVision.Common.RiseData = function (params, riseCache) {
   }
 
   function _postDataToRiseCache( url, body ) {
-    $.post(url, body)
-      .done(function() {
-        _handleRiseCacheResponse();
+    $.ajax({
+      type: "POST",
+      url: url,
+      contentType: "application/json",
+      data: body,
+      dataType: "json"
+    })
+      .done(function( json ) {
+        _handleRiseCacheResponse( json );
         _keys.push( _currentKey );
       });
   }
