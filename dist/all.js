@@ -1943,6 +1943,7 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
   function _process( cachedData ) {
     var refreshVal = parseInt( params.refresh, 10 ),
       then,
+      date,
       now,
       diff;
 
@@ -1958,6 +1959,12 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
 
         if ( !isNaN( refreshVal ) && refreshVal !== 0 ) {
           then = cachedData.timestamp;
+          // maintain backwards compatiblity for previous timestamp in MomentJS format (ISO 8601)
+          if ( isNaN( then ) ) {
+            date = new Date(cachedData.timestamp);
+            then = date.getTime();
+          }
+
           now = Date.now();
 
           diff = Math.ceil((now - then) / 1000 / 60 );
