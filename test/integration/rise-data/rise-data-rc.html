@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rise Data Tests</title>
+
+  <link rel="stylesheet" href="/src/css/message.css">
+
+  <script src="../../../components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../../components/web-component-tester/browser.js"></script>
+  <script src="../../../components/jquery/dist/jquery.js"></script>
+
+  <script src="../../../test/data/rise-google-sheet/sheet.js"></script>
+  <script src="../../../src/js/rise-cache.js"></script>
+  <script src="../../../src/js/rise-data.js"></script>
+</head>
+<body>
+
+<script>
+
+  suite("Rise Data", function() {
+    var riseData,
+      initObj;
+
+    suiteSetup(function(){
+      initObj = {
+        endpoint: "spreadsheets",
+        storageType: "local"
+      };
+
+      sinon.stub(RiseVision.Common.RiseCache, "isRiseCacheRunning", function(cb) {
+        cb(true);
+      });
+
+      riseData = new RiseVision.Common.RiseData(initObj, RiseVision.Common.RiseCache);
+    });
+
+    suiteTeardown(function(){
+      RiseVision.Common.RiseCache.isRiseCacheRunning.restore();
+    });
+
+    suite("init", function () {
+
+      test("should execute provided callback", function (done) {
+        var cb = sinon.spy();
+
+        riseData.init(cb);
+
+        setTimeout(function () {
+          assert.isTrue(cb.called);
+          done();
+        }, 200);
+
+      });
+
+    });
+
+    suite("getItem", function () {
+      var xhr, requests;
+
+      suiteSetup(function () {
+        xhr = sinon.useFakeXMLHttpRequest();
+
+        xhr.onCreate = function (xhr) {
+          requests.push(xhr);
+        };
+      });
+
+      suiteTeardown(function () {
+        xhr.restore();
+      });
+
+      setup(function () {
+        requests = [];
+      });
+
+      test( "should not execute callback without key param", function(done) {
+        var cb = sinon.spy();
+
+        riseData.init(function(){
+          riseData.getItem( false, cb );
+
+          setTimeout(function(){
+            assert.isFalse( cb.called );
+            done();
+          }, 200);
+        });
+      } );
+
+      test("should execute provided callback and be given cached data", function (done) {
+        var cb = sinon.spy();
+
+        riseData.init(function(){
+          riseData.getItem( sheetKey, cb );
+
+          requests[0].respond(200, { "Content-Type": "application/json" }, JSON.stringify({value:{data: sheetData.values}}));
+
+          setTimeout(function(){
+            assert.deepEqual(cb.args[0][0].data, sheetData.values);
+            done();
+          }, 200);
+        });
+
+      });
+
+      test("should execute provided callback and not be given cached data when not available", function (done) {
+        var cb = sinon.spy();
+
+        riseData.init(function(){
+          riseData.getItem( sheetKey, cb );
+
+          requests[0].respond(400);
+
+          setTimeout(function(){
+            assert.isNull(cb.args[0][0]);
+            done();
+          }, 200);
+        });
+
+      });
+
+    });
+
+  });
+</script>
+</body>
+</html>
