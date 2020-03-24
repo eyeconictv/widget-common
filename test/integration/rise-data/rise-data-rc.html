@@ -93,10 +93,10 @@
         riseData.init(function(){
           riseData.getItem( sheetKey, cb );
 
-          requests[0].respond(200, { "Content-Type": "application/json" }, JSON.stringify(sheetData));
+          requests[0].respond(200, { "Content-Type": "application/json" }, JSON.stringify({value:{data: sheetData.values}}));
 
           setTimeout(function(){
-            assert.deepEqual(cb.args[0][0].values, sheetData.values);
+            assert.deepEqual(cb.args[0][0].data, sheetData.values);
             done();
           }, 200);
         });
