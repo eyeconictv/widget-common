@@ -70,8 +70,12 @@ RiseVision.Common.RiseData = function (params, riseCache) {
     return url;
   }
 
-  function _handleRiseCacheResponse( data ) {
+  function _handleRiseCacheResponse( json ) {
+    var data = null;
+
     if ( _callback && typeof _callback === "function" ) {
+
+      data = json ? json.value : data;
 
       if ( data !== null && typeof data === "object" ) {
         data = JSON.stringify( data );

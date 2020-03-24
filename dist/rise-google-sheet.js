@@ -199,6 +199,14 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
     }
   }
 
+  function _onRiseDataInitialized() {
+    _riseDataInitialized = true;
+
+    riseData.getItem( _getDataKey(), function( cachedData ) {
+      _process( cachedData );
+    } );
+  }
+
   /*
    *  Public Methods
    */
@@ -209,13 +217,12 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
     }
 
     if ( !_riseDataInitialized ) {
-      riseData.init(function() {
-        _riseDataInitialized = true;
-        riseData.getItem( _getDataKey(), function( cachedData ) {
-          _process( cachedData );
-        } );
-      });
+      return riseData.init(_onRiseDataInitialized);
     }
+
+    riseData.getItem( _getDataKey(), function( cachedData ) {
+      _process( cachedData );
+    } );
   }
 
   return {

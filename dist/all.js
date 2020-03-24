@@ -1659,8 +1659,12 @@ RiseVision.Common.RiseData = function (params, riseCache) {
     return url;
   }
 
-  function _handleRiseCacheResponse( data ) {
+  function _handleRiseCacheResponse( json ) {
+    var data = null;
+
     if ( _callback && typeof _callback === "function" ) {
+
+      data = json ? json.value : data;
 
       if ( data !== null && typeof data === "object" ) {
         data = JSON.stringify( data );
@@ -1995,6 +1999,14 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
     }
   }
 
+  function _onRiseDataInitialized() {
+    _riseDataInitialized = true;
+
+    riseData.getItem( _getDataKey(), function( cachedData ) {
+      _process( cachedData );
+    } );
+  }
+
   /*
    *  Public Methods
    */
@@ -2005,13 +2017,12 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
     }
 
     if ( !_riseDataInitialized ) {
-      riseData.init(function() {
-        _riseDataInitialized = true;
-        riseData.getItem( _getDataKey(), function( cachedData ) {
-          _process( cachedData );
-        } );
-      });
+      return riseData.init(_onRiseDataInitialized);
     }
+
+    riseData.getItem( _getDataKey(), function( cachedData ) {
+      _process( cachedData );
+    } );
   }
 
   return {
