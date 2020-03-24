@@ -11,7 +11,8 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
   var _riseDataInitialized = false,
     _requestPending = false,
     _refreshPending = false,
-    _initialGo = true;
+    _initialGo = true,
+    _timer = null;
 
   /*
    *  Private Methods
@@ -87,7 +88,9 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
     var refreshVal = parseInt( params.refresh, 10 );
 
     if ( !isNaN( refreshVal ) && refreshVal !== 0 ) {
-      setTimeout( function () {
+      _clearTimer();
+
+      _timer = setTimeout( function () {
         _refreshPending = true;
         go();
       }, refreshVal * 60000 );
@@ -150,6 +153,11 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
       ( params.range === "" ? "" : "_" + params.range );
   }
 
+  function _clearTimer() {
+    clearTimeout(_timer);
+    _timer = null;
+  }
+
   function _process( cachedData ) {
     var refreshVal = parseInt( params.refresh, 10 ),
       then,
@@ -187,7 +195,9 @@ RiseVision.Common.RiseGoogleSheet = function (params, riseData, callback) {
             return;
           } else {
             // start a refresh timer with the remaining refresh time left as the interval
-            setTimeout( function () {
+            _clearTimer();
+
+            _timer = setTimeout( function () {
               _makeRequest();
             }, ( refreshVal - diff ) * 60000 );
           }
