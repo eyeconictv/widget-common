@@ -13,10 +13,8 @@ jobs:
           name: update_node
           command: |
             which node
-            node --version
-            sudo apt-get update || sudo apt-get update
-            sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
-            sudo apt-get install -y nodejs
+            sudo npm install -g n
+            sudo n 10.16
             sudo rm -rf /usr/local/nvm
       - run: npm install
       - run: bower install
