@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Rise-Vision/widget-common.git"
+    "url": "git://github.com/porcupine-plan/widget-common.git"
   },
   "author": "Rise Vision",
   "license": "GPLv3",
   "bugs": {
-    "url": "https://github.com/Rise-Vision/widget-common/issues"
+    "url": "https://github.com/porcupine-plan/widget-common/issues"
   },
-  "homepage": "https://github.com/Rise-Vision/widget-common",
+  "homepage": "https://github.com/porcupine-plan/widget-common",
   "devDependencies": {
     "bower": "^1.5.3",
     "colors": "~1.0.3",
@@ -37,7 +37,7 @@
     "run-sequence": "^0.3.2",
     "mocha": "^8.0.1",
     "web-component-tester": "6.9.0",
-    "widget-tester": "git://github.com/Rise-Vision/widget-tester.git"
+    "widget-tester": "git://github.com/porcupine-plan/widget-tester.git"
   },
   "optionalDependencies": {
     "wct-local": "2.1.5"
