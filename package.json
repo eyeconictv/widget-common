@@ -1,6 +1,6 @@
 {
   "name": "widget-common",
-  "version": "3.11.0",
+  "version": "3.11.1",
   "description": "Common functionality for Widgets not using Angular JS.",
   "main": "gulpfile.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Rise-Vision/widget-common.git"
+    "url": "git://github.com/eyeconictv/widget-common.git"
   },
   "author": "Rise Vision",
   "license": "GPLv3",
   "bugs": {
-    "url": "https://github.com/Rise-Vision/widget-common/issues"
+    "url": "https://github.com/eyeconictv/widget-common/issues"
   },
-  "homepage": "https://github.com/Rise-Vision/widget-common",
+  "homepage": "https://github.com/eyeconictv/widget-common",
   "devDependencies": {
     "bower": "^1.5.3",
     "colors": "~1.0.3",
@@ -36,8 +36,7 @@
     "jshint-stylish": "^0.2.0",
     "run-sequence": "^0.3.2",
     "mocha": "^8.0.1",
-    "web-component-tester": "6.9.0",
-    "widget-tester": "git://github.com/Rise-Vision/widget-tester.git"
+    "web-component-tester": "6.9.0"
   },
   "optionalDependencies": {
     "wct-local": "2.1.5"

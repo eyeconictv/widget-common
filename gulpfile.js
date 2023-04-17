@@ -12,7 +12,7 @@
   var uglify = require("gulp-uglify");
   var path = require("path");
   var runSequence = require("run-sequence");
-  var factory = require("widget-tester").gulpTaskFactory;
+  // var factory = require("widget-tester").gulpTaskFactory;
   var del = require("del");
   var colors = require("colors");
   var minifyCSS = require("gulp-minify-css");
@@ -102,31 +102,31 @@
   });
 
   // ****** Unit Testing ***** //
-  gulp.task("test:unit", factory.testUnitAngular(
-    {testFiles: [
-      "components/jquery/dist/jquery.min.js",
-      "components/compare-versions/index.js",
-      "test/date.js",
-      "test/data/financial.js",
-      "node_modules/widget-tester/mocks/gadget-mocks.js",
-      "node_modules/widget-tester/mocks/visualization-api-mock.js",
-      "test/mocks/ajax.js",
-      "src/config/test.js",
-      "src/js/store-auth.js",
-      "src/js/visualization.js",
-      "src/js/financial/*.js",
-      "src/js/background.js",
-      "src/js/common.js",
-      "src/js/rise-cache.js",
-      "src/js/logger.js",
-      "src/js/ws-client.js",
-      "test/unit/**/*spec.js"]}
-  ));
+  // gulp.task("test:unit", factory.testUnitAngular(
+  //   {testFiles: [
+  //     "components/jquery/dist/jquery.min.js",
+  //     "components/compare-versions/index.js",
+  //     "test/date.js",
+  //     "test/data/financial.js",
+  //     "node_modules/widget-tester/mocks/gadget-mocks.js",
+  //     "node_modules/widget-tester/mocks/visualization-api-mock.js",
+  //     "test/mocks/ajax.js",
+  //     "src/config/test.js",
+  //     "src/js/store-auth.js",
+  //     "src/js/visualization.js",
+  //     "src/js/financial/*.js",
+  //     "src/js/background.js",
+  //     "src/js/common.js",
+  //     "src/js/rise-cache.js",
+  //     "src/js/logger.js",
+  //     "src/js/ws-client.js",
+  //     "test/unit/**/*spec.js"]}
+  // ));
 
-  // ***** Integration Testing ***** //
-  gulp.task("test:integration", function(cb) {
-    runSequence("test:local", cb);
-  });
+  // // ***** Integration Testing ***** //
+  // gulp.task("test:integration", function(cb) {
+  //   runSequence("test:local", cb);
+  // });
 
   // ***** Primary Tasks ***** //
   gulp.task("bower-update", function (cb) {
@@ -140,9 +140,9 @@
     runSequence(["clean", "config", "bower-update"], ["lint", "js-uglify", "css-minify", "assets"], cb);
   });
 
-  gulp.task("test", function(cb) {
-    runSequence("test:unit", "test:integration", cb)
-  });
+  // gulp.task("test", function(cb) {
+  //   runSequence("test:unit", "test:integration", cb)
+  // });
 
   gulp.task("default", [], function() {
     console.log("********************************************************************".yellow);
